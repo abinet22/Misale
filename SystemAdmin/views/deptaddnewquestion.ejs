@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../../../assets/img/favicon.png" rel="icon">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <script src="../../../assets/vendor/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../../../assets/css/style.css" rel="stylesheet">
+  <style>
+
+    .option-input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      -o-appearance: none;
+      appearance: none;
+      position: relative;
+      top: 13.33333px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 40px;
+      width: 40px;
+      transition: all 0.15s ease-out 0s;
+      background: #cbd1d8;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 0.5rem;
+      outline: none;
+      position: relative;
+      z-index: 1000;
+    }
+    .option-input:hover {
+      background: #9faab7;
+    }
+    .option-input:checked {
+      background: #40e0d0;
+    }
+    .option-input:checked::before {
+      width: 40px;
+      height: 40px;
+      display:flex;
+      content: '\f00c';
+      font-size: 25px;
+      font-weight:bold;
+      position: absolute;
+      align-items:center;
+      justify-content:center;
+      font-family:'Font Awesome 5 Free';
+    }
+    .option-input:checked::after {
+      -webkit-animation: click-wave 0.65s;
+      -moz-animation: click-wave 0.65s;
+      animation: click-wave 0.65s;
+      background: #40e0d0;
+      content: '';
+      display: block;
+      position: relative;
+      z-index: 100;
+    }
+    .option-input.radio {
+      border-radius: 10%;
+    }
+    .option-input.radio::after {
+      border-radius: 10%;
+    }
+    
+    
+    
+    
+    
+    
+    </style>
+
+</head>
+
+<body>
+
+
+  <!-- ======= Sidebar ======= -->
+  <%- include ('./partials/headerdept') %>
+  <!-- ======= Sidebar ======= -->
+ <%- include ('./partials/sidedept') %>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Add New Question</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item">TEHADSO TRAINEES SETTING</li>
+          <li class="breadcrumb-item">Manage Question Bank</li>
+          <li class="breadcrumb-item active">Add New Question</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    
+    <section class="section">
+     
+        <div class="card">
+          <%- include ('./partials/messages') %>  
+            <div class="card-body">
+              <h5 class="card-title">Add New Question Form <br>Add Questions Manually Or  <button class="btn btn-outline-primary btn-sm" onclick="showDiv()">Upload From Excel</button>
+              </h5>
+              
+        <div class="col-md-8 offset-md-4" id="myDiv" style="display:none;">
+          <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <small class="">Upload Question From Excel Here <br><a href="/download/TraineeQuestion.xlsx" download><small>You Can Download Template Excel Here!</small></a>
+          </small>
+            <form action="/dept/uploadquestions"   method="post" enctype="multipart/form-data">
+              <div class="row mt-2">
+                  <div class="col-md-8">
+                  <input class="form-control form-control-sm" type="file" id="questionsFile" name="questionsFile">
+                </div>
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-outline-primary btn-sm btn-block">Submit</button>
+                </div>
+              </div>
+            
+        
+          </form>
+            </div>
+        </div>
+        <script>
+          function showDiv() {
+  var div = document.getElementById('myDiv');
+  var div = document.getElementById('myDiv');
+  if (div.style.display === 'none') {
+    div.style.display = 'block';
+  } else {
+    div.style.display = 'none';
+  }
+}
+          </script>
+        <form action="/dept/deptaddnewquestion"   method="post" >
+            <div class="row">
+                
+              <div class="form-group">
+                <label><small>Please Select Language First</small></label>
+                <select class="form-control" name="langpre">
+                  <option value="0">Please Select Language </option>
+                  <option value="Amharic">Amharic </option>
+                  <option value="English">English </option>
+                  <option value="AFAN_OROMO">Afan Oromo </option>
+                </select>
+              </div>
+     
+        <div class="col-lg-12">
+            <label><small>Add Question Manually Here:-</small></label>
+            <div class="input-group">
+                <span class="input-group-text">Question?</span>
+                <textarea name="question" id="question" rows="100"  ></textarea>
+                <!-- <textarea class="form-control" aria-label="With textarea"></textarea> -->
+              </div>
+              <br>
+              <label><small>Add Choices Here:-</small></label>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <label class="btn btn-sm  " >Choice A</label>
+                    
+                        </div>
+                   <input type="text" class="form-control " autocomplete="off"  name="choicea"  id="choicea" placeholder="Please add question choices A!">
+          
+                      </div>
+                    </div>
+                  
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <label class="btn btn-sm " >Choice B</label>
+                    
+                        </div>
+                   <input type="text" class="form-control " autocomplete="off"  name="choiceb"  id="choiceb" placeholder="Please add question choices B!">
+          
+                      </div>
+                    </div>
+                  
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <label class="btn btn-sm" >Choice C</label>
+                    
+                        </div>
+                   <input type="text" class="form-control " autocomplete="off"  name="choicec"  id="choicec" placeholder="Please add question choices C!">
+          
+                      </div>
+                    </div>
+                  
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <label class="btn btn-sm " >Choice D</label>
+                    
+                        </div>
+                   <input type="text" class="form-control " autocomplete="off"  name="choiced"  id="choiced" placeholder="Please add question choices D!">
+          
+                      </div>
+                    </div>
+                  
+                  </div>
+                
+                </div>
+              </div>
+              <!-- <div class="row">
+                <label><small>Choice List</small><code><button type="button" class="btn btn-sm btn-link" onclick="myFunction2()">Remove To Change</button></code><i class="input-helper"></i></label>
+                   
+                <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                  <ul class="" id="listchoice">
+                   
+                  </ul>
+                </div>
+              </div>
+             -->
+              <!-- <input type="hidden" id="choicedata" name="choicedata"> -->
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label "><small>Answer</small></label>
+                <div class="col-sm-9">
+                    <select  class="form-control" name="answer">
+                      <option value="0">Please Select Answer</option>
+                       <option value="A">A</option>
+                       <option value="B">B</option>
+                       <option value="C">C</option>
+                       <option value="D">D</option>
+                    </select>
+           
+                </div>
+              </div>
+              <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"></h5>
+        
+                      <!-- Default Accordion -->
+                      <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                             Education Category
+                            </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                            <div class="accordion-body">
+                              <div class='py'>
+                                <label >    <input class="option-input radio" type="radio" name="education" id="inlineRadio1" value="All">
+                                  All</label>
+                                <% if(config.length > 0) { %>
+                                  <% var i =0 %>
+                                  <% config.forEach(function(row){ %>
+                                      <% i++ %>
+                                    
+                                          <% var type = row.config_type %>
+                                          <% if(type == "Education") {%>
+                                        
+                                          <label for="<%= row.id %>">     <input type="radio" class="option-input radio" id="education" name="education" value="<%= row.config_name %>">
+                                            <%= row.config_name %></label>
+                                 <% } } )%>
+                         
+                            <%} %>
+                               
+                            
+                              
+                              </div>
+                                  
+                                
+                            </div>
+                          </div>
+                        </div>
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Course Category
+                            </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                              
+                                   
+                              <% if(config.length > 0) { %>
+                                <% var i =0 %>
+                                <% config.forEach(function(row){ %>
+                                    <% i++ %>
+                                  
+                                        <% var type = row.config_type %>
+                                        <% if(type == "Course") {%>
+                                      
+                                      
+                                          <label>   <input class="option-input radio" type="radio" name="course" id="inlineRadio1" value="<%= row.config_name %>">
+                                            <%= row.config_name %></label>
+                                     
+                               <% } } )%>
+                       
+                          <%} %>
+                                  
+                            </div>
+                          </div>
+                        </div>
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                             Difficulty Level
+                            </button>
+                          </h2>
+                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row">
+                                   <div class="col-md-2">
+                                    <span  id="inputGroupPrepend2"><small>Easy</small> </span>
+                                   </div>
+                                  <div class="col-md-8">
+                                    <input type="range" class="form-range" id="customRange1" name="difficulty_level" aria-describedby="inputGroupPrepend2" step="1" max="3" min="1" value="2">   
+                                    
+                                  </div>
+                                   
+                                        <div class="col-md-2">
+                                            <span  id="inputGroupPrepend2"><small>Difficult</small> </span>
+                                           </div>
+                                </div>
+                                </div>
+                          </div>
+                        </div>
+                      </div><!-- End Default Accordion Example -->
+        
+                    </div>
+                  </div>
+               
+            </div>
+            <div class="col-md-6 offset-md-2">
+            
+              <button class="btn btn-outline-primary btn-sm btn-block" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+             </form>
+           
+     
+        
+   
+        </div>
+
+       
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<%- include ('./partials/footeradmin') %>
+  <!-- Vendor JS Files -->
+  <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+ <script src="../../../assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../../../assets/js/main.js"></script>
+  <!-- <script>
+                 
+    var criarry = [] ;
+    var criteria2 ={}; 
+
+               var criid2 = 0 ;
+           
+               let i=64;
+               $("#addchocie").on("click", function(e){
+                 var data2 = document.getElementById("choice").value;
+                 console.log(data2);
+              if(data2 === "")
+              {
+
+              }
+              else
+              {
+               i ++ ;
+               let choicelatter;
+             
+   choicelatter =String.fromCharCode(i);
+
+              var criname2 = document.getElementById("choice").value;
+           
+               var checkboxvalue2 = choicelatter + ": " +criname2;
+                criname2.trim();
+              var formdata =   criname2.trim();
+             // criarry.push(checkboxvalue);
+             // criteria['name'] = criname;
+             //  criteria['val'] = criname;
+             //    criteria['id'] = criid;string.replace(/ /g,"_");
+             criteria2[choicelatter] = formdata ;
+             console.log(criteria2);
+             //criarry.push(criteria);
+              // $('#criteria').val([criteria]);
+              $('#choicedata').val( JSON.stringify(criteria2) );
+                    
+$("#listchoice").append("<li><input type='checkbox' id="+ checkboxvalue2 +" class='form-check-input' checked >"+choicelatter +":  "+ $("#choice").val() + "</li>");
+
+return false;
+              }
+            
+});
+
+             </script> -->
+  <script>
+    var value = $('#value').val()
+ 
+   $('textarea#question').summernote('pasteHTML', value);
+
+  </script>
+<script>
+$(document).ready(function() {
+$('#summernote').summernote({
+  toolbar:[
+
+    // This is a Custom Button in a new Toolbar Area
+    ['custom', ['examplePlugin']],
+
+    // You can also add Interaction to an existing Toolbar Area
+    ['style', ['style' ,'examplePlugin']]
+  ]
+});
+});
+$('.summernote').summernote({
+height: 300,   //set editable area's height
+codemirror: { // codemirror options
+  theme: 'monokai'
+}
+});
+</script>
+
+<script>
+
+  function myFunction2() {
+    criteria2 ={}; 
+    i = 64;
+    const list = document.getElementById("listchoice");
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+
+    }
+  }
+  </script>
+</body>
+
+</html>

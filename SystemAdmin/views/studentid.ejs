@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Student ID Card</title>
+
+  <style>
+    /* Add any additional styles here */
+    /* Set the page size and orientation */
+
+
+/* Set the font size and style */
+body {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+/* Style the student ID card */
+.card {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.card h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.card .photo {
+  width: 60px;
+  height: 80px;
+  margin: 10px auto;
+  background-color: #ccc;
+}
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Student ID Card</h1>
+    <div class="photo"></div>
+    <p>Name: <%= name %></p>
+    <p>Phone: <%= phone %></p>
+    <p>Student ID: <%= code %></p>
+    <p>Licence: <%= license %></p>
+  </div>
+  <div class="col-md-8 offset-md-2">
+    <a href="/office/addnewtraineetrainertrainee">Go Back</a>
+  </div>
+  <script>
+    window.print();
+  </script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+
+<html lang="en" class="ie_11_scroll">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="hhhwidth=device-width, initial-scale=1">
+        <title>Login</title>
+    
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/templatemo_style.css">
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="favicon.png" />
+  
+
+<style>
+
+
+ #clockdiv{
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+}
+#clockdiv > div{
+    padding: 10px;
+    border-radius: 3px;
+    background: #00BF96;
+    display: inline-block;
+}
+#clockdiv div > span{
+    padding: 15px;
+    border-radius: 3px;
+    background: #00816A;
+    display: inline-block;
+}
+
+</style>
+   
+    </head>
+    <body>
+      
+    
+        <!-- Top menu -->
+        <div class="show-menu">
+            <a href="#" class=""><i class="fa fa-list"></i></a>
+        </div>
+        <nav class="main-menu shadow-top-down">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/dashboard" class="scroll_effect">Home</a></li>
+                <li><a href="/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+                <li><a data-toggle="modal" data-target="#exampleModal4" class="scroll_effect">Manage TOT Trainee Project</a></li>
+             
+                <li><a href="/logout" class="scroll_effect">Logout</a></li>
+            </ul>
+        </nav>
+     
+       <section id="contact" style="margin-top: 150px; ">
+        <div class="container">
+    
+       
+            <!--Grid row-->
+            <div class="row gx-xl-5">
+              
+            
+                <div class="col-xl-4 mb-5 pl-xl-4  d-lg-block">
+      
+                  <style>
+        .alert-services {
+          background-color: #4bc0dd;
+          color: hsl(219, 56.1%, 95%)!important;
+          opacity: 0.95;
+          max-height: 177px;
+          border-radius: 0.5rem;
+          min-width: 184px;
+          box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%);
+        }
+      
+        .alert-services-background {
+          border-radius: 0.5rem;
+        }
+      </style>
+    
+    <% if(cantake =="Yes"){%>
+    
+       <% if(  canassess =="Yes"){ %>
+        <div class="card card-image alert-services-background mb-5 " style="min-height:90px;;margin-bottom: 1rem;">
+          <!-- Content -->
+          <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+            <div>
+              <button class="btn btn-info " id="startButton"><i class="fas fa-play"></i>Start</button>
+              <button class="btn btn-danger " id="pauseButton"><i class="fas fa-pause"></i>Pause</button>
+              <button class="btn btn-warning" id="unpauseButton"><i class="fas fa-exit"></i>Continue</button>
+              <div class="" id="counterDisplay"> </div>
+             </div>
+           
+          
+            
+          </div>
+        
+          <!-- Content -->
+        </div>
+        <% } else { %>
+          <div class="card card-image alert-services-background mb-5 " style="min-height:90px;;margin-bottom: 1rem;">
+            <!-- Content -->
+            <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+            
+            <span>ፈተናን ለመገምገም የጊዜ ሰሌዳ የለዎትም።</span>
+
+              
+            </div>
+          
+            <!-- Content -->
+          </div>
+        <% } %>
+   <% } else{ %>
+  
+    <div class="card card-image alert-services-background mb-5 " style="min-height:90px;;margin-bottom: 1rem;">
+      <!-- Content -->
+      <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+        <div>
+        
+          <br>
+          ተፈታኝ መፈተን  አይችልም።
+           </div>
+      </div>
+      <!-- Content -->
+    </div>
+  <%} %>
+    
+      <div class="card card-image  mb-5 d-none d-lg-flex" style="min-height:90px;;margin-bottom: 1rem;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+        
+          <div class="" role="alert">
+            የፈተና ዓይነት:&nbsp;<% if(config.length > 0) { %>
+                  
+              <% config.forEach(function(row){ %>
+                <%if(row.config_id== trainee.licence_type){ %>
+                  የመንጃ ፍቃድ አይነት: <%= row.config_name %>
+                <% }} )%>
+
+                <%} %><br>
+            ቴክኒካል ፓርት:&nbsp; 
+           <% if ( 
+    typeof schedule === 'object' &&
+    !Array.isArray(schedule) &&
+    schedule !== null ){ %>
+    <%if(schedule.technical_part=="Technician1"){ %>
+ <span>Part 1</span>
+   <% }else if(schedule.technical_part=="Technician2"){ %>
+    <span>Part 2</span>
+   
+    <% }else if(schedule.technical_part=="Technician3") { %>
+      <span>Part 3</span>
+      <% }  %>
+    <% }else { %>
+     <span>አልተገለፀም</span>
+      <%} %>
+
+             <br>
+            </div>
+        </div>
+      
+        <!-- Content -->
+      </div>
+        <div class="card forum-card-img-64 text-center mb-5">
+            <!-- Card header -->
+           
+            <div class="card-header border-0">የተፈታኝ መረጃ</div>
+            <hr class="m-0">
+            <!--Avatar-->
+           <div class="card-body">
+            <% if(cantake =="Yes"){%>
+              <div class="alert alert-success" role="alert">
+                ተፈታኝ መፈተን ይችላል።
+                </div>
+           <% } else{ %>
+            <div class="alert alert-warning" role="alert">
+              ተፈታኝ መፈተን  አይችልም።
+              </div>
+          <%} %>
+          
+         
+              <% if(trainee){ %>
+                   <td><%= trainee.trainee_code %></td><br>
+                  <% var edu = trainee.licence_type %>
+                  <td> <% if(config.length > 0) { %>
+                  
+                    <% config.forEach(function(row){ %>
+                      <%if(row.config_id==edu){ %>
+                        የመንጃ ፍቃድ አይነት: <%= row.config_name %>
+                      <% }} )%>
+                     
+                      <%} %></td><br>
+                
+                      <a class="badge badge-success mb-2">
+                      Active? &nbsp; <%= trainee.is_active %>
+                      </a>
+                      <a class="badge badge-warning mb-2">
+                     Payed ? &nbsp; <%= trainee.is_payed %>
+                      </a>
+                      <a class="badge badge-danger mb-2">
+                       Attempt: &nbsp; <%= trainee.attempt_count %>
+                      </a>
+                 
+             <% } %>
+     
+      
+           </div>
+        
+        </div>
+        
+        
+     
+      
+      
+                
+                  
+                    
+                </div>
+                <div class="col-xl-8 mb-lg-5 pr-xl-4">
+      
+                    <!-- Breadcrumbs Question -->
+                    <div class="card mb-5">
+                      <div class="card-body">
+                        <ol class="breadcrumb p-0 white font-weight-bold">
+                          <li class="breadcrumb-item">
+                              <a href="/dashboard"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
+                          </li>
+                          <li class="breadcrumb-item">
+                              <a href="#">የተግባር ፈተና
+                              </a>
+                          </li>
+                          <li class="breadcrumb-item active">
+                              <a href="#">የፈተና ማረጋገጫ ዝርዝር </a>
+                          </li>
+                        
+                        </ol>
+                        <hr>
+                        <form id="regForm" action="/takepracticalassessment" method="post">
+                          <input type="hidden" name="finishtime" id="finishtime" value="">
+                          <input type="hidden" name="education" id="education" value="<%= trainee.licence_type %>">
+                          
+                           <input type="hidden" name="output" id="output" value="">
+                          <input type="hidden" name="marks" id="marks" value="">
+                          <input type="hidden" name="assessmentpart" id="assessmentpart" value="<%= schedule.technical_part %>">
+                          <input type="hidden" name="testcode" id="testcode" value="<%= testcode %>">
+                       
+                          <input type="hidden" name="traineeid" value="<%= trainee.uniqueid %>">
+                          <input type="hidden" name="traineeattempt" value="<%= parseFloat(trainee.attempt_count_prac) +1 %>">
+                          <% if(canassess =="Yes"){ %>
+                            <% if(ptest.length >0) {%>
+                              <% ptest.forEach(function(row){ %>
+
+                                <div  id="questionDiv" style="display: none;">
+                                  <p><%= row.main_checklist %> <a class="badge badge-danger mb-2">
+                                    Total Mark: &nbsp; <%= row.total_point %>
+                                   </a></p><br>
+                                  <p>
+                                    <input type="hidden" name="topoint" id="topoint" value="<%= row.total_point %>">
+                         
+                                    <input type="hidden" name="assessmentid" id="assessmentid" value="<%=row.a_id %>">
+                          
+                                  <td>
+                                    <%
+                                    var selectioncriteria= [];
+                                   var x =[];
+                                   var z= [];
+                                   selectioncriteria=  JSON.parse(JSON.stringify(row.sub_checklist)); %>
+                                   <% for (let i = 0; i < selectioncriteria.length; i++) { %>
+                                    <div class="row">
+                                      <div class="col-md-9">
+                                        <label><%= selectioncriteria[i].id %> : &nbsp;
+                                          <%= selectioncriteria[i].name %> <!-- label with object name -->
+                                        ( <%= selectioncriteria[i].point %> Point) </label> <!-- label with object point -->
+                                  
+                                      </div>
+                                      <div class="col-md-3">
+                                      <input type="number" id="<%= selectioncriteria[i].id %>" class="form-control" name="<%= selectioncriteria[i].name %>"  max="<%= selectioncriteria[i].point %>" min="0">
+                                 
+                                    </div>
+                                    </div>
+                                  
+                                    <% } %>
+                                  
+                               
+                                    <br>
+                                </td>
+                                  </p>
+                                </div>
+                              <%})%>
+                            <%}else{ %> 
+                              <%= ptest %>
+                              <%} %>
+                           
+                            <%} else { %>
+                              <span>ፈተናን ለመገምገም የጊዜ ሰሌዳ የለዎትም።
+                                እንደገና ቀጠሮ ይያዙ እና እንደገና ይሞክሩ!</span><br>
+                                ወደ ክፍል ኃላፊ ይደውሉ
+
+                              <%}%>
+                          
+                            <div style="overflow:auto;">
+                              <div style="float:right;">
+                                <button type="submit" id="" class="btn btn-outline-primary" >Save</button>
+                                </div>
+                            </div>
+                            
+                            
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
+                  </div>
+            </div>
+            <!--Grid row-->
+          
+        </div>
+       </section>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+       <script>
+     
+        var totpoint = 0;
+        const input = document.querySelector("input");
+
+input.addEventListener("input", updateValue);
+
+function updateValue(e) {
+  console.log(e)
+  // totpoint +=parseFloat( e.target.value);
+  document.getElementById('totalpoint').value = e.target.value;
+}
+        function totalpoint(val) {
+          console.log(val)
+           totpoint +=parseFloat(val);
+           document.getElementById('totalpoint').value = totpoint;
+        }
+      </script>
+       
+       <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Your Session Is Expired! </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+                The System Save And Close The Session In 5 Second!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Save And Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModal4"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Start Assessment By Entering TOT(Trainer) Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/selecttraineewithbatchname" method="post">
+
+                <select class="form-control form-control-sm mb-1" name="batchname">
+                  <option value="0">Please Select Applicant Batch</option>
+                  <% if(batch.length > 0) { %>
+                 
+                    <% batch.forEach(function(row){ %>
+                       
+                       
+                            <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+               
+                   <% } )%>
+           
+              <%} %>
+                  </select>
+          </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+       <%- include ('./partials/footer') %>
+        <!-- require plugins -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.parallax.js"></script>
+        <!-- template mo config script -->
+        <script src="js/templatemo_scripts.js"></script>
+       
+<script>
+  // Defines identifiers for accessing HTML elements
+const minutesInput = 120;
+   startButton = document.getElementById("startButton"),
+   pauseButton = document.getElementById("pauseButton"),
+   unpauseButton = document.getElementById("unpauseButton"),
+   counterDiv = document.getElementById("counterDisplay");
+
+// Adds listeners and declares global variables
+startButton.addEventListener('click', start);
+pauseButton.addEventListener('click', pauseTimer);
+unpauseButton.addEventListener('click', runTimer);
+let totalSeconds; // global variable to count down total seconds
+let timer; // global variable for setInterval and clearInterval 
+
+//Disables buttons that are not needed yet
+disable(pauseButton);
+disable(unpauseButton);
+
+
+// Defines functions that get the minutes and seconds for display
+function getMinutes(totalSeconds){
+return Math.floor(totalSeconds / 60); // Gets quotient rounded down 
+}
+
+function getSeconds(totalSeconds){
+let seconds = totalSeconds % 60; // Gets remainder after division
+return (seconds < 10 ? "0" + seconds : seconds) // Inserts "0" if needed
+}
+
+
+// Defines functions that manipulate the countdown
+function start(){
+totalSeconds = minutesInput * 60; // Sets initial value of totalSeconds based on user input
+counterDiv.innerHTML = getMinutes(totalSeconds) + ":" + getSeconds(totalSeconds) +" "+"Min"; // Initializes display
+disable(startButton); // Toggles buttons
+document.getElementById('questionDiv').style.display="block"; //
+runTimer();
+}
+
+function runTimer(){
+// Is the main timer function, calls `tick` every 1000 milliseconds
+timer = setInterval(tick, 1000);
+disable(unpauseButton); enable(pauseButton); // Toggles buttons
+}
+
+function tick(){
+if(totalSeconds > 0){
+ totalSeconds--; // Decreases total seconds by one
+ document.getElementById('finishtime').value = 120 - (totalSeconds / 60);
+ counterDiv.innerHTML = getMinutes(totalSeconds) + ":" + getSeconds(totalSeconds)+" "+"Min"; // Updates display
+}
+else{
+ // The timer has reached zero. Let the user start again. 
+ enable(startButton);
+ disable(pauseButton); disable(unpauseButton);
+}
+}
+
+function pauseTimer(){
+// Stops calling `tick` and toggles buttons
+clearInterval(timer);
+disable(pauseButton); enable(unpauseButton);
+}
+
+
+// Defines functions to disable and re-enable HTML elements
+function disable(element){ element.setAttribute("disabled",""); }
+function enable(element){ element.removeAttribute("disabled"); }
+
+  </script>
+<script>
+  const form = document.querySelector('#regForm');
+  const inputs = form.querySelectorAll('input[type="number"]');
+  const output = form.querySelector('input[name="output"]');
+  const marksinput = form.querySelector('input[name="marks"]');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    let sum = 0;
+    const marks = [];
+    for (let i = 0; i < inputs.length; i++) {
+      sum += Number(inputs[i].value);
+      const input = inputs[i];
+      const mark = {
+        id:input.id,
+        name: input.name,
+        point: Number(input.value)
+      };
+      marks.push(mark);
+    }
+    output.value = sum;
+    console.log(marks);
+    marksinput.value = JSON.stringify(marks)
+    form.submit();
+  });
+</script>
+    </body>
+</html>

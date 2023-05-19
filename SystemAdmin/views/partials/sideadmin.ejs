@@ -1,0 +1,246 @@
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link " href="/dashboard">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+    <li class="nav-heading"> Setting</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav0" data-bs-toggle="collapse" href="#">
+        <i class="fas fa-cog"></i><span>Manage System Config</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav0" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2" data-foo=${FOO} data-toggler="School">
+            <i class="bi bi-circle"></i><span>Add Candidate(Tehadso) School</span>
+          </a>
+        </li>
+     
+        <li>
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2" data-foo=${FOO} data-toggler="Education">
+            <i class="bi bi-circle"></i><span>Add Education Category</span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2" data-foo=${FOO} data-toggler="Course">
+            <i class="bi bi-circle"></i><span>Add Candidate(Tehadso) Course</span>
+          </a>
+        </li>
+     
+        <li>
+          <a href="/office/configlist">
+            <i class="bi bi-circle"></i><span>Add Config List</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse" href="#">
+         <i class="bx bxs-key"></i><span>Manage Credential</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+       
+        <li>
+          <a href="/office/createstaffcredential">
+            <i class="bi bi-circle"></i><span>Create Credential</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/allcredentiallist">
+            <i class="bi bi-circle"></i><span>Credential List</span>
+          </a>
+        </li>
+     
+        
+      </ul>
+    </li><!-- End Components Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-menu-button-wide"></i><span>Manage Staff</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/office/addnewstaff">
+            <i class="bi bi-circle"></i><span>Add Staff</span>
+          </a>
+        </li>
+       
+       
+        <li>
+          <a href="/office/allstafflist">
+            <i class="bi bi-circle"></i><span>Staff List</span>
+          </a>
+        </li>
+        
+      </ul>
+    </li><!-- End Components Nav -->
+    <li class="nav-heading">Candidate And TOT</li>
+  
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav2" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-menu-button-wide"></i><span>Manage Candidate (Tehadso)</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/office/addnewtrainee">
+            <i class="bi bi-circle"></i><span>Add New Candidate(Tehadso)</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/updatetraineeaccount">
+            <i class="bi bi-circle"></i><span>Update Candidate(Tehadso) Payment</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/alltraineelist">
+            <i class="bi bi-circle"></i><span>All Candidate List</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Components Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-menu-button-wide"></i><span>Manage TOT (Trainee) </span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/office/addnewtraineetrainertrainee">
+            <i class="bi bi-circle"></i><span>Add New TOT Trainee</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/updatetrainetrainereaccount">
+            <i class="bi bi-circle"></i><span>Update TOT(Trainee) Intrance Payment</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/registertrainetrainereaccount">
+            <i class="bi bi-circle"></i><span>Register TOT(Trainee)</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/alltraineetrainerlistapplicant">
+            <i class="bi bi-circle"></i><span>All TOT(Trainee) Applicant List</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/alltraineetrainerlistregistered">
+            <i class="bi bi-circle"></i><span>All TOT(Trainee) Registered List</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Components Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-alarm"></i><span>Manage Appointment</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/office/addnewappointment">
+            <i class="bi bi-circle"></i><span>Add New Appointment Candidate(Tehadso)</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/addnewappointmenttraineetrainerapplicant">
+            <i class="bi bi-circle"></i><span>Add New Appointment TOT (Trainee) Applicant</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/addnewappointmenttraineetrainerregistered">
+            <i class="bi bi-circle"></i><span>Add New Appointment TOT (Trainee) Registered Trainee</span>
+          </a>
+        </li>
+        <li>
+          <a href="/office/allappointmentlist">
+            <i class="bi bi-circle"></i><span>Current Appointment List</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Components Nav -->
+
+    <li class="nav-heading">Account Setting</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="javascript:void(0)" data-toggle="modal" data-target="#myModal" data-foo=${FOO} data-toggler="School">
+        <i class="bx bxs-key"></i>
+        <span>Change Password</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/office/help">
+        <i class="bi bi-question-circle"></i>
+        <span>F.A.Q</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+
+  
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/logout">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Logout</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+
+  
+
+  </ul>
+
+</aside><!-- End Sidebar-->
+<div class="modal" id="myModal">
+  <div class="modal-dialog ">
+      <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title">Change Password</h4>
+          </div>
+     <form action="/office/updatepassword" method="post">
+      <div class="modal-body">
+        <label>Please Add Old Password</label>
+         <input class="form-control" type="password" name="oldpassword">
+         <label>Please Add New Password</label>
+         <input class="form-control"  type="password" name="newpassword">
+         <label>Please Retype New Password</label>
+         <input class="form-control"  type="password" name="renewpassword">
+          </div>
+           <div class="modal-footer">
+               <button type="submit" class="btn btn-sm btn-outline-primary">Save</button>
+          </div>
+     </form>
+      </div>
+ </div>
+</div>
+<div class="modal" id="myModal2">
+  <div class="modal-dialog ">
+      <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title">Add <span class="configtype"></span></h4>
+              <button type="button" class="close" data-dismiss="modal">X</button>
+          </div>
+     <form action="/office/addconfig" method="post">
+      <div class="modal-body">
+        <label>Please Add Here</label>
+        <input type="hidden" class="js-toggler__input" value="" name="configcat" >
+        <input class="form-control" name="configval">
+          </div>
+           <div class="modal-footer">
+               <button type="submit" class="btn btn-sm btn-outline-primary">Save</button>
+          </div>
+     </form>
+      </div>
+ </div>
+</div>
+<script>
+  $('[data-toggle="modal"]').on('click', function () {
+    const toggler = $(this);
+    const toggler_identifier = toggler.attr('data-toggler');
+    let modal_id = toggler.attr('data-target');
+    $(modal_id).find('.js-toggler__input').val(toggler_identifier);
+    $(modal_id).find('.configtype').html(toggler_identifier);
+});
+</script>

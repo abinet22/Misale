@@ -1,0 +1,513 @@
+
+<html lang="en" class="ie_11_scroll">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="hhhwidth=device-width, initial-scale=1">
+        <title></title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/templatemo_style.css">
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="favicon.png" />
+        <link href="assets/img/favicon.png" rel="icon">
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+      
+        <!-- Google Fonts -->
+        <link href="https://fonts.gstatic.com" rel="preconnect">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      
+        <!-- Vendor CSS Files -->
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+        <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+        <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+        <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+      
+        <!-- Template Main CSS File -->
+        <link href="assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Top menu -->
+        <div class="show-menu">
+            <a href="#" class=""><i class="fa fa-list"></i></a>
+        </div>
+        <nav class="main-menu shadow-top-down">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/dashboard" class="scroll_effect">Home</a></li>
+                <li><a href="/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+                <li><a data-toggle="modal" data-target="#exampleModal4" class="scroll_effect">Manage TOT(Trainee) Mark</a></li>
+              
+                <li><a href="/logout" class="scroll_effect">Logout</a></li>
+            </ul>
+        </nav>
+     
+       <section id="contact" style="margin-top: 150px; ">
+        <div class="container">
+    
+             <div class="card ">
+              <%- include ('./partials/messages') %>
+             </div>
+
+            <!--Grid row-->
+            <div class="row gx-xl-5">
+              
+                
+      
+                <!--Grid column-->
+               
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-xl-5 mb-lg-5 pl-xl-4 ">
+      
+                  <style>
+        .alert-services {
+          background-color: #3B71CA;
+          color: hsl(219, 56.1%, 95%)!important;
+          opacity: 0.95;
+          max-height: 177px;
+          border-radius: 0.5rem;
+          min-width: 184px;
+          box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%);
+        }
+      
+        .alert-services-background {
+          border-radius: 0.5rem;
+        }
+      </style>
+       <button  data-toggle="modal" data-target="#exampleModal" class="btn btn-block btn-primary" style="min-height:90px;width: 100% ;margin-bottom: 1rem;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5  d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; START EXAMINATION CANDIDATE(TEHADSO)</h2>
+             </div>
+        </div>
+        <!-- Content -->
+      </button>
+      <button  data-toggle="modal" data-target="#exampleModal2"  class="btn btn-block btn-success" style="min-height:90px;width: 100% ;margin-bottom: 1rem;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5  d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; START EXAMINATION TOT(APPLICANTS) INTRANCE</h2>
+             </div>
+        </div>
+        <!-- Content -->
+      </button>
+      <!-- <!-- <a  data-toggle="modal" data-target="#exampleModal3" class="btn btn-block btn-warning" style="min-height:90px;width: 100% ;margin-bottom: 1rem;">
+        <!-- Content -->
+        <!-- <div class="text-white d-flex align-items-center py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5  d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; START EXAMINATION TOT(TRAINEE)</h2>
+             </div>
+        </div>
+        <!-- Content -->
+      <!-- </a>   -->
+        <div class="card forum-card-img-64 text-center mb-5">
+            <!-- Card header -->
+            <div class="card-header border-0">Account Info</div>
+            <hr class="m-0">
+            <!--Avatar-->
+            <div class="mt-4">
+              <img src="https://s.gravatar.com/avatar/9a174ff9ee9bb921a7d96a115e6f1e74?s=96&amp;d=mm&amp;r=g" alt="" class="rounded-circle mr-2">
+            </div>
+            <div class="card-body">
+              <!--Name-->
+              <h5 class="card-title font-weight-bold">
+                <a href="#">
+                 <span style="text-transform: uppercase;"> <%= user.username %></span>
+                </a>
+              </h5>
+              <!-- Gained badges -->
+              
+              
+
+              <!-- Support -->
+              <a class="badge badge-primary mb-2">
+                <i class="fas fa-thumbs-up mx-1"></i><%= user.user_roll %>
+              </a>
+              
+              <a href="#" class="badge badge-success mb-2 mr-2">
+                <i class="fas fa-thumbs-up mx-1"></i>Active
+              </a>
+            
+            </div>
+          </div>
+          <div class="card mb-5">
+            <!-- Card header -->
+            <div class="card-header border-0">Current Schedules And WBD</div>
+            <hr class="m-0">
+            <!--Card content-->
+            <div class="card-body">
+               
+              <!-- Bordered Tabs Justified -->
+              <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+               <li class="nav-item flex-fill" role="presentation">
+                 <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">Tehadso Schedule</button>
+               </li>
+               <li class="nav-item flex-fill" role="presentation">
+                 <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">TOT WBDs</button>
+               </li>
+            
+             </ul>
+             <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+               <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+                 <table class="table datatable">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                      
+                       <th scope="col">Schedule Date</th>
+                      
+                       <th scope="col">Assessment Part</th>
+                     
+                     </tr>
+                   </thead>
+                   <tbody>
+                       <% if(schedule.length > 0) { %>
+                           <% var i =0 %>
+                           <% schedule.forEach(function(row){ %>
+                             <% if(row.schedule_type =="Tehadso"){ %>
+                              <% i++ %>
+                              <tr>
+                                <th scope="row"><%= i %></th>
+                            
+                                <td><i class="fas fa-clock-o fa-2x" style="color:rgb(94, 94, 218)"></i> &nbsp; <%= new Date(row.from_date).toLocaleDateString() %> </td>
+                               
+                                <td><%= row.technical_part %> </td>
+                                 </tr>
+                             <%} %>
+                              
+                            
+                          <% } )%>
+                  
+                     <%} %>
+                   </tbody>
+                 </table>
+               </div>
+               <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+                 <table class="table datatable">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                      
+                       <th scope="col">Batch</th>
+                      
+                       <th scope="col">WBDs</th>
+                     
+                     </tr>
+                   </thead>
+                   <tbody>
+                       <% if(schedule.length > 0) { %>
+                           <% var i =0 %>
+                           <% schedule.forEach(function(row){ %>
+                               <% i++ %>
+                               <tr>
+                                
+                                
+                                   <% var batchid = row.batch_id %>
+                                   <% var schedule_type = row.schedule_type %>
+                                   <% var xx = row.technical_part %>
+                                   <% batch.forEach(function(row){ %>
+                                    <% if(row.batch_id === batchid && row.is_current==="Yes" &&  schedule_type==="TOT") { %>
+                                      <td scope="row"><%= i %></td>
+                                    <td><%= row.batch_name %> </td>
+                                   <td>
+                                  
+                                    <%= xx==="Intrance"?"Intrance Practical Exam Data Encoder":"" %> 
+                                    <%= xx==="Training"?"Training Others Practical Exam Data Encoder":"" %> 
+                                    <%= xx==="Examining"?"Examining Others Practical Exam Data Encoder":"" %> 
+                                    <%= xx==="Presentation"?"Presentation Mark Data Encoder":"" %> 
+                                    <%= xx==="Project"?"Project Mark  Data Encoder":"" %> 
+                                    <%= xx==="ExitExam"?"Exit Exam Mark  Data Encoder":"" %> 
+                                    <%= xx==="Obstacle_Course_Preparation"?"Obstacle Course Preparation Mark Data Encoder":"" %> 
+                                    <%= xx==="Vehicle_Inspection"?"Vehicle Inspection Mark Data Encoder":"" %> 
+                                       
+                                  </td>
+                                  <%}}) %>
+                                    </tr>
+                          <% } )%>
+                  
+                     <%} %>
+                   </tbody>
+                 </table> 
+               </div>
+              
+             </div><!-- End Bordered Tabs Justified -->
+           
+                          
+                         </div>
+          </div>
+     
+      
+      <style>
+        .dc-content-animation {
+          height: 20px;
+          width: 50%;
+          display: inline-block;
+          animation: placeholderPulse 1s infinite ease-in-out;
+          -webkit-animation: placeholderPulse 1s infinite ease-in-out;
+        }
+        @keyframes placeholderPulse {
+          0% {
+            background-color: rgba(133, 214, 251, .1);
+            color: rgba(133, 214, 251, .1);
+          }
+          50% {
+            background-color: rgba(133, 214, 251, .3);
+            color: rgba(133, 214, 251, .3);
+          }
+          100% {
+            background-color: rgba(133, 214, 251, .1);
+            color: rgba(133, 214, 251, .1);
+          }
+        }
+      </style>
+   
+      
+                
+                  
+                    
+                </div>
+                <div class="col-xl-7 mb-lg-5 pr-xl-4 d-none d-lg-block">
+      
+                  <!-- Breadcrumbs Question -->
+                  <div class="card mb-5">
+                    <div class="card-body">
+                      <ol class="breadcrumb p-0 white font-weight-bold">
+                        <li class="breadcrumb-item">
+                          <a href="/dashboard"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
+                        
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">የተግባር ፈተና</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="#">መመሪያ </a>
+                        </li>
+                      </ol>
+                      <hr>
+                      <strong>Guide: <br></strong><span class="">
+                        Pre-Drive Checklist: <br>
+Candidate should complete the pre-drive checklist that includes adjusting mirrors, seat belt, steering wheel, and foot pedals, etc.
+Examiner should ask the candidate to identify and demonstrate proper usage of all vehicle controls such as headlights, turn signals, windshield wipers, emergency brakes, and horn.
+<br>Vehicle Maneuvering:
+Candidate should demonstrate proficiency in turning, backing, parking, and stopping in designated areas.
+Examiner should evaluate candidate's ability to navigate safely through intersections, roundabouts, and traffic signals.
+<br>Hazard Awareness and Management:
+Candidate should demonstrate an ability to identify and respond to potential hazards such as pedestrians, cyclists, and other vehicles.
+Examiner should evaluate candidate's ability to make safe decisions while driving in various traffic conditions.
+<br>Vehicle Control:
+Candidate should demonstrate proper vehicle control such as acceleration, braking, and steering while maintaining appropriate speed limits.
+Examiner should evaluate candidate's ability to maintain control of the vehicle while navigating curves, hills, and different types of road surfaces.
+<br>Emergency Response:
+Candidate should demonstrate proper procedures in case of an emergency such as sudden braking, swerving, and other emergency maneuvers.
+Examiner should evaluate candidate's ability to respond to emergency situations quickly and effectively.
+<br>Communication:
+Candidate should demonstrate an ability to communicate effectively with the examiner and other drivers on the road.
+Examiner should evaluate candidate's ability to use proper hand signals, turn signals, and other communication methods while driving.
+ <br>Post-Drive Checklist:
+Candidate should complete the post-drive checklist that includes properly parking the vehicle, turning off the engine, and safely exiting the vehicle.
+Examiner should evaluate candidate's ability to safely and efficiently complete all post-drive tasks.
+
+                        </span>
+                         </div>
+                  </div>
+                  
+                  
+                </div>
+            </div>
+            <!--Grid row-->
+          
+        </div>
+       </section>
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+       <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Start Assessment By Entering Trainer Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/exam" method="post">
+
+            <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
+            </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="modal fade" id="exampleModal2"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Start Assessment By Entering TOT(Trainer) Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/practicalassessmenttottrainerintrance" method="post">
+
+            <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
+            </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+      <div class="modal fade" id="exampleModal3"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Start Assessment By Entering TOT(Trainer) Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/practicalassessmenttottrainer" method="post">
+
+            <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
+            <!-- <select class="form-select" name="exampart" aria-label="Default select example">
+              <option value="0">Please </option>
+             
+              <option value="Training">Training Others (አሰለጣጠን)</option>
+              <option value="Examining">Examine Others (አፈታተን)</option>
+              <option value="Presentation">Presentation (አቀራረብ)</option>
+              <option value="Project">Project (ፕሮጀክት)</option>
+            
+            </select>   -->
+          </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+      <div class="modal fade" id="exampleModal4"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Start Assessment By Entering TOT(Trainer) Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/selecttraineewithbatchname" method="post">
+
+                <select class="form-control form-control-sm mb-1" name="batchname">
+                  <option value="0">Please Select Applicant Batch</option>
+                  <% if(batch.length > 0) { %>
+                 
+                    <% batch.forEach(function(row){ %>
+                       
+                       
+                            <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+               
+                   <% } )%>
+           
+              <%} %>
+                  </select>
+                  <select class="form-control form-control-sm mb-1" name="marklist">
+                    <option value="0">Please Select Mark List</option>
+                    <% if(schedule.length > 0) { %>
+                      <% var i =0 %>
+                      <% schedule.forEach(function(row){ %>
+                          <% i++ %>
+                         
+                              <% var batchid = row.batch_id %>
+                              <% var schedule_type = row.schedule_type %>
+                              <% var xx = row.technical_part %>
+                              <% var xy ;%>
+                           <%   if(xx ==="Intrance"){
+                                xy = "Intrance (የመግቢያ ፈተና)";
+                                }else if(xx ==="Training"){
+                                 xy = "Training Others (አሰለጣጠን)";
+                                }else if(xx ==="Examining"){
+                                 xy = "Examine Others (አፈታተን)";
+ 
+                                }else if(xx ==="Presentation"){
+                                 xy = "Presentation (አቀራረብ)";
+                               }else if(xx ==="Project"){
+                                 xy = "Project (ፕሮጀክት)";
+                               }else if(xx ==="ExitExam"){
+                                 xy = "Exit Exam(የመውጫ ፈተና)";
+                               } else if(xx ==="Obstacle_Course_Preparation"){
+                                xy = "Obstacle Course Preparation Mark Data Encoder(የመሰናክል ሜዳ  አዘገጃጀት)";
+                               
+                              } else if(xx ==="Vehicle_Examination"){
+                                xy = " Vehicle Examination Mark Data Encoder(የተሽከርካሪ ምርመራ)";
+                              
+                              } %>
+                     
+                              <% batch.forEach(function(row){ %>
+                               <% if(row.batch_id === batchid && row.is_current==="Yes" &&  schedule_type==="TOT") { %>
+                             
+                            
+                                <option value="<%= xx %>"><%= xy %>  </option>  
+                      
+                              
+                             <%}}) %>
+                            
+                     <% } )%>
+             
+                <%} %>
+               
+                    </select>
+                  
+          </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+    
+       <%- include ('./partials/footer') %>
+        <!-- require plugins -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.parallax.js"></script>
+        <!-- template mo config script -->
+        <script src="js/templatemo_scripts.js"></script>
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.min.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
+      
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>

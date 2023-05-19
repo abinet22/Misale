@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../../assets/img/favicon.png" rel="icon">
+  <link href="../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../../assets/css/style.css" rel="stylesheet">
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Petemoss&display=swap");
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+	margin: 0;
+}
+
+
+.book {
+	--book-height: 100vh;
+    width: 100%;
+	--book-ratio: 1.4;
+}
+
+.book > div {
+	height: var(--book-height);
+	width: 100%;
+	overflow: auto;
+	background-color: #0a0a0a;
+	transform: scale(0.9);
+	border-radius: 6px;
+	transform-origin: left;
+}
+
+.book-cover {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	z-index: 9;
+	text-align: center;
+	background: linear-gradient(135deg, black 25%, transparent 25%) -50px 0,
+		linear-gradient(225deg, black 25%, transparent 25%) -50px 0,
+		linear-gradient(315deg, black 25%, transparent 25%),
+		linear-gradient(45deg, black 25%, transparent 25%);
+	background-size: 2em 2em;
+	background-color: #232323;
+	color: white;
+	transition: transform 2s;
+}
+
+.book-cover::before {
+	content: "";
+	position: absolute;
+	width: 20px;
+	right: 20px;
+	top: 0;
+	bottom: 0;
+	background-color: #b11509;
+}
+
+
+
+.separator {
+	--separator-size: 8px;
+	width: var(--separator-size);
+	height: var(--separator-size);
+	background-color: #dbd75d;
+	margin: 50px auto 60px auto;
+	border-radius: 50%;
+	position: relative;
+}
+
+.separator::after,
+.separator::before {
+	content: "";
+	position: absolute;
+	width: 12px;
+	background-color: white;
+	height: 2px;
+	top: calc(50% - 1px);
+}
+
+.separator::after {
+	left: 15px;
+}
+
+.separator::before {
+	right: 15px;
+}
+
+.book-content {
+	transform: scale(0.9) translateY(30px);
+	background-color: white !important;
+	transition: all 0.3s 1s;
+}
+
+.book-content h3,
+.book-content p {
+	opacity: 0;
+	transition: all 0.3s 0.3s;
+}
+
+
+.book-cover > div {
+	transition: opacity 0s 0.6s;
+}
+
+.book:hover > .book-cover {
+	transform: rotateY(180deg) scale(0.9);
+}
+
+.book:hover > .book-cover > div {
+	opacity: 0;
+}
+
+.book:hover > .book-content {
+	transform: scale(0.9) translateY(0px);
+}
+
+.book:hover > .book-content h3,
+.book:hover > .book-content p {
+	opacity: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <%- include ('./partials/headeradmin') %>
+  <!-- ======= Sidebar ======= -->
+ <%- include ('./partials/sidedept') %>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Queestion  List</h1>
+      <nav>
+        <ol class="breadcrumb">
+      
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item">TOT(TRAINEE) SETTING</li>
+          <li class="breadcrumb-item">Manage TOT Theoretical Question</li>
+          <li class="breadcrumb-item active">All List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Queestion List</h5>
+         
+              <!-- Table with stripped rows -->
+            
+                  
+                                <div class="book">
+                                    <div class="book-cover">
+                                        <div>
+                                            <h1>Driving License TOT(Trainee) Question Book</h1>
+                                            <div class="separator"></div>
+                                            <h2>by Misale Acadamy</h2>
+                                        </div>
+                                    </div>
+                                    <div class="book-content">
+                                        <h3>Misale Driving Licence Acadamy TOT(Trainee)  Question Book</h3>
+                                      <p>
+                                        <table class="table datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Question</th>
+                            
+                                                    <th>Answer</th>
+                                                    <th>Category</th>
+                                                    <th>Assessement Type</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                              </thead>
+                                            <tbody>
+                                        <% var qid;
+                                        var xy; %>
+                                        <% var w=0; %>
+                                      <% if(question.length > 0) { %>
+                                         
+                                          <% qstn = question %>
+                                          <% question.forEach(function(row){ %>
+                                          <% w++ %>
+                                              <%   qid = row.q_id  %>  
+                                              <%   xy = JSON.parse(JSON.stringify(row.question))  ; %>
+                                            
+                                              
+                                        <tr>
+
+                                        <td><%=row.id %></td>
+                                        <td>
+                                         <div class="" style="max-width: 400px;">
+                                             <div id="<%= row.q_id %>" class=""></div>
+             
+                                             </div>
+                                         <br>
+                     
+             
+             <ul>
+              <li class="choice" data-value="A">A:<%= row.choice_a %></li>
+              <li class="choice" data-value="B">B:<%= row.choice_b %></li>
+              <li class="choice" data-value="C">C:<%= row.choice_c %></li>
+              <li class="choice" data-value="D">D:<%= row.choice_d %></li>
+       
+             </ul>
+                              
+                                         <br>
+                                     </td>
+                                     <td>
+                                         <%= row.answer%> 
+                                     </td>
+                                    
+                                     <td>
+                                         <%= row.education %> 
+                                         <% var edu  = row.education %><br>
+                                         <% if(config.length >0){ %>
+                                         <% config.forEach(function (row){ %>
+                                               <% if( row.config_id === edu){ %>
+                                                <%= row.config_name %>
+                                         <%} })  } %><br>
+                                         <%= row.difficulty_level %><br>
+                                         <% if(edu ==="All"){ %>
+                                          To ALL
+                                         <%} %>
+                                     </td>
+                                     <td>
+                                        <%= row.assessment_type %>
+                                     </td>
+                                     <td>
+                                         <button class="btn btn-sm btn-outline-primary btn-block"> Edit</button>
+                                         <button class="btn btn-sm btn-outline-primary btn-block mt-2"> Delete</button>
+                                     </td>
+                                     <script>
+
+                                        var q = '<%= xy %>'; 
+                                        
+                                        console.log()
+                                                var doc = new DOMParser().parseFromString(q, "text/html");
+                                                                 
+                                        
+                                            
+                                            var id = '<%= qid  %>'; 
+                                            
+                                            var x = doc.body.innerText; 
+                                           var root = document.getElementById(id);
+                                        //   //root.append(x)
+                                         
+                                        //  var t = document.createElement('template');
+                                        //  var d = document.createElement('div');
+                                        //  t.innerHTML = x;
+                                        //  d.append(t.content);
+                                         html = $.parseHTML(x);
+                                        
+                                        $(root).append(html); 
+                                        </script>
+                                      </tr>
+                                      <% } )%>
+               
+                                      <%} %>
+                                    </tbody>
+                                </table>
+                             
+                                    </p>
+                                         </div>
+                                </div>
+                          
+                      
+                        
+                      
+               
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <%- include ('./partials/footeradmin') %>
+
+  <!-- Vendor JS Files -->
+  <script src="../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../../assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../../assets/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "misaleTOT",
+  "version": "1.0.0"  ,
+  "description": "Dirving Licence Online Examination  System ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Abient Tefera",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
+    "ejs-include-regex": "^1.0.0",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-fileupload": "^1.2.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.10.0",
+    "mysql2": "^3.2.0",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.29.3",
+    "syntax-error": "^1.4.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "validator": "^13.5.2"
+  }
+}

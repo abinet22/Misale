@@ -1,0 +1,755 @@
+<html lang="en" class="ie_11_scroll">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login</title>
+    
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../css/templatemo_style.css">
+        <link rel="stylesheet" href="../../css/radio.scss">
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="favicon.png" />
+   <style>
+    /* Style the form */
+#regForm {
+  background-color: #ffffff;
+  margin: 10px auto;
+  padding: 5px;
+  width: 100%;
+  min-width: 300px;
+}
+
+/* Style the input fields */
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #04AA6D;
+}
+   </style>
+
+<style>
+
+.content{
+  margin: auto;
+  padding: 15px;
+  max-width: 800px;
+  text-align: center;
+}
+.dpx{
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+}
+h1{
+  font-size:28px;
+  line-height:28px;
+  margin-bottom:15px;
+}
+label{
+  display:block;
+  line-height:40px;
+}
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #40e0d0;
+}
+.option-input:checked::before {
+  width: 40px;
+  height: 40px;
+  display:flex;
+  content: '\f00c';
+  font-size: 25px;
+  font-weight:bold;
+  position: absolute;
+  align-items:center;
+  justify-content:center;
+  font-family:'Font Awesome 5 Free';
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #40e0d0;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 10%;
+}
+.option-input.radio::after {
+  border-radius: 10%;
+}
+
+
+
+
+
+
+</style>
+<style>
+
+
+ #clockdiv{
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+}
+#clockdiv > div{
+    padding: 5px;
+    border-radius: 3px;
+    background: #00BF96;
+    display: inline-block;
+}
+#clockdiv div > span{
+    padding: 5px;
+    border-radius: 3px;
+    background: #00816A;
+    display: inline-block;
+}
+smalltext{
+    padding-top: 5px;
+    font-size: 16px;
+}
+</style>
+   
+    </head>
+    <body>
+      
+    
+        <!-- Top menu -->
+        <div class="show-menu">
+            <a href="#" class=""><i class="fa fa-list"></i></a>
+        </div>
+        <nav class="main-menu shadow-top-down">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/dashboard" class="scroll_effect">Home</a></li>
+                <li><a href="/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+               
+                <li><a href="/logout" class="scroll_effect">Logout</a></li>
+            </ul>
+        </nav>
+     
+       <section id="contact" style="margin-top: 150px; ">
+        <div class="container">
+    
+           
+          <div class="alert alert-success alert-dismissible" role="alert">
+            NOTIFICATIONS BOARD:<br>  <%= successmsg %> <br>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <!--Grid row-->
+            <div class="row gx-xl-5">
+              
+                
+      
+                <!--Grid column-->
+              
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-xl-4 mb-5 pl-xl-4 d-none d-lg-block">
+      
+                  <style>
+        .alert-services {
+          background-color: #00BF96;
+          color: hsl(219, 56.1%, 95%)!important;
+          opacity: 0.95;
+          max-height: 177px;
+          border-radius: 0.5rem;
+          min-width: 184px;
+          box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%);
+        }
+      
+        .alert-services-background {
+          border-radius: 0.5rem;
+        }
+      </style>
+      <style>
+
+#clockdiv{
+  font-family: sans-serif;
+  color: #fff;
+  display: inline-block;
+  font-weight: 100;
+  text-align: center;
+  font-size: 30px;
+}
+
+#clockdiv > div{
+  padding: 10px;
+  border-radius: 3px;
+  background: #00BF96;
+  display: inline-block;
+}
+
+#clockdiv div > span{
+  padding: 15px;
+  border-radius: 3px;
+  background: #00816A;
+  display: inline-block;
+}
+
+.smalltext{
+  padding-top: 5px;
+  font-size: 16px;
+}
+      </style>
+       <a class="card card-image alert-services-background mb-5 d-none d-lg-flex" style="min-height:150px;;margin-bottom: 1rem;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5 d-none d-lg-block" style="font-weight: 900;"><i class="fas fa-pause"></i> &nbsp; Exam Started</h2>
+            
+         <div id="clockdiv">
+             
+                <div>
+                  <span class="hours" id="hour"></span>
+                  <div class="smalltext">Hours</div>
+                </div>
+                <div>
+                  <span class="minutes" id="minute"></span>
+                  <div class="smalltext">Minutes</div>
+                </div>
+                <div>
+                  <span class="seconds" id="second"></span>
+                  <div class="smalltext">Seconds</div>
+                </div>
+               
+              </div>
+             </div>
+        </div>
+        <!-- Content -->
+      </a>
+      <div class="card forum-card-img-64 text-center mb-5">
+    
+        
+        <!--Avatar-->
+        <div class="card-body">
+         
+          <i class="fas fa-bell fa-2x"></i>   <span id="caps-lock-status" class=""></span>
+          </div>
+    
+    </div>
+    
+        <div class="card forum-card-img-64 text-center mb-5">
+            <!-- Card header -->
+            <div class="card-header border-0">የፈተና ጥያቄ ክፍል  
+            </div>
+            <hr class="m-0">
+            <!--Avatar-->
+            <div class="card-body">
+              <div class="row">
+                
+                <% if(question.length > 0) { %>
+                  <% var dt =0 %>
+                  <% question.forEach(function(row) {%>
+                    <% dt++ %>
+                    <span class="col-2" name="<%= dt %>">
+                      <a  onclick="showTab('<%= dt - 1%>');"> <%= dt %></a>
+                     
+                    </span>
+                  
+                <%})}%>
+              </div>
+            
+               
+               
+              </div>
+        
+        </div>
+        
+     
+      
+      
+                
+                  
+                    
+                </div>
+                <div class="col-xl-8 mb-lg-5 pr-xl-4">
+      
+                    <!-- Breadcrumbs Question -->
+                    <div class="card mb-5">
+                      <div class="card-body">
+                        <ol class="breadcrumb p-0 white font-weight-bold">
+                          <li class="breadcrumb-item">
+                              <a href="#"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
+                          </li>
+                          <li class="breadcrumb-item">
+                              <a href="#">
+                                የፈተና</a>
+                          </li>
+                          <li class="breadcrumb-item active">
+                              <a href="#">ጥያቄዎች </a>
+                          </li>
+                        </ol>
+                        <hr>
+                        <form id="regForm" action="/submitintranceexam" method="post">
+                       
+                          <input name="answer" value="" type="hidden">
+                            
+                                <% var qid;
+                                var xy; %>
+                                <% var w=0; %>
+                              <% if(question.length > 0) { %>
+                                 
+                                  <% qstn = question %>
+                                  <% question.forEach(function(row){ %>
+                                 
+                                  <% w++ %>
+                                      <%   qid = row.q_id  %>  
+                                      <%   xy = JSON.parse(JSON.stringify(row.question))  ; %>
+                                    
+                                      <div class="tab" id="<%= row.id %>">
+                                        <label><%=w %></label>
+                                  <div id="<%= row.q_id %>" class=""></div>
+<!--      
+                                  <label>A: <%= row.question_choiceA %></label><br>
+                                  <label>B: <%= row.question_choiceB %></label><br>
+                                  <label>C: <%= row.question_choiceC %></label><br> 
+                                  <label>D: <%= row.question_choiceD %></label><br>
+                                 -->
+                                 <div class='py'>
+                                  <label>
+                                 
+                                 <label for="<%= row.id %>">     <input type="radio" class="option-input radio" id="<%= w %>" name="<%= row.q_id %>" value="A">
+                                A:&nbsp;  <%= row.choice_a %></label>
+                                  <label for="<%= row.id %>"> <input type="radio" class="option-input radio" id="<%= w %>" name="<%= row.q_id %>" value="B">
+                                    B:&nbsp;   <%= row.choice_b %></label>
+                                  <label for="<%= row.id %>">  <input type="radio" class="option-input radio" id="<%= w %>" name="<%= row.q_id %>" value="C">
+                                    C:&nbsp;     <%= row.choice_c %></label>
+                                 <label for="<%= row.id %>">    <input type="radio" class="option-input radio" id="<%= w %>" name="<%= row.q_id %>" value="D">
+                                  D:&nbsp;  <%= row.choice_d %></label>
+                             
+                                </div>
+                                 <!-- <div class="col-xl-8 offset-xl-4">
+                                  <label>Answer:</label>
+                                   <input type="text" id="answer" name="<%= row.q_id %>" id="<%= row.id %>" class="form-control" pattern="[A-D]{1}" required><br>
+     
+                                 </div> -->
+                              
+                             <script>
+
+                                var q = '<%= xy %>'; 
+                                
+                                console.log()
+                                        var doc = new DOMParser().parseFromString(q, "text/html");
+                                                         
+                                
+                                    
+                                    var qid = '<%= qid  %>'; 
+                                    
+                                    var x = doc.body.innerText; 
+                                   var root = document.getElementById(qid);
+                                //   //root.append(x)
+                                 
+                                //  var t = document.createElement('template');
+                                //  var d = document.createElement('div');
+                                //  t.innerHTML = x;
+                                //  d.append(t.content);
+                                 html = $.parseHTML(x);
+                                
+                                $(root).append(html); 
+                                </script>
+                                </div>
+                              <%  })%>
+       
+                              <%} %>
+                          
+                         
+                            <script>
+                              const answerInput = document.getElementById('answer');
+answerInput.addEventListener('input', function() {
+  const value = this.value.toUpperCase();
+  const validValues = ['A', 'B', 'C', 'D'];
+  if (!validValues.includes(value)) {
+    this.setCustomValidity('Please enter a valid answer (A, B, C, or D)');
+  } else {
+    this.setCustomValidity('');
+  }
+});
+                            </script>
+                            <div style="overflow:auto;">
+                              <div style="float:right;">
+                                <button type="button" id="prevBtn" class="btn btn-outline-primary" onclick="nextPrev(-1)">Previous</button>
+                                <button type="button" id="nextBtn" class="btn btn-outline-primary" onclick="nextPrev(1)">Next</button>
+                              </div>
+                            </div>
+                            
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                              <% if(question.length > 0) { %>
+                                <% for(var w=0; w < question.length; w++) {%>
+                              <span class="step"></span>
+                             
+                             <%}}%>
+                            </div>
+                            
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
+                  </div>
+            </div>
+            <!--Grid row-->
+          
+        </div>
+       </section>
+       
+       <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Your Session Is Expired! </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+                The System Automatically Save And Close The Session In <span id="timer" class="clock_b2"></span> Seconds!
+            </div>
+            <div class="modal-footer">
+            <p>Please Wait Your Results!</p> 
+            </div>
+          </div>
+        </div>
+      </div>
+       <%- include ('./partials/footer') %>
+        <!-- require plugins -->
+        <script src="../../js/jquery.min.js"></script>
+        <script src="../../js/jquery-ui.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/jquery.parallax.js"></script>
+        <!-- template mo config script -->
+        <script src="../../js/templatemo_scripts.js"></script>
+        <script>
+           let answers = [];
+
+            var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+  var x = document.getElementsByClassName("tab");
+
+  x[n].style.display = "block";
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  }
+  else  {
+    document.getElementById("prevBtn").style.display = "inline";  
+    
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  // ... and run a function that displays the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+ 
+  // Hide the current tab:
+ 
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+ 
+
+
+   currentTab = currentTab + n;
+
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+ 
+  currentTab = parseInt(n)
+  var i, x = document.getElementsByClassName("step");
+  var z = document.getElementsByClassName("tab");
+  var selector = 'input[id="' + currentTab + '"]';
+
+// Get a list of all the radio buttons in the group
+var radios =document.querySelectorAll(selector);
+
+
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  
+    z[i].style.display = "none";
+ 
+  }
+  var myDivs = document.querySelectorAll('span[name="'+currentTab+'"]');
+ console.log(myDivs)
+
+  for (var i = 0; i < radios.length; i++) {
+  if (radios[i].checked) {
+    // One of the buttons is checked
+    const questionId = radios[i].name;
+    const answerValue = radios[i].value;
+    let cranaswer ={};
+    cranaswer[questionId] = answerValue;
+    const existingAnswerIndex = answers.findIndex(answer => answer[questionId] !== undefined);
+
+  if (existingAnswerIndex !== -1) {
+    // If an existing answer is found, replace it with the new answer
+    answers[existingAnswerIndex] = cranaswer;
+  } else {
+    // Otherwise, add the new answer to the array
+    answers.push(cranaswer);
+  }
+  const answerInput = document.querySelector('input[name="answer"]');
+  answerInput.value = JSON.stringify(answers);
+    myDivs[0].style.backgroundColor = "green";
+  }
+ 
+}
+
+  x[n].className += " active";
+  z[n].style.display = "block";
+  console.log(answers)
+}
+
+       
+document.addEventListener('keydown', function(event) {
+  // If the key pressed is the left arrow or the right arrow
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    // Deactivate the current tab
+  
+    // Increment or decrement the activeTabIndex based on the arrow key pressed
+    if (event.key === 'ArrowRight') {
+     nextPrev(1)
+    } else {
+      nextPrev(-1)
+    }
+ 
+    // Prevent the default behavior of the arrow key (e.g. scrolling the page)
+    event.preventDefault();
+  }else if (event.key === 'A' || event.key === 'B' || event.key === 'C' || event.key === 'D') {
+    var currentradio = currentTab +1 ;
+      var selector = 'input[id="' +  currentradio + '"]';
+
+      var radioButtons =document.querySelectorAll(selector);
+      console.log(radioButtons) // Do something, like log a message to the console or update the form based on the key pressed
+    if (event.key === 'A') {
+      console.log('Option A was selected');
+      for (let i = 0; i < radioButtons.length; i++) {
+      const radioButton = radioButtons[i];
+      if (radioButton.value === 'A') {
+        // Do something, like log a message to the console or update the form based on the selected radio button
+        radioButton.checked = true;
+        // Add code here to update the form based on Option D being selected
+        break;
+      }
+    }
+      // Add code here to update the form based on Option A being selected
+    } else if (event.key === 'B') {
+      console.log('Option B was selected');
+      for (let i = 0; i < radioButtons.length; i++) {
+      const radioButton = radioButtons[i];
+      if (radioButton.value === 'B') {
+        // Do something, like log a message to the console or update the form based on the selected radio button
+        radioButton.checked = true;
+        // Add code here to update the form based on Option D being selected
+        break;
+      }
+    }
+      // Add code here to update the form based on Option B being selected
+    } else if (event.key === 'C') {
+      console.log('Option C was selected');
+      for (let i = 0; i < radioButtons.length; i++) {
+      const radioButton = radioButtons[i];
+      if (radioButton.value === 'C') {
+        // Do something, like log a message to the console or update the form based on the selected radio button
+        radioButton.checked = true;
+        // Add code here to update the form based on Option D being selected
+        break;
+      }
+    }
+      // Add code here to update the form based on Option C being selected
+    } else if (event.key === 'D') {
+    
+    // Loop through the radio buttons and check if any of them are selected
+    for (let i = 0; i < radioButtons.length; i++) {
+      const radioButton = radioButtons[i];
+      if (radioButton.value === 'D') {
+        // Do something, like log a message to the console or update the form based on the selected radio button
+        radioButton.checked = true;
+        // Add code here to update the form based on Option D being selected
+        break;
+      }
+    }
+      // Add code here to update the form based on Option D being selected
+    }
+  }
+
+})
+       </script>
+     <script>
+      function isCapsLockOn(event) {
+  return event.getModifierState('CapsLock');
+}
+
+// Add an event listener for the keydown event
+document.addEventListener('keydown', function(event) {
+  // Check if the caps lock key is on
+  if (isCapsLockOn(event)) {
+    // Do something to visually indicate that the caps lock key is on, e.g. change the color of an element or show a message
+    const capsLockStatus = document.getElementById('caps-lock-status');
+    capsLockStatus.textContent = 'Caps Lock is On. You Can Use Your Keyboard To Answer';
+    capsLockStatus.classList.remove('bg-danger');
+    capsLockStatus.classList.add('bg-success');
+  }else{
+    const capsLockStatus = document.getElementById('caps-lock-status');
+    capsLockStatus.textContent = 'Please Turn On CapsLock To Use Your Keyboard To Answer';
+    capsLockStatus.classList.remove('bg-success');
+    capsLockStatus.classList.add('bg-danger');
+  }
+});
+     </script>
+       <script>
+               var deadline = new Date();
+                    deadline.setHours(deadline.getHours() + 1);
+                  // deadline.setSeconds(deadline.getSeconds() + 10);
+             console.log(deadline)  
+              
+                var x = setInterval(function() {
+                 
+                var now = new Date().getTime();
+
+                var t = deadline - now;
+               
+                var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+                var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((t % (1000 * 60)) / 1000);
+              
+                document.getElementById("hour").innerHTML =hours;
+                document.getElementById("minute").innerHTML = minutes; 
+                document.getElementById("second").innerHTML =seconds; 
+                if (t < 0) {
+                        clearInterval(x);
+                       
+                        document.getElementById("hour").innerHTML ='0';
+                        document.getElementById("minute").innerHTML ='0' ; 
+                        document.getElementById("second").innerHTML = '0'; 
+                        $("#MyModal").modal("show");
+                            timer()
+                         
+                    }
+
+                }, 1000);
+             function timer(){
+
+               var secondSum = 10;
+            var time = setInterval(function(){
+                secondSum--;
+                if(secondSum == 0){
+                    location.reload();
+                }
+               
+                var second = secondSum;
+             
+                $('.clock_b2').html(second);
+            }, 1000)  
+             }
+        </script>
+      
+    
+       <script>
+              if (window.performance) {
+  console.info("window.performance works fine on this browser");
+}
+console.info(performance.navigation.type);
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  console.info( "This page is reloaded" );
+  window.location.href = '/logout';
+} else {
+  console.info( "This page is not reloaded");
+}
+        </script>
+            
+    </body>
+</html>

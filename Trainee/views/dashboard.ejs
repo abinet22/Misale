@@ -1,0 +1,334 @@
+
+<html lang="en" class="ie_11_scroll">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../css/templatemo_style.css">
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="favicon.png" />
+   
+    </head>
+    <body>
+        <!-- Top menu -->
+        <div class="show-menu">
+            <a href="#" class=""><i class="fa fa-list"></i></a>
+        </div>
+        <nav class="main-menu shadow-top-down">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/dashboard" class="scroll_effect">Home</a></li>
+                <li><a href="/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+               
+                <li><a href="/logout" class="scroll_effect">Logout</a></li>
+            </ul>
+        </nav>
+     
+       <section id="contact" style="margin-top: 150px; ">
+        <div class="container">
+    
+     
+       <div class="alert alert-success alert-dismissible" role="alert">
+        NOTIFICATIONS BOARD:<br>  Your Selected Language Preference Is <%= language %>. <br>All Question Will Be In Selected Language <%= language %>!
+        <%= successmsg %>
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+            <!--Grid row-->
+            <div class="row gx-xl-5">
+              
+                
+      
+                <!--Grid column-->
+                <div class="col-xl-8 mb-lg-5 pr-xl-4">
+      
+                  <!-- Breadcrumbs Question -->
+                  <div class="card mb-5">
+                    <div class="card-body">
+                      <ol class="breadcrumb p-0 white font-weight-bold">
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">የፈተና</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="#">መመሪያ </a>
+                        </li>
+                      </ol>
+                      <hr>
+                      <strong>Guide:</strong> <br>
+                    <small>
+                      Familiarize yourself with the system: Take the time to read through any documentation or user guides provided by the examination system to get a better understanding of how it works. Make sure you know how to navigate through the system and perform all the necessary functions.
+
+                      <br>Test your system: Before taking your exam, make sure your computer or mobile device is compatible with the examination system. Test your internet connection and make sure you have a stable and reliable connection.
+                      
+                      <br> Prepare for the exam: Just like with any other exam, make sure you study and prepare thoroughly for the driving license assessment system exam. Review the driver's handbook for your state or country, and practice driving in different road conditions.
+                      
+                      <br> Be aware of time constraints: Keep in mind that online exams are often timed, so make sure you manage your time effectively. Try to pace yourself so you have enough time to complete all the questions without rushing.
+                      
+                      <br>Stay focused: Avoid distractions while taking your exam. Find a quiet and comfortable place to take the exam and eliminate any potential interruptions.
+                      
+                      <br> Follow the rules: Make sure you follow all the rules and regulations set forth by the examination system. Don't try to cheat or manipulate the system in any way, as this can result in disqualification or other penalties.
+                      
+                      <br>  Seek help if needed: If you encounter any technical issues or have questions about the exam, don't hesitate to seek help. Contact the examination system's support team for assistance.
+
+                    </small>
+                    </div>
+                  </div>
+                  
+                  
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-xl-4 mb-5 pl-xl-4 d-none d-lg-block">
+      
+                  <style>
+        .alert-services {
+          background-color: #3B71CA;
+          color: hsl(219, 56.1%, 95%)!important;
+          opacity: 0.95;
+          max-height: 177px;
+          border-radius: 0.5rem;
+          min-width: 184px;
+          box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%);
+        }
+      
+        .alert-services-background {
+          border-radius: 0.5rem;
+        }
+      </style>
+       <!-- <a href="/exam" class="card card-image alert-services-background mb-5 d-none d-lg-flex" style="min-height:90px;;margin-bottom: 1rem;">
+        <!-- Content -->
+        <!-- <div class="text-white d-flex align-items-center alert-services py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5 d-none d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; START EXAM</h2>
+             </div>
+        </div>
+       
+      </a>  -->
+      <a href="/practiceexam" class="card  bg-success mb-2 d-none d-lg-flex" style="min-height:90px;;margin-bottom: 1rem;background-color: aqua;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center  py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5 d-none d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; የልምምድ ፈተና ጀምር</h2>
+             </div>
+        </div>
+        <!-- Content -->
+      </a>
+      <button  data-toggle="modal" data-target="#exampleModal" class="btn btn-block btn-primary" style="min-height:90px;width: 100% ;margin-bottom: 1rem;">
+        <!-- Content -->
+        <div class="text-white d-flex align-items-center py-5 px-4">
+          <div>
+            <h2 class="fw-bold h5  d-lg-block" style="font-weight: 900;"><i class="fas fa-play"></i> &nbsp; START EXAMINATION TEHADSO</h2>
+             </div>
+        </div>
+        <!-- Content -->
+      </button>
+        <div class="card forum-card-img-64 text-center mb-5">
+            <!-- Card header -->
+            <div class="card-header border-0">የተጠቃሚ መለያ መረጃ</div>
+            <hr class="m-0">
+            <!--Avatar-->
+            <div class="mt-4">
+              <img src="https://s.gravatar.com/avatar/9a174ff9ee9bb921a7d96a115e6f1e74?s=96&amp;d=mm&amp;r=g" alt="" class="rounded-circle mr-2">
+            </div>
+            <div class="card-body">
+              <!--Name-->
+              <h5 class="card-title font-weight-bold">
+                <a href="#">
+                  <%= user.fullname %><br>
+                </a>
+                <span> <% if(config.length > 0) { %>
+                          
+                  <% config.forEach(function(row){ %>
+                    <%if(row.config_id === licence_type){ %>
+                      <%= row.config_name %>
+                    <% }} )%>
+  
+                    <%} %>
+                   </span><br>
+                   <span><b> <%= user.trainee_code %></b></span>
+              </h5>
+             
+              <!-- Gained badges -->
+              
+              
+
+              <!-- Support -->
+            
+            </div>
+          </div>
+          <div class="card mb-5">
+            <!-- Card header -->
+            <div class="card-header border-0">የመለያ ሁኔታ</div>
+            
+            <hr class="m-0">
+            <!--Card content-->
+            <div class="card-body">
+              <div class="w-100 d-flex justify-content-between">
+                <p class="mb-0 pt-2">
+                
+                  <a class="badge badge-primary mb-2">
+                    Active <i class="fas fa-thumbs-up mx-1"></i>
+                  </a>
+                  <br>
+                  <a href="#" class="badge badge-success mb-2 mr-2">
+                    Payed  <i class="fas fa-thumbs-up mx-1"></i>
+                  </a>
+                  <a href="#" class="badge badge-warning mb-2 mr-2">
+                    Receipt  <i class="fas fa-thumbs-up mx-1"></i> 
+                  </a>
+    
+                </p>
+                
+              </div>
+              
+            </div>
+          </div>
+         
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title">የንድፈ ሃሳባዊ ፈተና</h5>
+
+              <!-- Progress Bars with Striped Backgrounds-->
+             <% if(tm.length>0){ %>
+             <% tm.forEach( function(row){ %>
+                <% var tscore = row.tscore %>
+                <%if(tscore >74){ %>
+                  
+                  ሙከራ:&nbsp;  <%= row.attempt_no_theory %>
+                  <div class="progress mt-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: <%= row.tscore %>%" aria-valuenow="<%= row.tscore %>" aria-valuemin="0" aria-valuemax="100"><%= row.tscore %>%</div>
+                  </div>
+               <% }else{ %>
+
+                ሙከራ:&nbsp; <%= row.attempt_no_theory %>
+                <div class="progress mt-3">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: <%= row.tscore %>%" aria-valuenow="<%= row.tscore %>" aria-valuemin="0" aria-valuemax="100"><%= row.tscore %>%</div>
+                </div>
+             <% }})}else{} %>
+            
+            
+            </div>
+          </div>
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title">የተግባራዊ ፈተና</h5>
+
+              <% if(pm.length>0){ %>
+                <% pm.forEach( function(row){ %>
+                   <% var pscore = row.pscore %>
+                   <%if(pscore >74 ){ %>
+                     
+                    ሙከራ:&nbsp;  <%= row.attempt_no %>
+                     <div class="progress mt-3">
+                       <div class="progress-bar bg-success" role="progressbar" style="width: <%= row.pscore %>%" aria-valuenow="<%= row.pscore %>" aria-valuemin="0" aria-valuemax="100"><%= row.pscore %>%</div>
+                     </div>
+                  <% }else{ %>
+   
+                    ሙከራ:&nbsp; <%= row.attempt_no %>
+                   <div class="progress mt-3">
+                     <div class="progress-bar bg-danger" role="progressbar" style="width: <%= row.pscore %>%" aria-valuenow="<%= row.pscore %>" aria-valuemin="0" aria-valuemax="100"><%= row.pscore %>%</div>
+                   </div>
+                <% }})}else{} %>
+               
+               
+            </div>
+          </div>
+      <style>
+        .dc-content-animation {
+          height: 20px;
+          width: 50%;
+          display: inline-block;
+          animation: placeholderPulse 1s infinite ease-in-out;
+          -webkit-animation: placeholderPulse 1s infinite ease-in-out;
+        }
+        @keyframes placeholderPulse {
+          0% {
+            background-color: rgba(133, 214, 251, .1);
+            color: rgba(133, 214, 251, .1);
+          }
+          50% {
+            background-color: rgba(133, 214, 251, .3);
+            color: rgba(133, 214, 251, .3);
+          }
+          100% {
+            background-color: rgba(133, 214, 251, .1);
+            color: rgba(133, 214, 251, .1);
+          }
+        }
+      </style>
+      <!-- <div class="position-relative mb-5 d-none d-lg-flex" style="min-height:175px;margin-bottom: 1rem;">
+        <div class="position-absolute w-100 justify-content-center">
+          <div class="border border-info shadow-0 rounded overflow-hidden" style="border-color: rgba(133, 214, 251, .3) !important;">
+            <span class="dc-content-animation mx-2 mb-2 mt-3" style="width: 40%;"></span>
+            <span class="dc-content-animation mx-2 mb-1" style="width: 70%;"></span>
+            <span class="dc-content-animation mx-2 mb-1"></span>
+            <span class="dc-content-animation mx-2 mb-1" style="width: 80%;"></span>
+            <span class="dc-content-animation mx-2 mb-1" style="width: 70%;"></span>
+          </div>
+        </div>
+        
+        <div id="gtmDC-scroll-unlogged" style="min-height:1px;width:100%" data-gtm-vis-recent-on-screen-2340190_2000="1360" data-gtm-vis-first-on-screen-2340190_2000="1360" data-gtm-vis-total-visible-time-2340190_2000="100" data-gtm-vis-has-fired-2340190_2000="1" data-gtm-vis-recent-on-screen-2340190_2038="1372" data-gtm-vis-first-on-screen-2340190_2038="1372" data-gtm-vis-total-visible-time-2340190_2038="100" data-gtm-vis-has-fired-2340190_2038="1" data-gtm-vis-recent-on-screen-2340190_2123="1382" data-gtm-vis-first-on-screen-2340190_2123="1382" data-gtm-vis-total-visible-time-2340190_2123="100" data-gtm-vis-has-fired-2340190_2123="1" data-gtm-vis-recent-on-screen-2340190_2477="1397" data-gtm-vis-first-on-screen-2340190_2477="1397" data-gtm-vis-total-visible-time-2340190_2477="100" data-gtm-vis-has-fired-2340190_2477="1" data-gtm-vis-recent-on-screen-2340190_2481="1415" data-gtm-vis-first-on-screen-2340190_2481="1415" data-gtm-vis-total-visible-time-2340190_2481="100" data-gtm-vis-has-fired-2340190_2481="1" data-gtm-vis-recent-on-screen-2340190_2482="1426" data-gtm-vis-first-on-screen-2340190_2482="1426" data-gtm-vis-total-visible-time-2340190_2482="100" data-gtm-vis-has-fired-2340190_2482="1" data-gtm-vis-recent-on-screen-2340190_2483="1437" data-gtm-vis-first-on-screen-2340190_2483="1437" data-gtm-vis-total-visible-time-2340190_2483="100" data-gtm-vis-has-fired-2340190_2483="1" data-gtm-vis-recent-on-screen-2340190_2510="1445" data-gtm-vis-first-on-screen-2340190_2510="1445" data-gtm-vis-total-visible-time-2340190_2510="100" data-gtm-vis-has-fired-2340190_2510="1" data-gtm-vis-recent-on-screen-2340190_2518="1461" data-gtm-vis-first-on-screen-2340190_2518="1461" data-gtm-vis-total-visible-time-2340190_2518="100" data-gtm-vis-has-fired-2340190_2518="1" data-gtm-vis-recent-on-screen-2340190_2527="1475" data-gtm-vis-first-on-screen-2340190_2527="1475" data-gtm-vis-total-visible-time-2340190_2527="100" data-gtm-vis-has-fired-2340190_2527="1" data-gtm-vis-recent-on-screen-2340190_2530="1489" data-gtm-vis-first-on-screen-2340190_2530="1489" data-gtm-vis-total-visible-time-2340190_2530="100" data-gtm-vis-has-fired-2340190_2530="1" data-gtm-vis-recent-on-screen-2340190_2532="1508" data-gtm-vis-first-on-screen-2340190_2532="1508" data-gtm-vis-total-visible-time-2340190_2532="100" data-gtm-vis-has-fired-2340190_2532="1" data-gtm-vis-recent-on-screen-2340190_2549="1529" data-gtm-vis-first-on-screen-2340190_2549="1529" data-gtm-vis-total-visible-time-2340190_2549="100" data-gtm-vis-has-fired-2340190_2549="1" data-gtm-vis-recent-on-screen-2340190_2594="1537" data-gtm-vis-first-on-screen-2340190_2594="1537" data-gtm-vis-total-visible-time-2340190_2594="100" data-gtm-vis-has-fired-2340190_2594="1" data-gtm-vis-recent-on-screen-2340190_2604="1542" data-gtm-vis-first-on-screen-2340190_2604="1542" data-gtm-vis-total-visible-time-2340190_2604="100" data-gtm-vis-has-fired-2340190_2604="1" data-gtm-vis-recent-on-screen-2340190_2606="1547" data-gtm-vis-first-on-screen-2340190_2606="1547" data-gtm-vis-total-visible-time-2340190_2606="100" data-gtm-vis-has-fired-2340190_2606="1" data-gtm-vis-recent-on-screen-2340190_2546="10926184" data-gtm-vis-first-on-screen-2340190_2546="10926184" data-gtm-vis-total-visible-time-2340190_2546="1000" data-gtm-vis-has-fired-2340190_2546="1"><a id="newDC-free1-download" href="https://mdbootstrap.com/docs/react/getting-started/installation/" style="transition: opacity 500ms ease-in 0s; opacity: 1;"><div class="px-3 alert alert-light bg-white white overflow-hidden d-flex align-items-center justify-content-center ripple mb-0" style="border: 1px solid rgb(20, 163, 77); height: 177px; border-radius: 0.5em; background-color: rgb(251, 251, 251);"><div><p><strong>700+</strong> beautiful elements &amp; themes. <strong>MIT license</strong>, no registration or email required.</p><span role="button" class="btn btn-sm btn-block" style="box-shadow: none; color: rgb(39, 144, 81); background-color: rgb(227, 247, 235);">Free download</span></div></div></a></div>
+        
+      </div> -->
+      
+                
+                  
+                    
+                </div>
+           
+            </div>
+            <!--Grid row-->
+          
+        </div>
+       </section>
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+       <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/exam/<%= language %>" method="GET">
+
+                 <span>
+                  የመንጃ ፍቃድ ፈተናዎን ከመጀመርዎ በፊት እባክዎ ጸጥ ያለ እና ትኩረትን የማከፋፍል አካባቢ ውስጥ መሆንዎን ያረጋግጡ።
+                  መሳሪያዎ ሙሉ በሙሉ የተረጋጋ የበይነመረብ ግንኙነት እንዳለው ያረጋግጡ። ለማረጋገጫ መንጃ ፈቃድዎን እና ማንኛቸውም አስፈላጊ የሆኑ መታወቂያ ሰነዶችን ያዘጋጁ። መልስዎን ከመምረጥዎ በፊት ጊዜዎን ይውሰዱ እና እያንዳንዱን ጥያቄ በጥንቃቄ ያንብቡ። መልካም ምኞት!
+                </span>
+             </div>
+            <div class="modal-footer">
+              <button type="button" class="close btn btn-outline-primary btn-sm" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">Close</span>
+              </button>
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>START NOW</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
+       <%- include ('./partials/footer') %>
+        <!-- require plugins -->
+        <script src="../../js/jquery.min.js"></script>
+        <script src="../../js/jquery-ui.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/jquery.parallax.js"></script>
+        <!-- template mo config script -->
+        <script src="../../js/templatemo_scripts.js"></script>
+    </body>
+</html>

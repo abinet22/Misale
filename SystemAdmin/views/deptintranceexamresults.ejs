@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <link rel="stylesheet" href=
+"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity=
+"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+        crossorigin="anonymous">
+  
+    <!-- Import jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity=
+"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous">
+    </script>
+      
+    <script src=
+"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity=
+"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous">
+    </script>
+  <!-- Favicons -->
+  <link href="../../assets/img/favicon.png" rel="icon">
+  <link href="../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../../assets/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <%- include ('./partials/headerdept') %>
+  <!-- ======= Sidebar ======= -->
+ <%- include ('./partials/sidedept') %>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Intrance Exam Results</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item">Manage TOT(Trainee) Data</li>
+          <li class="breadcrumb-item active">TOT(Trainee) Intrance Exam Results</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+           <%- include('./partials/messages') %>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Intrance Exam Results</h5>
+           
+              <!-- Table with stripped rows -->
+              <table class="table datatable table-responsive">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                   
+                    <th scope="col">Name</th>
+                    <th scope="col">Code</th>
+                   
+                    <th scope="col">Gender/Age</th>
+
+                    <th scope="col">Education Category</th>
+                  
+                    <th scope="col">Is Selected</th>
+                    <th scope="col">Application Date</th>
+                    <th scope="col">Practical</th>
+                    <th scope="col">Theoretical</th>
+                  
+                    <th scope="col">PASS|FAIL</th>
+
+                    <th scope="col">Action</th>
+                   
+                  
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(trainee.length > 0) { %>
+                    <% var i =0 %>
+                    <% trainee.forEach(function(row){ %>
+                        <% i++ %>
+                        <tr>
+                          <th scope="row"><%= i %></th>
+                        
+                          <td><%= row.fullname %></td>
+                          <td><span style="font-weight: 600; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><%= row.trainee_code %></span></td>
+                         
+                         
+                         
+                          <td><%= row.gender %>/<%= row.age %></td>
+                        
+                          <% var edu = row.licence_type %>
+                          <td> <% if(config.length > 0) { %>
+                          
+                            <% config.forEach(function(row){ %>
+                              <%if(row.config_id==edu){ %>
+                                <%= row.config_name %>
+                              <% }} )%>
+           
+                              <%} %></td>
+                        
+                           <td><%= row.is_selected %></td>
+                          <td><%= new Date(row.createdAt).toLocaleDateString()  %></td>
+                          <td><%= row.practical_result %></td>
+                          <td><%= row.theory_result %></td>
+                            <% var total = parseInt(row.theory_result ) + parseInt(row.practical_result) %>
+                          <td>
+                            <% if(parseInt(row.theory_result ) > 60 && parseInt(row.practical_result) >75) { %>
+                                PASS
+                            <% }else{%>
+                                FAIL
+                            <%} %>
+                          </td>
+                           <td>
+                            <% if(parseInt(row.theory_result ) > 60 && parseInt(row.practical_result) >75) { %>
+                                <form action="/dept/sendapplicanttoregisternewtot/<%= row.uniqueid %>" method="post">
+                                    <button class="btn btn-sm btn-outline-info" type="submit" >Select To Register </button>
+                           
+                                  </form>
+                            <% }else{%>
+                                <button class="btn btn-sm btn-outline-info" type="" >Trainee Failed </button>
+                                <!-- <form action="/dept/sendapplicanttoregisternewtot/<%= row.uniqueid %>" method="post">
+                                  <button class="btn btn-sm btn-outline-info" type="submit" >Select To Register </button>
+                         
+                                </form> -->
+                            <%} %>
+                          
+                         </td>
+                         </tr>
+                   <% } )%>
+           
+              <%} %>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <%- include ('./partials/footeradmin') %>
+  <div class="modal fade" id="addBookDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <h4 class="modal-title">Enter Reciept Number To Add Payment</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal">X</button> -->
+        </div>
+   <form action="/office/activatetottraineeaccount" method="post">
+    <div class="modal-body">
+      <small class="">Payement Type.</small>
+      <select class="form-control form-control-sm mt-2" name="paymenttype" >
+        <option value="0">Select Payment Type First</option>
+        <option>Training</option>
+        <option>Certificate</option>
+      </select>
+      <small class="mt-2 mb-5"> AddReciept No Here.</small>
+      <input type="hidden" class="js-toggler__input" value="" name="traineeId" id="traineeId" >
+      <input class="form-control form-control-sm" name="receipt_no" type="text">
+    
+        </div>
+         <div class="modal-footer">
+             <button type="submit" class="btn btn-sm btn-outline-primary">Save</button>
+        </div>
+   </form>
+    </div>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+ 
+
+  <script>
+    $(document).on("click", ".open-AddBookDialog", function (e) {
+
+e.preventDefault();
+
+var _self = $(this);
+
+var myBookId = _self.data('id');
+$("#traineeId").val(myBookId);
+
+$(_self.attr('href')).modal('show');
+});
+  </script>
+  <!-- Vendor JS Files -->
+  <script src="../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../../assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../../assets/js/main.js"></script>
+
+</body>
+
+</html>

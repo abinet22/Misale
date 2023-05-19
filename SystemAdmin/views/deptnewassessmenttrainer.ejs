@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../../../assets/img/favicon.png" rel="icon">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <script src="../../../assets/vendor/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../../../assets/css/style.css" rel="stylesheet">
+  <script>
+    tinymce.init({
+selector: 'textarea#default-editor'
+});
+</script>
+<style>
+
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #40e0d0;
+}
+.option-input:checked::before {
+  width: 40px;
+  height: 40px;
+  display:flex;
+  content: '\f00c';
+  font-size: 25px;
+  font-weight:bold;
+  position: absolute;
+  align-items:center;
+  justify-content:center;
+  font-family:'Font Awesome 5 Free';
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #40e0d0;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 10%;
+}
+.option-input.radio::after {
+  border-radius: 10%;
+}
+
+
+
+
+
+
+</style>
+</style>
+</head>
+
+<body>
+
+
+  <!-- ======= Sidebar ======= -->
+  <%- include ('./partials/headerdept') %>
+  <!-- ======= Sidebar ======= -->
+ <%- include ('./partials/sidedept') %>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Add New Question</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item">TOT(TRAINEE) SETTING</li>
+          <li class="breadcrumb-item">Manage TOT Practical Assessement</li>
+          <li class="breadcrumb-item active">Add Practical Assessment Checklist</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+     
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Add Practical Assessment Checklist Form</h5>
+
+        <form action="/dept/deptaddnewtrainerpracticalasschecklist"   method="post" >
+            <div class="row">
+                
+        <%- include ('./partials/messages') %>
+        <div class="col-lg-12">
+            <label><small>Main Check List Here:-</small></label>
+            <div class="form-group">
+              
+                <textarea name="mainchecklist"  class="form-control"  id="mainchecklist" rows="2"  ></textarea>
+                <!-- <textarea class="form-control" aria-label="With textarea"></textarea> -->
+              </div>
+              <br>
+              <label><small>Add Sub Ckeck List Here:-</small></label>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-sm  btn-info" id="addchocie"  type="button">Add Sub Checklist</button>
+                    
+                        </div>
+                   <input type="text" class="form-control " autocomplete="off"  name="criteria"  id="criteria" placeholder="Please Add Sub Check List here!">
+                   <input type="number" class="form-control " autocomplete="off"  name="criteriavalue"  id="criteriavalue" placeholder="Please Add Point Here!">
+          
+                      </div>
+                    </div>
+                  
+                  </div>
+                
+                </div>
+              </div>
+              <div class="row">
+                <label><small>Sub Check List</small><code><button type="button" class="btn btn-sm btn-link" onclick="myFunction2()">Remove To Change</button></code><i class="input-helper"></i></label>
+                   
+                <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                  <ul class="" id="listchoice">
+                   
+                  </ul>
+                </div>
+              </div>
+            
+              <input type="hidden" id="subchecklist" name="subchecklist">
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label"><small>Total Point</small></label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" min="0" max="100" autocomplete="off" name="totalpoint">
+           
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Check List For?</label>
+                <div class="col-sm-10">
+                  <select class="form-select" name="technicianpart" aria-label="Default select example">
+                    <option value="0">Please Select Check List Purpose</option>
+                    <option value="Intrance">Intrance (የመግቢያ ፈተና)</option>
+                    <option value="Training">Training Others (አሰለጣጠን)</option>
+                    <option value="Examining">Examine Others (አፈታተን)</option>
+                    <option value="Presentation">Presentation (አቀራረብ)</option>
+                    <option value="Project">Project (ፕሮጀክት)</option>
+                    <option value="ExitExam">Exit Exam(የመውጫ ፈተና)</option>
+                    <option value="Obstacle_Course_Preparation">Obstacle Course Preparation(የመሰናክል ሜዳ  አዘገጃጀት
+                      )</option>
+                    <option value="Vehicle_Examination"> Vehicle Examination (የተሽከርካሪ ምርመራ
+                      )</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"></h5>
+        
+                      <!-- Default Accordion -->
+                      <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                             Education Category
+                            </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                            <div class="accordion-body">
+                              
+                              <label>
+                                <input type="radio" class="option-input radio" id="education" name="education" value="All">
+                                     All
+                              </label> 
+                              <div class='py'>
+                                <% if(config.length > 0) { %>
+                                  <% var i =0 %>
+                                  <% config.forEach(function(row){ %>
+                                      <% i++ %>
+                                    
+                                          <% var type = row.config_type %>
+                                          <% if(type == "Education") {%>
+                                        
+                                          <label for="<%= row.id %>">     <input type="radio" class="option-input radio" id="education" name="education" value="<%= row.config_id %>">
+                                            <%= row.config_name %></label>
+                                 <% } } )%>
+                         
+                            <%} %>
+                               
+                            
+                              
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      
+                      </div><!-- End Default Accordion Example -->
+        
+                    </div>
+                  </div>
+               
+            </div>
+            <div class="col-md-6 offset-md-2">
+            
+              <button class="btn btn-outline-primary btn-sm btn-block" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+             </form>
+           
+     
+        
+   
+        </div>
+
+       
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<%- include ('./partials/footeradmin') %>
+  <!-- Vendor JS Files -->
+  <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+ <script src="../../../assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../../../assets/js/main.js"></script>
+  <script>
+                 
+                 let criteriaArr = [];
+
+               $("#addchocie").on("click", function(e){
+                const criteriaInput = document.getElementById("criteria");
+  const criteriaValueInput = document.getElementById("criteriavalue");
+                 
+              if(!criteriaInput.value && !criteriaValueInput.value)
+              {
+
+              }
+              else
+              {
+             
+  const id = parseInt(criteriaArr[criteriaArr.length - 1]?.id || 0) + 1; // get the last item id and increase it by 1 or start with 1 if empty
+  const point = parseInt(criteriaValueInput.value);
+  const criteria = { id: id, point: point, name: criteriaInput.value };
+  criteriaArr.push(criteria);
+             //criarry.push(criteria);
+              // $('#criteria').val([criteria]);
+              $('#subchecklist').val( JSON.stringify(criteriaArr) );
+              console.log(criteriaArr);
+            
+$("#listchoice").append("<li><input type='checkbox' id="+ id +" class='form-check-input' checked >"+ $("#criteria").val() + "("+$("#criteriavalue").val() +")"+"</li>");
+criteriaInput.value = ""; // clear input values
+    criteriaValueInput.value = "";
+return false;
+
+              }
+            
+});
+
+             </script>
+  <script>
+    var value = $('#value').val()
+ 
+   $('textarea#question').summernote('pasteHTML', value);
+
+  </script>
+<script>
+$(document).ready(function() {
+$('#summernote').summernote({
+  toolbar:[
+
+    // This is a Custom Button in a new Toolbar Area
+    ['custom', ['examplePlugin']],
+
+    // You can also add Interaction to an existing Toolbar Area
+    ['style', ['style' ,'examplePlugin']]
+  ]
+});
+});
+$('.summernote').summernote({
+height: 300,   //set editable area's height
+codemirror: { // codemirror options
+  theme: 'monokai'
+}
+});
+</script>
+
+<script>
+
+  function myFunction2() {
+    criteriaArr =[]; 
+    i = 64;
+    const list = document.getElementById("listchoice");
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+
+    }
+  }
+  </script>
+</body>
+
+</html>
