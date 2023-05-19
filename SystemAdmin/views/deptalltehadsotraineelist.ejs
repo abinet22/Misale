@@ -44,7 +44,7 @@
       <h1>Candidate(Tehadso) Data</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Candidate(Tehadso) Data</li>
           <li class="breadcrumb-item active">All Candidate(Tehadso) Data</li>
         </ol>
@@ -134,7 +134,7 @@
                           
                           </td>
                          <td>
-                          <form action="/dept/showassessementhistory/<%= row.trainee_code %>" method="post"> 
+                          <form action="/misaleacadamy/dept/showassessementhistory/<%= row.trainee_code %>" method="post"> 
                             <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Detail</button>
                           </form>
                                               
@@ -142,14 +142,14 @@
                          <td >
 
                           <% if(tscore >= 74 && pscore >= 74) { %>
-                            <form action="/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
+                            <form action="/misaleacadamy/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
                               <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? row.attempt_no_theory : 0%>">
                               <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? row.attempt_no : 0 %>">
                               <input type="hidden" name="ispassfail" value="PASS">
                                <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Update Score Pass</button>
                             </form>
                             <% }else if(tscore < 74 || pscore < 74) { %>
-                              <form action="/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
+                              <form action="/misaleacadamy/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
                                 <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? row.attempt_no_theory : 0%>">
                                 <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? row.attempt_no : 0 %>">
                                 <input type="hidden" name="ispassfail" value="FAIL">

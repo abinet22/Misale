@@ -148,6 +148,89 @@ router.post('/deptaddbatch', ensureAuthenticated, async function(req, res) {
    const fail = await db.Trainee.count({where:{pass_fail:'Failed'}});
    const pass = await db.Trainee.count({where:{pass_fail:'Passed'}});
    let errors =[];
+
+   const passcounts = await db.Trainee.findAll({
+    attributes: [
+      [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+      [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+    ],
+    where: {
+      pass_fail: 'PASS',
+      createdAt: {
+        [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+      }
+    },
+    group: [db.sequelize.literal('MONTH(createdAt)')],
+    raw: true
+  });
+  
+  const passarray = Array(12).fill(0);
+  
+  passcounts.forEach(count => {
+    passarray[count.month - 1] = count.count;
+  });
+  const failcounts = await db.Trainee.findAll({
+    attributes: [
+      [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+      [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+    ],
+    where: {
+      pass_fail: 'FAIL',
+      createdAt: {
+        [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+      }
+    },
+    group: [db.sequelize.literal('MONTH(createdAt)')],
+    raw: true
+  });
+  
+  const failarray = Array(12).fill(0);
+  
+  failcounts.forEach(count => {
+    failarray[count.month - 1] = count.count;
+  });
+  const regcounts = await db.Trainee.findAll({
+    attributes: [
+      [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+      [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+    ],
+    where: {
+    
+      createdAt: {
+        [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+      }
+    },
+    group: [db.sequelize.literal('MONTH(createdAt)')],
+    raw: true
+  });
+  
+  const regarray = Array(12).fill(0);
+  
+  regcounts.forEach(count => {
+    regarray[count.month - 1] = count.count;
+  });
+  const examcounts = await db.Trainee.findAll({
+    attributes: [
+      [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+      [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+    ],
+    where: {
+      attempt_count: {
+        [Op.gt]: 0    },
+      createdAt: {
+        [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+      }
+    },
+    group: [db.sequelize.literal('MONTH(createdAt)')],
+    raw: true
+  });
+  
+  const examarray = Array(12).fill(0);
+  
+  examcounts.forEach(count => {
+    examarray[count.month - 1] = count.count;
+  });
+
    const v1options = {
       node: [0x01, 0x23],
       clockseq: 0x1234,
@@ -161,7 +244,7 @@ router.post('/deptaddbatch', ensureAuthenticated, async function(req, res) {
    if(errors.length>0){
       
       res.render('dashboarddept',{errors,user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
-         alltraineepayed:alltraineepayed,
+         alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
          alltraineetakeexam:alltraineetakeexam});
    }else{
        const batch ={
@@ -172,23 +255,23 @@ router.post('/deptaddbatch', ensureAuthenticated, async function(req, res) {
        db.Batch.findOne({where:{batch_name:batchname}}).then(con=>{
          if(con){
             res.render('dashboarddept',{user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
-               alltraineepayed:alltraineepayed,
+               alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
                alltraineetakeexam:alltraineetakeexam,error_msg:'Batch With Name Already Create Exists'});
          
          }else{
             db.Batch.create(batch).then(config =>{
                if(config){
                   res.render('dashboarddept',{ pass:pass,fail:fail,alltrainee:alltrainee,
-                     alltraineepayed:alltraineepayed,
+                     alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
                      alltraineetakeexam:alltraineetakeexam,user:req.user,success_msg:'Create New Batch Successfully'});
                }else{
                   res.render('dashboarddept',{ pass:pass,fail:fail,alltrainee:alltrainee,
-                     alltraineepayed:alltraineepayed,
+                     alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
                      alltraineetakeexam:alltraineetakeexam,user:req.user,error_msg:'Cant Create Batch'});
                }
              }).catch(err =>{
                res.render('dashboarddept',{ pass:pass,fail:fail,alltrainee:alltrainee,
-                  alltraineepayed:alltraineepayed,
+                  alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
                   alltraineetakeexam:alltraineetakeexam,user:req.user,error_msg:'Cant Create Batch'});
              })
          }
@@ -829,12 +912,17 @@ console.log(err)
 });
 
 router.post('/uploadquestions',ensureAuthenticated,upload.single('questionsFile'),async function(req,res){
-
-const workbook = XLSX.readFile(req.file.path);
+   
+   const config = await db.Config.findAll({});
+   if(!req.file ){
+      res.render('deptaddtrainerquestion',{user:req.user,config:config,error_msg:'Cant Upload Questions Try Again'});
+   
+   }else {
+      const workbook = XLSX.readFile(req.file.path);
 const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-const config = await db.Config.findAll({});
+
 rows.shift(); // Remove header row
 const questions = rows.map(row => {
 const v1options = {
@@ -871,17 +959,24 @@ res.render('deptaddnewquestion',{user:req.user,config:config,success_msg:'New Qu
 console.error(err);
 res.render('deptaddnewquestion',{user:req.user,config:config,error_msg:'Cant Upload Questions Try Again'});
 
-}); 
+});} 
 })
 
 router.post('/uploadtrainerquestions',ensureAuthenticated,upload.single('questionsFile'),async function(req,res){
 
 const {asstype,courseupload} = req.body;
+
+const config = await db.Config.findAll({});
+if(!req.file || !asstype || !courseupload){
+   res.render('deptaddtrainerquestion',{asstype:asstype,user:req.user,config:config,error_msg:'Cant Upload Questions Try Again'});
+
+}
+else
+{
 const workbook = XLSX.readFile(req.file.path);
 const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-const config = await db.Config.findAll({});
 rows.shift(); // Remove header row
 const questions = rows.map(row => {
 const v1options = {
@@ -919,8 +1014,10 @@ res.render('deptaddtrainerquestion',{asstype:asstype,user:req.user,config:config
 console.error(err);
 res.render('deptaddtrainerquestion',{asstype:asstype,user:req.user,config:config,error_msg:'Cant Upload Questions Try Again'});
 
-}); 
+}); }
 })
+
+
 router.get('/deptnewassessmenttrainer',ensureAuthenticated,async function(req,res){
 const config = await db.Config.findAll({})
 res.render('deptnewassessmenttrainer',{user:req.user,config:config})

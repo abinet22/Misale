@@ -44,7 +44,7 @@
       <h1> TOT (Trainee) List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Appointment</li>
           <li class="breadcrumb-item active">Add New Appointment TOT (Trainee) Applicant</li>
         </ol>
@@ -153,7 +153,7 @@
                           </td>
                         
                          <td>
-                           <form action="/office/addnewappointmenttraineetrainerintrance" method="post">
+                           <form action="/misaleacadamy/office/addnewappointmenttraineetrainerintrance" method="post">
                             <input type="hidden" value="<%= row.trainee_code %>" name="traineeid">
                             <input type="hidden" value="TraineeTrainer" name="apptag">
                             <input class="form-control form-control-sm mb-1" name="appointmentdate" type="date" min="<%= (new Date()).toISOString().slice(0, 10) %>" max="2099-12-31">

@@ -44,7 +44,7 @@
       <h1>TOT Trainee Data</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Data</li>
           <li class="breadcrumb-item active">All Tehadso Trainee Data</li>
         </ol>
@@ -62,7 +62,7 @@
                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
                   <small class="">Filter Trainee  By Exam Date  <br>
                 </small>
-                  <form action="/dept/searchthehadsotraineebyexamdate"   method="post" >
+                  <form action="/misaleacadamy/dept/searchthehadsotraineebyexamdate"   method="post" >
                     <div class="row mt-2">
                         <div class="col-md-6">
                       From &nbsp; <input class="form-control form-control-sm" type="date" id="startDate" name="startDate">
@@ -162,7 +162,7 @@
                           <td><%= row.score5 %></td>
                           <td><%= row.practical_result %></td>
                         <td>
-                          <form action="/dept/showassessementhistory/<%= row.trainee_code %>" method="post"> 
+                          <form action="/misaleacadamy/dept/showassessementhistory/<%= row.trainee_code %>" method="post"> 
                             <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Detail</button>
                           </form>
                         </td>

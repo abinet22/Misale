@@ -44,7 +44,7 @@
       <h1>Practical Assessements List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">TOT(TRAINEE) SETTING</li>
           <li class="breadcrumb-item">Manage TOT Practial Assessements</li>
           <li class="breadcrumb-item active">All Practical Assessements List</li>
@@ -112,7 +112,7 @@
                           <td>
                             <%var isactive= row.is_active %>
                             <% if(isactive =='Yes') {%>
-                                <form method="post" action="/dept/diactivateassessment">
+                                <form method="post" action="/misaleacadamy/dept/diactivateassessment">
                                     <button class=" btn btn-sm btn-block btn-outline-danger" type="submit">DiActivate</button>
                                 </form>
                                 <%}else{%>
@@ -120,7 +120,7 @@
                                         <button class=" btn btn-sm btn-block btn-outline-success" type="submit">Activate</button>
                                     </form>
                                 <%}%>
-                                <form method="post" action="/dept/editassessment">
+                                <form method="post" action="/misaleacadamy/dept/editassessment">
                                    
                          <button class=" mt-2 btn btn-sm btn-block btn-outline-info" type="submit">Edit</button></td>
                         </form>

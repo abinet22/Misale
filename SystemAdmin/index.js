@@ -65,11 +65,11 @@ app.use(express.static(path.join(__dirname,'./public')));
 
 
 
-app.use('/', require('./routes/index'));
-app.use('/office', require('./routes/office'));
-app.use('/dept', require('./routes/dept'));
+app.use('/misaleacadamy', require('./routes/index'));
+app.use('/misaleacadamy/office', require('./routes/office'));
+app.use('/misaleacadamy/dept', require('./routes/dept'));
 
-app.use('/facilitator', require('./routes/facilitator'));
+app.use('/misaleacadamy/facilitator', require('./routes/facilitator'));
 // initialize our app
 // {force: true}
 db.sequelize.sync().then(() => {

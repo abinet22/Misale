@@ -7,9 +7,9 @@
         <title>Login</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/templatemo_style.css">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/templatemo_style.css">
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="favicon.png" />
       <style>
@@ -304,12 +304,12 @@ input[type=password]:placeholder {
         </div>
         <nav class="main-menu shadow-top-down">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="/#templatemo_home" class="scroll_effect">Home</a></li>
+                <li><a href="/misaleacadamy" class="scroll_effect">Home</a></li>
                 
-                <li><a href="/#help" class="scroll_effect">Help</a></li>
+                <li><a href="/misaleacadamy#help" class="scroll_effect">Help</a></li>
               
-                <li><a href="/#contact" class="scroll_effect">Contact</a></li>
-                <li><a href="/login" class="scroll_effect">Login</a></li>
+                <li><a href="/misaleacadamy#contact" class="scroll_effect">Contact</a></li>
+                <li><a href="misaleacadamy/login" class="scroll_effect">Login</a></li>
             </ul>
         </nav>
      
@@ -330,7 +330,7 @@ input[type=password]:placeholder {
             </div>
           <%- include ('./partials/messages') %>
             <!-- Login Form -->
-            <form action="/login" method="post">
+            <form action="/misaleacadamy/login" method="post">
               
               <input type="text" id="username" class="fadeIn second" autocomplete="off" name="username" placeholder="Enter User Name">
               <br>
@@ -341,18 +341,18 @@ input[type=password]:placeholder {
         
             <div id="">
                 <br>
-                <a class="underlineHover" href="/#help">Help?</a>
+                <a class="underlineHover" href="/misaleacadamy/#help">Help?</a>
               </div>
           </div>
         </div>
        </section>
        <%- include ('./partials/footer') %>
         <!-- require plugins -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.parallax.js"></script>
+        <script src="../../../js/jquery.min.js"></script>
+        <script src="../../../js/jquery-ui.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/jquery.parallax.js"></script>
         <!-- template mo config script -->
-        <script src="js/templatemo_scripts.js"></script>
+        <script src="../../../js/templatemo_scripts.js"></script>
     </body>
 </html>

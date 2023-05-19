@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="/dashboard" class="logo d-flex align-items-center">
+    <a href="/misaleacadamy/dashboard" class="logo d-flex align-items-center">
       <i class="fa fa-car text-primary me-2 fa-2x" ></i>
       <span class="d-none d-lg-block">Drivin <small>Admin</small></span>
     </a>
@@ -22,7 +22,7 @@
       <li class="nav-item dropdown pe-3">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
           <span class="d-none d-md-block dropdown-toggle ps-2"><%= user.username %></span>
         </a><!-- End Profile Iamge Icon -->
 
@@ -37,7 +37,7 @@
 
       
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="/dept/help">
+            <a class="dropdown-item d-flex align-items-center" href="/misaleacadamy/dept/help">
               <i class="bi bi-question-circle"></i>
               <span>Need Help?</span>
             </a>
@@ -51,7 +51,7 @@
           </li>
           
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="/logout">
+            <a class="dropdown-item d-flex align-items-center" href="/misaleacadamy/logout">
               <i class="bi bi-box-arrow-right"></i>
               <span>Log Out</span>
             </a>
@@ -70,7 +70,7 @@
           <div class="modal-header">
              <h4 class="modal-title">Change Password</h4>
           </div>
-     <form action="/dpt/updatepassword" method="post">
+     <form action="/misaleacadamy/dpt/updatepassword" method="post">
       <div class="modal-body">
         <label>Please Add Old Password</label>
          <input class="form-control" type="password" name="oldpassword">

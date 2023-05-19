@@ -44,7 +44,7 @@
       <h1>Batch List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Batch</li>
           <li class="breadcrumb-item active">All Batch List</li>
         </ol>
@@ -89,11 +89,11 @@
                                                  
                                   <td>
                                     <%if (row.is_current ==="Yes") { %>
-                                      <form action="/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
+                                      <form action="/misaleacadamy/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
                                         <button class="btn btn-sm btn-block btn-outline-danger">Make Not Current batch</button>
                                       </form>
                                    <%} else { %>
-                                    <form action="/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
+                                    <form action="/misaleacadamy/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
                                       <button class="btn btn-sm btn-block btn-outline-success">Make Current Batch</button>
                                     </form>
                                    <%} %>

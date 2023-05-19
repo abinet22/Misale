@@ -44,7 +44,7 @@
       <h1>Candidate(Tehadso) List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Appointment</li>
           <li class="breadcrumb-item active">Add New Appointment Candidate(Tehadso)</li>
         </ol>
@@ -114,7 +114,7 @@
                           <td><%= row.attempt_count %>/<%= row.attempt_count_prac %></td>
                         
                          <td>
-                            <form action="/office/addnewappointment" method="post">
+                            <form action="/misaleacadamy/office/addnewappointment" method="post">
                                 <input type="hidden" value="<%= row.uniqueid %>" name="traineeid">
                                 <input type="hidden" value="Trainee" name="apptag">
                                 <input class="form-control form-control-sm mb-1" name="appointmentdate" type="date" min="<%= (new Date()).toISOString().slice(0, 10) %>" max="2099-12-31">

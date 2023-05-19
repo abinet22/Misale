@@ -92,7 +92,7 @@
                       <div class="card-body">
                         <ol class="breadcrumb p-0 white font-weight-bold">
                           <li class="breadcrumb-item">
-                              <a href="/dashboard"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
+                              <a href="/misaleacadamy/dashboard"><i class="fa fa-car text-primary me-2" ></i>Drivin</a>
                           </li>
                           <li class="breadcrumb-item active">
                             <a href="#"> የ (<%= batchs.batch_name %>) </a>
@@ -252,7 +252,7 @@
     // Send the AJAX request to save the data
     $.ajax({
       type: 'POST',
-      url: '/saveprojectaccessment',
+      url: '/misaleacadamy/saveprojectaccessment',
       data: JSON.stringify(formData),
       contentType: 'application/json',
       dataType: 'json', // Set the data type to JSON
@@ -309,7 +309,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/activatetraineeaccount" method="post">
+              <form action="/misaleacadamy/activatetraineeaccount" method="post">
                 <input type="hidden" class="js-toggler__input" value="" name="traineeId" id="traineeId" >
   
             <input class="form-control" placeholder="Enter Reciept Number Here" type="text" name="receipt_no">
@@ -333,7 +333,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/selecttraineewithbatchname" method="post">
+              <form action="/misaleacadamy/selecttraineewithbatchname" method="post">
 
                 <select class="form-control form-control-sm mb-1" name="batchname">
                   <option value="0">Please Select Applicant Batch</option>

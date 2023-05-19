@@ -44,7 +44,7 @@
       <h1> TOT (Trainee) List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Appointment</li>
           <li class="breadcrumb-item active">Add New Appointment TOT (Trainee) Applicant</li>
         </ol>
@@ -63,7 +63,7 @@
                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
                   <small class="">Select Batch Here <br> 
                 </small>
-                  <form action="/office/addappointmentfortotwithbatchregistered"   method="post" >
+                  <form action="/misaleacadamy/office/addappointmentfortotwithbatchregistered"   method="post" >
                     <div class="row mt-2">
                         <div class="col-md-8">
                           <input class="form-control form-control-sm mb-1" name="appointmentdate" type="date" min="<%= (new Date()).toISOString().slice(0, 10) %>" max="2099-12-31">
@@ -163,7 +163,7 @@
                           </td>
                         
                          <td>
-                           <form action="/office/addnewappointmenttraineetrainerregistered" method="post">
+                           <form action="/misaleacadamy/office/addnewappointmenttraineetrainerregistered" method="post">
                             <input type="hidden" value="<%= row.trainee_code %>" name="traineeid">
                             <input type="hidden" value="TraineeTrainer" name="apptag">
                             <input class="form-control form-control-sm mb-1" name="appointmentdate" type="date" min="<%= (new Date()).toISOString().slice(0, 10) %>" max="2099-12-31">

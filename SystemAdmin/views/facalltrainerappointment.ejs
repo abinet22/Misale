@@ -44,7 +44,7 @@
       <h1>Appointment List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage Trainee(Trainer)</li>
           <li class="breadcrumb-item active">Current Appointment List</li>
         </ol>
@@ -103,7 +103,7 @@
                           <td><%= row.attempt_count %></td>
                           <td><i class="bi bi-alarm-fill fa-2x" style="color:rgb(94, 94, 218)"></i><%= new Date(row.appointment_date).toLocaleDateString() %></td>
                           <td>
-                            <form action="/facilitator/updatetraineetestcode" method="post">
+                            <form action="/misaleacadamy/facilitator/updatetraineetestcode" method="post">
                                 <input value="<%= row.trainee_id %>" type="hidden" name="traineeid">
                                 <input type="text" class="form-control form-control-sm mb-1" name="traineetestcode">
                                 <input value="Trainer" type="hidden" name="actiontag">

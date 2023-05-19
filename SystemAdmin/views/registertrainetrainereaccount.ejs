@@ -62,7 +62,7 @@
       <h1>Trainee List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">Manage TOT(Trainee)</li>
           <li class="breadcrumb-item active">Update TOT(Trainee) Payment</li>
         </ol>
@@ -141,7 +141,7 @@
                           </td>
                            <td>
                             <% if( parseInt(row.theory_result ) >60 && parseInt(row.practical_result) >75) { %>
-                                <form action="/office/registertottrainee/<%= row.uniqueid %>" method="post">
+                                <form action="/misaleacadamy/office/registertottrainee/<%= row.uniqueid %>" method="post">
                                   <select class="form-control mb-2" name="batchname">
                                     <option value="0">Add Batch</option>
                                     <% batch.forEach(function(row){ %>
@@ -183,7 +183,7 @@
            <h4 class="modal-title">Enter Reciept Number To Add Payment</h4>
             <!-- <button type="button" class="close" data-dismiss="modal">X</button> -->
         </div>
-   <form action="/office/activatetottraineeaccount" method="post">
+   <form action="/misaleacadamy/office/activatetottraineeaccount" method="post">
     <div class="modal-body">
       <small class="">Payement Type.</small>
       <select class="form-control form-control-sm mt-2" name="paymenttype" >

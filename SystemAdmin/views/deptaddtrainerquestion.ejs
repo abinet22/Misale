@@ -113,7 +113,7 @@
       <h1>Add New  <%= asstype %> Assessment Question</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
           <li class="breadcrumb-item">TOT(TRAINEE) SETTING</li>
           <li class="breadcrumb-item">Manage TOT Theoretical Question</li>
           <li class="breadcrumb-item active">Add New <%= asstype %> Assessemnt Question</li>
@@ -131,7 +131,7 @@
             
         <div class="col-md-8 offset-md-4"  id="myDiv" style="display:none;">
           <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <small class="">Upload Question From Excel Here <br><a href="/download/TrainerQuestion.xlsx" download><small>You Can Download Template Excel Here!</small></a>
+            <small class="">Upload Question From Excel Here <br><a href="/misaleacadamy/download/TrainerQuestion.xlsx" download><small>You Can Download Template Excel Here!</small></a>
             </small>
             <script>
               function showDiv() {
@@ -144,7 +144,7 @@
   }
     }
               </script>
-            <form action="/dept/uploadtrainerquestions"   method="post" enctype="multipart/form-data">
+            <form action="/misaleacadamy/dept/uploadtrainerquestions"   method="post" enctype="multipart/form-data">
              <div>
               <select class="form-control mb-2" name="courseupload">
                   <option value="0">Please Select Education Category </option>
@@ -210,7 +210,7 @@
           </form>
             </div>
         </div>
-        <form action="/dept/deptaddnewtrainerquestion"   method="post" >
+        <form action="/misaleacadamy/dept/deptaddnewtrainerquestion"   method="post" >
             <div class="row">
                 
               <div class="form-group">

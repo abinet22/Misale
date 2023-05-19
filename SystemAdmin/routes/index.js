@@ -823,7 +823,7 @@ router.post('/practicalassessmenttottrainerintrance', ensureAuthenticated, async
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login')
+    res.redirect('/misaleacadamy/login')
 
 })
 
@@ -832,8 +832,8 @@ router.post('/login', (req, res, next) => {
 
     
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/misaleacadamy/dashboard',
+        failureRedirect: '/misaleacadamy/login',
         failureFlash: true
 
     })(req, res, next);
