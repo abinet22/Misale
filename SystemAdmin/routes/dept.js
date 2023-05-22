@@ -819,7 +819,7 @@ router.post('/showtotdetailmarklistresult/(:traineeid)', ensureAuthenticated, as
      `
         );
 const config= await  db.Config.findAll();
-res.render('depttotsinglestudentmarklist',{course:course,tottrainees:trainees,batch:batch,user:req.user,trainee:trainee,config:config});
+res.render('depttotsinglestudentmarklist',{course:course,trainees:trainees,batch:batch,user:req.user,trainee:trainee,config:config});
 
      }
 }); 

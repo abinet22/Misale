@@ -846,7 +846,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
              if(tr){
                db.TraineeTrainer.update({is_registered:'Yes',is_active:'Yes',recept_no_training:recieptid,batch_id:batchname},{where:{uniqueid:req.params.traineeid}}).then(udttr =>{
                   res.render('registertrainetrainereaccount',{batch:batch, user:req.user,trainee:trainee,config:config,success_msg:'Success! TOT Trainee Registered'});
-            
+                   
                })
                .catch(err =>{
                   console.log(err);

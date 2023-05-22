@@ -59,16 +59,19 @@
             <div class="card-body">
               <h5 class="card-title">Single TOT(Trainee) Mark List</h5>
               <div class="row">
-                <% if(trainee.length > 0) { %>
+                <% if(trainees) { %>
                     <% var i =0 %>
-                    <% trainee.forEach(function(row){ %>
+                  
                 <div class="col-xl-4">
         
                   <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-        
-                      <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                      <h2><%= row.fullname %></5></h2>
+                      <% if (trainees.totphoto) { %>
+                        <% var totphoto = 'data:image/png;base64,' + new Buffer(trainees.totphoto, 'binary').toString('base64'); %>
+                      <% } %>
+                      
+                      <img src="<%= totphoto %>" alt="Profile" class="rounded-circle">
+                      <h2><%= trainees.fullname %></5></h2>
                      
                       <div class="social-links mt-2">
                       
@@ -77,7 +80,8 @@
                   </div>
         
                 </div>
-        
+                  <% }%>
+                  <% trainee.forEach(function(row){ %>
                 <div class="col-xl-8">
         
                   <div class="card">
@@ -334,7 +338,7 @@
                 </div>
                 <% } )%>
            
-                <%} %>
+               
               </div>
               <!-- Table with stripped rows -->
           
