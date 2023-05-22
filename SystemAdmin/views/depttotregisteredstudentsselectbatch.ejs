@@ -45,8 +45,8 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
-          <li class="breadcrumb-item">Manage Batch</li>
-          <li class="breadcrumb-item active">All Batch List</li>
+          <li class="breadcrumb-item">Manage TOT(Trainee) Data</li>
+          <li class="breadcrumb-item active">TOT(Trainee) Mark List</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -57,54 +57,32 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">TOT Batch List</h5>
+              <h5 class="card-title">Select Batch List</h5>
 
               <!-- Vertical Pills Tabs -->
-              <div class="">
-              
+              <div class="col-md-8 offset-md-2">
+              <%- include ('./partials/messages') %>
              
                 <!-- Table with stripped rows -->
-                <table class="table datatable">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Batch Name</th>
-                      <th scope="col">Is Current</th>
-                  
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <% if(batch.length > 0) { %>
-                          <% var i =0 %>
-                          <% batch.forEach(function(row){ %>
-                              <% i++ %>
-                             
-                              <tr>
-                                  <th scope="row"><%= i %></th>
-                                  <td><%= row.batch_name %></td>
-                                  <td><%= row.is_current %></td>
-                                
-                                      
-                                                 
-                                  <td>
-                                    <%if (row.is_current ==="Yes") { %>
-                                      <form action="/misaleacadamy/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
-                                        <button class="btn btn-sm btn-block btn-outline-danger">Make Not Current batch</button>
-                                      </form>
-                                   <%} else { %>
-                                    <form action="/misaleacadamy/dept/updatebatchiscurrent/<%= row.batch_id %>" method="post">
-                                      <button class="btn btn-sm btn-block btn-outline-success">Make Current Batch</button>
-                                    </form>
-                                   <%} %>
-                                  
-                                  </td>
-                                </tr>
-                         <% } )%>
+                <form action="/misaleacadamy/dept/depttraineetrainerregisteredstudents" method="post">
                  
-                    <%} %>
-                  </tbody>
-                </table>
+                 <select name="batchid" class="form-control mb-2">
+                    <option value="0">Please Select Batch</option>
+                    <% if(batch.length > 0) { %>
+                        <% var i =0 %>
+                        <% batch.forEach(function(row){ %>
+                            <% i++ %>
+                           
+                                <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                               
+                       <% } )%>
+               
+                  <%} %>
+                 </select>
+                  
+                  <button class="btn btn-sm btn-block btn-outline-primary" type="submit">Submit</button>
+                             
+                            </form>
                 <!-- End Table with stripped rows -->
   
               </div>

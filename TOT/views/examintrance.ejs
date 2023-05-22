@@ -6,10 +6,10 @@
         <title>Login</title>
     
         <!-- CSS -->
-        <link rel="stylesheet" href="../../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../css/font-awesome.min.css">
-        <link rel="stylesheet" href="../../css/templatemo_style.css">
-        <link rel="stylesheet" href="../../css/radio.scss">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../../css/templatemo_style.css">
+        <link rel="stylesheet" href="../../../../css/radio.scss">
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="favicon.png" />
    <style>
@@ -190,10 +190,10 @@ smalltext{
         </div>
         <nav class="main-menu shadow-top-down">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="/dashboard" class="scroll_effect">Home</a></li>
-                <li><a href="/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+                <li><a href="/misaleacadamyapproval/dashboard" class="scroll_effect">Home</a></li>
+                <li><a href="/misaleacadamyapproval/dashboard#instructions" class="scroll_effect">Instructions</a></li>
                
-                <li><a href="/logout" class="scroll_effect">Logout</a></li>
+                <li><a href="/misaleacadamyapproval/logout" class="scroll_effect">Logout</a></li>
             </ul>
         </nav>
      
@@ -352,7 +352,7 @@ smalltext{
                           </li>
                         </ol>
                         <hr>
-                        <form id="regForm" action="/submitintranceexam" method="post">
+                        <form id="regForm" action="/misaleacadamyapproval/submitintranceexam" method="post">
                        
                           <input name="answer" value="" type="hidden">
                             
@@ -485,12 +485,12 @@ answerInput.addEventListener('input', function() {
       </div>
        <%- include ('./partials/footer') %>
         <!-- require plugins -->
-        <script src="../../js/jquery.min.js"></script>
-        <script src="../../js/jquery-ui.min.js"></script>
-        <script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/jquery.parallax.js"></script>
+        <script src="../../../../js/jquery.min.js"></script>
+        <script src="../../../../js/jquery-ui.min.js"></script>
+        <script src="../../../../js/bootstrap.min.js"></script>
+        <script src="../../../../js/jquery.parallax.js"></script>
         <!-- template mo config script -->
-        <script src="../../js/templatemo_scripts.js"></script>
+        <script src="../../../../js/templatemo_scripts.js"></script>
         <script>
            let answers = [];
 
@@ -745,7 +745,7 @@ document.addEventListener('keydown', function(event) {
 console.info(performance.navigation.type);
 if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
   console.info( "This page is reloaded" );
-  window.location.href = '/logout';
+  window.location.href = '/misaleacadamyapproval/logout';
 } else {
   console.info( "This page is not reloaded");
 }

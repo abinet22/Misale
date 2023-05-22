@@ -7,29 +7,29 @@
         <title></title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/templatemo_style.css">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/templatemo_style.css">
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="favicon.png" />
-        <link href="assets/img/favicon.png" rel="icon">
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="../../../assets/img/favicon.png" rel="icon">
+        <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
       
         <!-- Google Fonts -->
         <link href="https://fonts.gstatic.com" rel="preconnect">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
       
         <!-- Vendor CSS Files -->
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-        <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-        <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-        <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-        <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+        <link href="../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="../../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="../../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+        <link href="../../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+        <link href="../../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+        <link href="../../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
       
         <!-- Template Main CSS File -->
-        <link href="assets/css/style.css" rel="stylesheet">
+        <link href="../../../assets/css/style.css" rel="stylesheet">
     </head>
     <body>
         <!-- Top menu -->
@@ -224,7 +224,7 @@
                                     <%= xx==="Project"?"Project Mark  Data Encoder":"" %> 
                                     <%= xx==="ExitExam"?"Exit Exam Mark  Data Encoder":"" %> 
                                     <%= xx==="Obstacle_Course_Preparation"?"Obstacle Course Preparation Mark Data Encoder":"" %> 
-                                    <%= xx==="Vehicle_Inspection"?"Vehicle Inspection Mark Data Encoder":"" %> 
+                                    <%= xx==="Vehicle_Examination"?"Vehicle Examination Mark Data Encoder":"" %> 
                                        
                                   </td>
                                   <%}}) %>
@@ -338,7 +338,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
               </button>
             </div>
             <div class="modal-body">
-              <form action="/exam" method="post">
+              <form action="/misaleacadamy/exam" method="post">
 
             <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
             </div>
@@ -362,7 +362,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
               </button>
             </div>
             <div class="modal-body">
-              <form action="/practicalassessmenttottrainerintrance" method="post">
+              <form action="/misaleacadamy/practicalassessmenttottrainerintrance" method="post">
 
             <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
             </div>
@@ -385,7 +385,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
               </button>
             </div>
             <div class="modal-body">
-              <form action="/practicalassessmenttottrainer" method="post">
+              <form action="/misaleacadamy/practicalassessmenttottrainer" method="post">
 
             <input class="form-control" placeholder="Enter Code Here" type="text" name="traineecode">
             <!-- <select class="form-select" name="exampart" aria-label="Default select example">
@@ -417,7 +417,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
               </button>
             </div>
             <div class="modal-body">
-              <form action="/selecttraineewithbatchname" method="post">
+              <form action="/misaleacadamy/selecttraineewithbatchname" method="post">
 
                 <select class="form-control form-control-sm mb-1" name="batchname">
                   <option value="0">Please Select Applicant Batch</option>
@@ -443,7 +443,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
                               <% var schedule_type = row.schedule_type %>
                               <% var xx = row.technical_part %>
                               <% var xy ;%>
-                           <%   if(xx ==="Intrance"){
+                              <%   if(xx ==="Intrance"){
                                 xy = "Intrance (የመግቢያ ፈተና)";
                                 }else if(xx ==="Training"){
                                  xy = "Training Others (አሰለጣጠን)";
@@ -458,7 +458,7 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
                                  xy = "Exit Exam(የመውጫ ፈተና)";
                                } else if(xx ==="Obstacle_Course_Preparation"){
                                 xy = "Obstacle Course Preparation Mark Data Encoder(የመሰናክል ሜዳ  አዘገጃጀት)";
-                               
+                                
                               } else if(xx ==="Vehicle_Examination"){
                                 xy = " Vehicle Examination Mark Data Encoder(የተሽከርካሪ ምርመራ)";
                               
@@ -492,22 +492,22 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
     
        <%- include ('./partials/footer') %>
         <!-- require plugins -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.parallax.js"></script>
+        <script src="../../../js/jquery.min.js"></script>
+        <script src="../../../js/jquery-ui.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/jquery.parallax.js"></script>
         <!-- template mo config script -->
-        <script src="js/templatemo_scripts.js"></script>
-        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/chart.js/chart.umd.js"></script>
-        <script src="assets/vendor/echarts/echarts.min.js"></script>
-        <script src="assets/vendor/quill/quill.min.js"></script>
-        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-        <script src="assets/vendor/php-email-form/validate.js"></script>
+        <script src="../../../js/templatemo_scripts.js"></script>
+        <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+        <script src="../../../assets/vendor/quill/quill.min.js"></script>
+        <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="../../../assets/vendor/php-email-form/validate.js"></script>
       
         <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
+        <script src="../../../assets/js/main.js"></script>
     </body>
 </html>

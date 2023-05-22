@@ -58,32 +58,9 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Trainee List</h5>
-              <div class="col-md-8 offset-md-4">
-                <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                  <small class="">Filter Trainee  By Exam Date  <br>
-                </small>
-                  <form action="/misaleacadamy/dept/searchthehadsotraineebyexamdate"   method="post" >
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                      From &nbsp; <input class="form-control form-control-sm" type="date" id="startDate" name="startDate">
-                    
-                    </div>
-                      <div class="col-md-6">
-                        To &nbsp;<input class="form-control form-control-sm" type="date" id="endDate" name="endDate">
-                   
-                       </div>
-                       <div class="col-md-6 offset-md-2">
-                        <button type="submit" class=" mt-1 btn btn-outline-primary btn-sm btn-block">Search</button>
-                   
-                       </div>
-                    </div>
-                  
-              
-                </form>
-                  </div>
-              </div>
+            
               <!-- Table with stripped rows -->
-              <table class="table datatable table-responsive" id="myTable">
+              <table class="table datatable " id="myTable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -94,27 +71,7 @@
 
                     <th scope="col">Education Category</th>
                     
-                    <th scope="col">የመግቢያ ፈተና  (Intrance Theoretical)</th>
-                    <th scope="col">የመግቢያ ፈተና  (Intrance Practical)</th>
-                    <th scope="col">አሰለጣጠን (Training Other)</th>
-                    <th scope="col">አፈታተን (Examining Other)</th>
-                    
-                    <th scope="col">አቀራረብ (Prsesentation)</th>
-                    <th scope="col">ፕሮጀክት (Project) </th>
-                    <th scope="col">የመሰናክል ሜዳ  አዘገጃጀት (Obstacle Course Preparation)
-                    </th>
-                  <th scope="col"> የተሽከርካሪ ምርመራ  (Vehicle Examination )
-                    </th>
-                    <th scope="col">የመውጫ ፈተና (Exit Exam)</th>
-                  
-                    <th scope="col">አሰለጣጠንና አፈታተን %</th>
-                    
-                    <th scope="col">አቀራረብና ፕሮጀክት % </th>
-                    <th scope="col">የመሰናክል ሜዳ  አዘገጃጀት %
-                    </th>
-                  <th scope="col"> የተሽከርካሪ ምርመራ %
-                    </th>
-                    <th scope="col">የመውጫ ፈተና %</th>
+                   
                     <th scope="col">Detail Mark List</th>
                   </tr>
                 </thead>
@@ -143,26 +100,9 @@
                         
                          
                          
-                          <td><%= row.theory_result %></td>
-                          <td><%= row.practical_result %></td>
-                          <td><%= row.score1 %></td>
-                          <td><%= row.score2 %></td>
                         
-                          <td><%= row.score4 %></td>
-                          <td><%= row.score3 %></td>
-                          <td><%= row.score6 %></td>
-                          <td><%= row.score5 %></td>
-                          <td><%= row.practical_result %></td>
-                          <% var as = parseInt(row.score1)*5/100 %>
-                          <% var af = parseInt(row.score2)*5/100 %>
-                          <% var asaf = as+af %>
-                          <td><%= asaf %></td>
-                          <td><%= parseInt(row.score4)+parseInt(row.score3) %></td>
-                          <td><%= row.score6 %></td>
-                          <td><%= row.score5 %></td>
-                          <td><%= row.practical_result %></td>
                         <td>
-                          <form action="/misaleacadamy/dept/showassessementhistory/<%= row.trainee_code %>" method="post"> 
+                          <form action="/misaleacadamy/dept/showtotdetailmarklistresult/<%= row.uniqueid %>" method="post"> 
                             <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Detail</button>
                           </form>
                         </td>

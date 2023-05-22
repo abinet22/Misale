@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../../../assets/img/favicon.png" rel="icon">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../../../assets/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <%- include ('./partials/headerdept') %>
+  <!-- ======= Sidebar ======= -->
+ <%- include ('./partials/sidedept') %>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>TOT Trainee Data</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
+          <li class="breadcrumb-item">Manage TOT(Trainee) Data</li>
+          <li class="breadcrumb-item active">TOT(Trainee) Mark List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Single TOT(Trainee) Mark List</h5>
+              <div class="row">
+                <% if(trainee.length > 0) { %>
+                    <% var i =0 %>
+                    <% trainee.forEach(function(row){ %>
+                <div class="col-xl-4">
+        
+                  <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+        
+                      <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                      <h2><%= row.fullname %></5></h2>
+                     
+                      <div class="social-links mt-2">
+                      
+                      </div>
+                    </div>
+                  </div>
+        
+                </div>
+        
+                <div class="col-xl-8">
+        
+                  <div class="card">
+                    <div class="card-body pt-3">
+                      <!-- Bordered Tabs -->
+                      <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
+        
+               
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit" aria-selected="true" role="tab">የንድፈ ሀሳብ ፈተና ዉጤት</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-overview" aria-selected="false" role="tab" tabindex="-1">የተግባር ፈተና ዉጤት</button>
+                          </li>
+          
+                          <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-overview2" aria-selected="false" role="tab" tabindex="-1">ትራንስክሪፕት</button>
+                          </li>
+                      </ul>
+                      <div class="tab-content pt-2">
+                        <div class="tab-pane fade profile-edit pt-3 active show" id="profile-edit" role="tabpanel">
+                            <h5 class="card-title">የንድፈ ሀሳብ ፈተና ዉጤት</h5>
+                            <div class="card-body">
+                             
+                                <!-- List group with custom content -->
+                                <ol class="list-group list-group-numbered">
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የስራ ላይ ደህንነትና ድንገተኛ ምላሽ ትግበራ</div>
+                                      ቴክ 004
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">10</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የተሽከርካሪ ፍተሻ</div>
+                                      ቴክ 003
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">5</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የጉዞ መረጃዎች አሰባሰብ</div>
+                                      ቴክ 005
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">4</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">ከተሳፋሪና ከስራ ባልደረባ ጋር መልካም ግንኙነት መፍጠር</div>
+                                      ቴክ 009
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">3.5</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">ተሳፋሪን በትህትና መያዝና የሻንጣዎችን ደህንነት መጠበቅ</div>
+                                      ቴክ 0010
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">3.5</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የማሸከርከር ስነ ባህርይ</div>
+                                      ቴክ 001
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">7</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የትራንስፖርት ደንቦችና ህጎች</div>
+                                      ቴክ 002
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">15</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የተሽከርካሪ ምርመራ</div>
+                                      ቴክ 006
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የማስተማር ስልቶችና የፈተና አሰጣጥ
+                                    </div>
+                                      ቴክ 008
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">6</span>
+                                  </li>
+                                </ol><!-- End with custom content -->
+                  
+                              </div>
+                        </div>
+                        <div class="tab-pane fade profile-overview" id="profile-overview" role="tabpanel">
+                          <h5 class="card-title">የተግባር ፈተና ዉጤት</h5>
+                          <div class="card-body">
+                          
+                            <!-- List group with custom content -->
+                            <ol class="list-group list-group-numbered">
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">አሰለጣጠን (Training Other)</div>
+                                 Total Score:&nbsp; <%= row.score1 %>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">አፈታተን (Examining Other)</div>
+                                  Total Score:&nbsp; <%= row.score2 %>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">አቀራረብ (Prsesentation)</div>
+                                  Total Score:&nbsp; <%= row.score4 %>
+                               
+                                 
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 60%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">ፕሮጀክት (Project)</div>
+                                  Total Score:&nbsp;  <%= row.score3 %>
+                                
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 40%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">የመሰናክል ሜዳ አዘገጃጀት (Obstacle Course Preparation)	</div>
+                                  Total Score:&nbsp;   <%= row.score6 %>
+                                 
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 4%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">የተሽከርካሪ ምርመራ (Vehicle Examination )</div>
+                                  Total Score:&nbsp;  <%= row.score5 %>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 8%</span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">የመውጫ ፈተና (Exit Exam)</div>
+                                  Total Score:&nbsp; <%= row.score7 %>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">ክብደት 10%</span>
+                              </li>
+                            </ol><!-- End with custom content -->
+              
+                          </div>
+                          
+        
+                        </div>
+                        <div class="tab-pane fade profile-overview2" id="profile-overview2" role="tabpanel">
+                            <h5 class="card-title">የትራንስፖርት ቴክኒሽያን አሰልጣኞች (Approval) ትራንስክሪፕት
+                            </h5>
+                            <div class="card-body">
+                            <% var con1= "Continuous_1"; %>
+                            <label class="fw-bold">የንድፈ ሀሳብ ፈተና ዉጤት</label>
+                              <!-- List group with custom content -->
+                              <ol class="list-group list-group-numbered">
+                             
+                                    <% course.forEach(function(row){ %>
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                          <div class="fw-bold"><%= row.course_name %></div>  
+                  
+                                        
+                                         <%= row.course_code %>:&nbsp; <%= parseInt(row.score1)*5/100+parseInt( row.score2)*5/100 %>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill"><%= row.course_weight %> %</span>
+                                      </li>
+                                    
+                                    <%}) %>
+                                    
+                              </ol>
+                              <label class="fw-bold">የተግባር ፈተና ዉጤት</label>
+                              <ol class="list-group list-group-numbered">
+                                 
+                               
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">የአነዳድ ችሎታ የህዝብ ተሽከርካሪ</div>
+                                    ቴክ 001/ተግ:&nbsp; <%= parseInt(row.score7)*10/100 %>
+                                  </div>
+                                  <span class="badge bg-primary rounded-pill">ክብደት 10%</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">የተሽከርካሪ ምርመራ</div>
+                                      ቴክ 002/ተግ:&nbsp;  <%= parseInt(row.score5)*8/100 %>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">ክብደት 8%</span>
+                                  </li>
+                                     
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">አሰለጣጠንና አፈታተን
+                                    </div>
+                                    ቴክ 003/ተግ:&nbsp; <%= parseInt(row.score1)*5/100+parseInt(row.score2)*5/100 %>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
+                                  </li>
+                                
+                          
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">የመሰናክል ሜዳ አዘገጃጀት 	</div>
+                                ቴክ 007:&nbsp;   <%= parseInt(row.score6)*4/100 %>
+                               
+                              </div>
+                              <span class="badge bg-primary rounded-pill">ክብደት 4%</span>
+                            </li>
+                              </ol><!-- End with custom content -->
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">ጠቅላላ ድምር  <%= parseInt(row.score4) + parseInt(row.score3)%></div>
+                             
+                                </div>
+                               
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">የህዘብ  አንድ ትራንስፖርት አጠቃላይ ዉጤት:   <%= parseInt(row.score4) + parseInt(row.score3)%></div>
+                                 
+                                   
+                                  <div class="fw-bold">ክፍል ዉስጥ የማስተማር ብቃት፡  <%= parseInt(row.score4) + parseInt(row.score3)%></div>
+                                 
+                                 
+                                </div>
+                               
+                              </li>
+                            
+                            </div>
+                            
+          
+                          </div>
+                       
+        
+                      
+                     
+        
+                      </div><!-- End Bordered Tabs -->
+        
+                    </div>
+                  </div>
+        
+                </div>
+                <% } )%>
+           
+                <%} %>
+              </div>
+              <!-- Table with stripped rows -->
+          
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <%- include ('./partials/footeradmin') %>
+
+  <!-- Vendor JS Files -->
+  <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../../../assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../../../assets/js/main.js"></script>
+
+</body>
+
+</html>

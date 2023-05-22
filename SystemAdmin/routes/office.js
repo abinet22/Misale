@@ -7,7 +7,10 @@ const db = require("../models")
 const Op = db.Sequelize.Op;
 const shortid = require('shortid');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const totphoto = require('../middleware/totphoto.js');
 router.get('/addnewstaff', ensureAuthenticated, async function(req, res) {
   res.render('addstaff',{user:req.user});
  });
@@ -789,7 +792,7 @@ console.log(err);
 
   }
 })
-router.get('/addnewtraineetrainertrainee', ensureAuthenticated, async function(req, res) {
+router.get('/addnewtraineetrainertrainee', ensureAuthenticated,totphoto.single('totphoto'), async function(req, res) {
 const batch = await db.Batch.findAll({})
 db.Config.findAll().then(config =>{
     res.render('addnewtraineetrainertrainee',{batch:batch,user:req.user,config:config});
@@ -1007,7 +1010,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
   
      });
 
-     router.post('/addnewtraineetrainertrainee', ensureAuthenticated, async function(req, res) {
+     router.post('/addnewtraineetrainertrainee', ensureAuthenticated,totphoto.single('totphoto'), async function(req, res) {
       const {fullname,age,gender,educategory,phone} =req.body;
       const v1options = {
          node: [0x01, 0x23],
@@ -1022,29 +1025,14 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
        tid = uuidv4(v1options);
        const id = shortid.generate();
        const shortcode = id.replace(/[^a-zA-Z0-9]/g, '').substr(0, 5);
-       const userData = {
-         uniqueid: tid,
-      fullname: fullname,
-      phone_number:phone,
-      age:age,
-      gender:gender,
-      trainee_code: shortcode,
-      password:'$2a$10$DjRhWPkdAy6Q8M1DXr3/SepmkYDvw9lTgYu9WTDLd4P.KAU/n58Xy',
-      is_payed: 'No',
-      attempt_count_prac:0,
-      licence_type:educategory,
-      is_selected:'No',
-      attempt_count: 0,
-      attempt_count_prac:0,
-      is_active: 'No',
-      is_registered: 'No',
-      batch_id:''
-       }
+     
        let errors =[];
        if(!age || !gender || !phone  ||!fullname || !educategory){
          errors.push({msg:'Please Enter All Required Fields'})
        }
-      
+       if(!req.file){
+        errors.push({msg:'Please Add Trainee Photo'})
+       }
        if( educategory =="0"){
          errors.push({msg:'Please Select Education Category'})
        }
@@ -1055,7 +1043,29 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
        if(errors.length >0){
          res.render('addnewtraineetrainertrainee',{batch:batch, user:req.user,errors,config:config});
        }else{
-
+        const userData = {
+          uniqueid: tid,
+       fullname: fullname,
+       phone_number:phone,
+       age:age,
+       gender:gender,
+       trainee_code: shortcode,
+       password:'$2a$10$DjRhWPkdAy6Q8M1DXr3/SepmkYDvw9lTgYu9WTDLd4P.KAU/n58Xy',
+       is_payed: 'No',
+       attempt_count_prac:0,
+       licence_type:educategory,
+       is_selected:'No',
+       attempt_count: 0,
+       attempt_count_prac:0,
+       is_active: 'No',
+       is_registered: 'No',
+       batch_id:'',
+       typemimetype:req.file.mimetype,
+       namefile: req.file.filename,
+       totphoto: fs.readFileSync(
+         path.join(__dirname,'../public/uploads/') + req.file.filename
+       ),
+        }
          db.TraineeTrainer.findAll({
             where: {
               trainee_code: shortcode,
@@ -1067,12 +1077,18 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
                 if (user.length ==0 ) {
                   db.TraineeTrainer.create(userData).then(usernew =>{
                      if(usernew){
-                      res.render('studentid', {
-                        name: req.body.fullname,
-                        phone: req.body.phone,
-                        code:shortcode,
-                        license:req.body.educategory
-                      });
+                      fs.writeFileSync(path.join(__dirname,'../public/uploads/')+ usernew.namefile,
+           
+                      usernew.totphoto
+                      );
+                      res.render('addnewtraineetrainertrainee',{batch:batch,user:req.user,config:config,success_msg:'Create Trainee Info Now Succussfully'});
+                  
+                      // res.render('studentid', {
+                      //   name: req.body.fullname,
+                      //   phone: req.body.phone,
+                      //   code:shortcode,
+                      //   license:req.body.educategory
+                      // });
                       //  res.render('addnewtraineetrainertrainee',{batch:batch,user:req.user,config:config,success_msg:'Create TOT(Trainee) Info Successfully'});
                      }else{
                        res.render('addnewtraineetrainertrainee',{batch:batch,user:req.user,config:config,error_msg:'Cant Create Trainee Info Now Try Again'});

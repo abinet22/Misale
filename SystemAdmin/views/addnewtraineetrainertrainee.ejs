@@ -59,7 +59,7 @@
               <h5 class="card-title">Add New TOT Trainee Form</h5>
 
               <!-- Horizontal Form -->
-              <form method="post" action="/misaleacadamy/office/addnewtraineetrainertrainee">
+              <form method="post" action="/misaleacadamy/office/addnewtraineetrainertrainee" enctype="multipart/form-data">
                 <div class="row mb-3">
                   <label for="inputEmail3" class="col-sm-3 col-form-label">Full Name</label>
                   <div class="col-sm-9">
@@ -130,7 +130,12 @@
                   </div>
                 </div>
               
-                
+                <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-3 col-form-label">Photo Upload</label>
+                  <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="file" id="formFile" name="totphoto">
+                  </div>
+                </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-sm btn-outline-primary">Submit</button>
                   

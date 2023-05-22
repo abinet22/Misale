@@ -76,7 +76,16 @@ module.exports = (sequelize, DataTypes) => {
   },
   last_exam_post_date:{
     type: DataTypes.DATE
-  }
+  },
+  typemimetype: {
+    type: DataTypes.STRING,
+},
+namefile: {
+    type: DataTypes.STRING,
+},
+totphoto: {
+    type: DataTypes.BLOB("long"),
+}
 })
     return TraineeTrainer;
 };

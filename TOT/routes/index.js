@@ -499,7 +499,7 @@ router.get('/login', forwardAuthenticated, async (req, res) =>{
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login')
+    res.redirect('/misaleacadamyapproval/login')
 
 })
 
@@ -510,8 +510,8 @@ router.post('/login', (req, res, next) => {
   req.session.language = req.body.language;
   console.log( req.body.language)
   passport.authenticate('local', {
-      successRedirect: '/dashboard',
-      failureRedirect: '/login',
+      successRedirect: '/misaleacadamyapproval/dashboard',
+      failureRedirect: '/misaleacadamyapproval/login',
       failureFlash: true
 
   })(req, res, next);

@@ -59,7 +59,7 @@ app.use(express.static(path.join(__dirname,'./public')));
 
 
 
-app.use('/', require('./routes/index'));
+app.use('/misaleacadamytehadso', require('./routes/index'));
 
 
 // initialize our app

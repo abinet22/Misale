@@ -21,6 +21,7 @@ const readFile = promisify(fs.readFile);
 const mime = require('mime-types');
 
 const path = require('path');
+const { error } = require('console');
 router.post('/generate-documents-ash', async  function (req, res)  {
    const { round } = req.body;
  
@@ -281,7 +282,164 @@ router.post('/deptaddbatch', ensureAuthenticated, async function(req, res) {
    }
   
   });
+router.post('/updatepassword', ensureAuthenticated, async function(req, res) {
 
+const {oldpassword,newpassword,renewpassword} =req.body;
+
+const alltrainee = await db.Trainee.count({  createdAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   }});
+   const alltraineepayed = await db.Trainee.count({where:{is_payed:'Yes',  updatedAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   }}});
+   const alltraineetakeexam = await db.Trainee.count({where:{  updatedAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   },
+   attempt_count: {
+   [Op.gt]: 0    }}});
+const fail = await db.Trainee.count({where:{pass_fail:'Failed'}});
+const pass = await db.Trainee.count({where:{pass_fail:'Passed'}});
+let errors =[];
+
+const passcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   pass_fail: 'PASS',
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const passarray = Array(12).fill(0);
+
+passcounts.forEach(count => {
+   passarray[count.month - 1] = count.count;
+});
+const failcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   pass_fail: 'FAIL',
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const failarray = Array(12).fill(0);
+
+failcounts.forEach(count => {
+   failarray[count.month - 1] = count.count;
+});
+const regcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const regarray = Array(12).fill(0);
+
+regcounts.forEach(count => {
+   regarray[count.month - 1] = count.count;
+});
+const examcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   attempt_count: {
+      [Op.gt]: 0    },
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const examarray = Array(12).fill(0);
+
+examcounts.forEach(count => {
+   examarray[count.month - 1] = count.count;
+});
+
+const v1options = {
+   node: [0x01, 0x23],
+   clockseq: 0x1234,
+   msecs: new Date('2011-11-01').getTime(),
+   nsecs: 5678,
+   };
+   batchid = uuidv4(v1options);
+if( !oldpassword || !renewpassword || !newpassword){
+   errors.push({msg:'Please Enter  All Feild Value'})
+}
+if(errors.length>0){
+   
+   res.render('dashboarddept',{errors,user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+      alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+      alltraineetakeexam:alltraineetakeexam});
+}else{
+   bcrypt.compare(oldpassword, req.user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+         if(newpassword  == renewpassword){
+         bcrypt.hash(newpassword, 10, (err, hash) => {
+            
+
+            db.User.update({password:hash},{where:{id:req.user.id}}).then(usernew =>{
+               res.redirect('/misaleacadamy/logout')
+               }).catch(err =>{
+                  console.log(err)
+                  res.render('dashboarddept',{error_msg:'Cant Change Password Now Try Later',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+                  alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+                  alltraineetakeexam:alltraineetakeexam});   
+               
+               })
+            }); // 
+         
+         }else{
+         res.render('dashboarddept',{error_msg:'Retype Password Not Match',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+         alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+         alltraineetakeexam:alltraineetakeexam});
+         }
+      } else {
+         res.render('dashboarddept',{error_msg:'Old Passwod Not Correct',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+            alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+            alltraineetakeexam:alltraineetakeexam});
+   
+      }
+      });
+   
+
+
+   
+   
+}
+
+});
 router.get('/deptallbatchlist',ensureAuthenticated,async function(req,res){
    const batch = await  db.Batch.findAll({});
    console.log(batch);
@@ -409,6 +567,46 @@ res.render('deptallassessment',{assessment:assessment,course:course,config:confi
 res.render('deptallassessment',{assessment:assessment,config:'',user:req.user});
 })
 });
+
+router.get('/deleteassessement/(:assid)', ensureAuthenticated, async function(req, res) {
+//const assessment = await db.PracticalAssessment.findAll({});
+const [assessment,totcoursemeta] = await db.sequelize.query("select * from PracticalAssessments"+
+" inner join Configs on PracticalAssessments.education = Configs.config_id");
+const [course,coursemeta] = await db.sequelize.query("select config_id,config_name from Configs where config_type='Education'" );
+
+db.PracticalAssessment.destroy({where:{a_id:req.params.assid}}).then(dlt =>{
+   db.Config.findAll({}).then(config =>{
+      res.render('deptallassessment',{assessment:assessment,course:course,config:config,user:req.user});
+      }).catch(err=>{
+      res.render('deptallassessment',{assessment:assessment,config:'',user:req.user});
+      })
+}).catch(err =>{
+   res.render('deptallassessment',{assessment:assessment,config:'',user:req.user});
+   
+})
+
+});
+router.get('/deleteassessementtot/(:assid)', ensureAuthenticated, async function(req, res) {
+//const assessment = await db.PracticalAssessment.findAll({});
+
+db.PracticalAssessmentTrainer.destroy({where:{a_id:req.params.assid}}).then(dlt =>{
+db.PracticalAssessmentTrainer.findAll({}).then(assessment =>{
+   db.Config.findAll({}).then(config =>{
+      res.render('deptallassessmenttrainerpracticallist',{assessment:assessment,config:config,user:req.user});
+      }).catch(err=>{
+      res.render('deptallassessmenttrainerpracticallist',{assessment:assessment,config:'',user:req.user});
+      })
+}).catch(err =>{
+   res.render('deptallassessmenttrainerpracticallist',{assessment:assessment,config:'',user:req.user});
+   
+})
+
+}).catch(err =>{
+res.render('deptallassessmenttrainerpracticallist',{assessment:assessment,config:'',user:req.user});
+
+})
+
+});
 router.get('/deptallassessmenttrainerpracticallist', ensureAuthenticated, async function(req, res) {
 const assessment = await db.PracticalAssessmentTrainer.findAll({});
 db.Config.findAll({}).then(config =>{
@@ -523,61 +721,107 @@ res.render('deptaddnewtotcourse',{user:req.user,config:config,error_msg:'Error W
 }
 
 });
-router.get('/depttraineetrainerregisteredstudents', ensureAuthenticated, async function(req, res) {
-   const [trainee, metadata] = await db.sequelize.query(
-      `
-      SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
-      COALESCE(intrance.theory_result, 0) AS theory_result,
-      COALESCE(intrance.practical_result, 0) AS practical_result,
-      COALESCE(pmt1.score, 0) AS score1,
-      COALESCE(pmt2.score, 0) AS score2,
-      COALESCE(pmt3.score, 0) AS score3,
-      COALESCE(pmt4.score, 0) AS score4,
-      COALESCE(pmt5.score, 0) AS score5,
-      COALESCE(pmt6.score, 0) AS score6
-      FROM TraineeTrainers 
-      inner join Batches on TraineeTrainers.batch_id = Batches.batch_id
-      LEFT JOIN IntranceExamResults AS intrance ON TraineeTrainers.uniqueid = intrance.trainee_id
-      LEFT JOIN (
-      SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Training' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
-      FROM PracticalMarkTrainers
-      GROUP BY trainee_id
-      ) AS pmt1 ON TraineeTrainers.uniqueid = pmt1.trainee_id
-      LEFT JOIN (
-      SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Examining' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
-      FROM PracticalMarkTrainers
-      GROUP BY trainee_id
-      ) AS pmt2 ON TraineeTrainers.uniqueid = pmt2.trainee_id
-      LEFT JOIN (
-         SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Presentation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
-         FROM PracticalMarkTrainers
-         GROUP BY trainee_id
-         ) AS pmt4 ON TraineeTrainers.uniqueid = pmt4.trainee_id
-         LEFT JOIN (
-            SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Obstacle_Course_Preparation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
-            FROM PracticalMarkTrainers
-            GROUP BY trainee_id
-            ) AS pmt5 ON TraineeTrainers.uniqueid = pmt5.trainee_id
-            LEFT JOIN (
-               SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Vehicle_Examination' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
-               FROM PracticalMarkTrainers
-               GROUP BY trainee_id
-               ) AS pmt6 ON TraineeTrainers.uniqueid = pmt6.trainee_id
-      LEFT JOIN (
-      SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Project' THEN PracticalMarkTrainers.score ELSE 0 END)
-      AS score
-      FROM PracticalMarkTrainers
-      GROUP BY trainee_id
-      ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes';
-      
-      
-      
-      `
-         );
+router.get('/depttotregisteredstudentsselectbatch', ensureAuthenticated, async function(req, res) {
+ 
+   const batch= await  db.Batch.findAll({where:{is_current:'Yes'}});
+/* The above code is rendering a view called "depttotregisteredstudentsselectbatch" and passing two
+variables to it: "batch" and "user". The "batch" variable contains some data related to a batch, and
+the "user" variable contains information about the current user. This code is likely part of a
+larger web application built using the Node.js and Express.js frameworks. */
+res.render('depttotregisteredstudentsselectbatch',{batch:batch,user:req.user});
+
+
+}); 
+
+router.post('/depttraineetrainerregisteredstudents', ensureAuthenticated, async function(req, res) {
+   
+    const {batchid} =req.body;
+    const batch= await  db.Batch.findAll({where:{is_current:'Yes'}});
+    if(batchid ==="0"){
+      res.render('depttotregisteredstudentsselectbatch',{error_msg:'Please Select Batch Name',batch:batch,user:req.user});
+
+    }else{
+
+   
+   
+   const trainee= await db.TraineeTrainer.findAll({where:{batch_id:batchid}});
 const config= await  db.Config.findAll();
 res.render('depttraineetrainerregisteredstudents',{user:req.user,trainee:trainee,config:config});
 
+      }
+}); 
+router.post('/showtotdetailmarklistresult/(:traineeid)', ensureAuthenticated, async function(req, res) {
+   
+    const batch = db.Batch.findAll({})
+   const trainees = await  db.TraineeTrainer.findOne({where:{uniqueid:req.params.traineeid}})
+   
+   if(!trainees){
+     res.render('depttotsinglestudentmarklist',{course:'',tottrainees:'',batch:batch,trainee:'',error_msg:'TOT Trainee Not Found!',user:req.user});
 
+   }else{
+
+     const course = await db.TOTCourses.findAll({where:{licence_type:trainees.licence_type}})
+  
+  const [trainee, metadata] = await db.sequelize.query(
+     `
+     SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
+     COALESCE(intrance.theory_result, 0) AS theory_result,
+     COALESCE(intrance.practical_result, 0) AS practical_result,
+     COALESCE(pmt1.score, 0) AS score1,
+     COALESCE(pmt2.score, 0) AS score2,
+     COALESCE(pmt3.score, 0) AS score3,
+     COALESCE(pmt4.score, 0) AS score4,
+     COALESCE(pmt5.score, 0) AS score5,
+     COALESCE(pmt7.score, 0) AS score7,
+     COALESCE(pmt6.score, 0) AS score6
+     FROM TraineeTrainers 
+     inner join Batches on TraineeTrainers.batch_id = Batches.batch_id
+     LEFT JOIN IntranceExamResults AS intrance ON TraineeTrainers.uniqueid = intrance.trainee_id
+     LEFT JOIN (
+     SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Training' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+     FROM PracticalMarkTrainers
+     GROUP BY trainee_id
+     ) AS pmt1 ON TraineeTrainers.uniqueid = pmt1.trainee_id
+     LEFT JOIN (
+     SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Examining' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+     FROM PracticalMarkTrainers
+     GROUP BY trainee_id
+     ) AS pmt2 ON TraineeTrainers.uniqueid = pmt2.trainee_id
+     LEFT JOIN (
+        SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Presentation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+        FROM PracticalMarkTrainers
+        GROUP BY trainee_id
+        ) AS pmt4 ON TraineeTrainers.uniqueid = pmt4.trainee_id
+        LEFT JOIN (
+           SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Obstacle_Course_Preparation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+           FROM PracticalMarkTrainers
+           GROUP BY trainee_id
+           ) AS pmt5 ON TraineeTrainers.uniqueid = pmt5.trainee_id
+           LEFT JOIN (
+              SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Vehicle_Examination' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+              FROM PracticalMarkTrainers
+              GROUP BY trainee_id
+              ) AS pmt6 ON TraineeTrainers.uniqueid = pmt6.trainee_id
+              LEFT JOIN (
+               SELECT trainee_id, SUM(CASE WHEN assessment_part = 'ExitExam' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+               FROM PracticalMarkTrainers
+               GROUP BY trainee_id
+               ) AS pmt7 ON TraineeTrainers.uniqueid = pmt7.trainee_id
+     LEFT JOIN (
+     SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Project' THEN PracticalMarkTrainers.score ELSE 0 END)
+     AS score
+     FROM PracticalMarkTrainers
+     GROUP BY trainee_id
+     ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes' and TraineeTrainers.uniqueid='${req.params.traineeid}';
+     
+     
+     
+     `
+        );
+const config= await  db.Config.findAll();
+res.render('depttotsinglestudentmarklist',{course:course,tottrainees:trainees,batch:batch,user:req.user,trainee:trainee,config:config});
+
+     }
 }); 
 router.post('/selectnewtotapplicant/(:totid)',ensureAuthenticated,async function(req,res){
 const totid = req.params.totid;
@@ -910,7 +1154,10 @@ console.log(err)
 }
 
 });
+router.post('/updatepassword',ensureAuthenticated,async function(req,res){
+   const {oldpassword,newpassword} = req.body;
 
+})
 router.post('/uploadquestions',ensureAuthenticated,upload.single('questionsFile'),async function(req,res){
    
    const config = await db.Config.findAll({});
