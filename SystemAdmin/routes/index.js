@@ -408,7 +408,7 @@ router.get('/', forwardAuthenticated, async (req, res) =>{
   attempt_no:traineeattempt,
   education_id: education
     }
-
+    console.log(pmarkData)
     db.PracticalMark.findOne({where:{ trainee_id:traineeid,testcode:testcode, assessment_part:assessmentpart, assessment_id:assessmentid,}}).then(mark =>{
       if(mark){
         res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Data Already With This Code Exist'});
@@ -416,22 +416,25 @@ router.get('/', forwardAuthenticated, async (req, res) =>{
       }else{
         db.PracticalMark.create(pmarkData).then(mark =>{
           if(mark){
+            console.log(mark)
             res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,success_msg:'Practical Assessment Saved Successfully'});
          
           
           }else{
-            res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error'});
+            res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error1'});
     
           }
          
         }).catch(err =>{
-          res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error'});
+          console.log(err)
+          res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error2'});
     
         })
       }
     
     }).catch(err =>{
-      res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error'});
+      console.log(err)
+      res.render('dashboard',{batch:batch,schedule:schedule,user:req.user,error_msg:'Trainee Data Not Saved Try Again. Connection Error3'});
   
     })
   

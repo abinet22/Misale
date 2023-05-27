@@ -3,13 +3,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="hhhwidth=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Login</title>
     
         <!-- CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/templatemo_style.css">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/templatemo_style.css">
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="favicon.png" />
   
@@ -241,7 +241,7 @@
                         
                         </ol>
                         <hr>
-                        <form id="regForm" action="/takepracticalassessment" method="post">
+                        <form id="regForm" action="/misaleacadamy/takepracticalassessment" method="post">
                           <input type="hidden" name="finishtime" id="finishtime" value="">
                           <input type="hidden" name="education" id="education" value="<%= trainee.licence_type %>">
                           
@@ -398,16 +398,16 @@ function updateValue(e) {
       </div> 
        <%- include ('./partials/footer') %>
         <!-- require plugins -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.parallax.js"></script>
+        <script src="../../../js/jquery.min.js"></script>
+        <script src="../../../js/jquery-ui.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/jquery.parallax.js"></script>
         <!-- template mo config script -->
-        <script src="js/templatemo_scripts.js"></script>
+        <script src="../../../js/templatemo_scripts.js"></script>
        
 <script>
   // Defines identifiers for accessing HTML elements
-const minutesInput = 120;
+const minutesInput = 1;
    startButton = document.getElementById("startButton"),
    pauseButton = document.getElementById("pauseButton"),
    unpauseButton = document.getElementById("unpauseButton"),
@@ -454,12 +454,34 @@ disable(unpauseButton); enable(pauseButton); // Toggles buttons
 function tick(){
 if(totalSeconds > 0){
  totalSeconds--; // Decreases total seconds by one
- document.getElementById('finishtime').value = 120 - (totalSeconds / 60);
+ document.getElementById('finishtime').value = 1 - (totalSeconds / 60);
  counterDiv.innerHTML = getMinutes(totalSeconds) + ":" + getSeconds(totalSeconds)+" "+"Min"; // Updates display
 }
 else{
  // The timer has reached zero. Let the user start again. 
  enable(startButton);
+
+ const form = document.querySelector('#regForm');
+  const inputs = form.querySelectorAll('input[type="number"]');
+  const output = form.querySelector('input[name="output"]');
+  const marksinput = form.querySelector('input[name="marks"]');
+
+  let sum = 0;
+    const marks = [];
+    for (let i = 0; i < inputs.length; i++) {
+      sum += Number(inputs[i].value);
+      const input = inputs[i];
+      const mark = {
+        id:input.id,
+        name: input.name,
+        point: Number(input.value)
+      };
+      marks.push(mark);
+    }
+    output.value = sum;
+    console.log(marks);
+    marksinput.value = JSON.stringify(marks)
+    form.submit();
  disable(pauseButton); disable(unpauseButton);
 }
 }
@@ -501,6 +523,7 @@ function enable(element){ element.removeAttribute("disabled"); }
     marksinput.value = JSON.stringify(marks)
     form.submit();
   });
+  
 </script>
     </body>
 </html>

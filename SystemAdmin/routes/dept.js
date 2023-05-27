@@ -115,7 +115,133 @@ res.send(buffer);
     }
 
  });
- 
+ router.post('/printgradereport/(:traineeid)', ensureAuthenticated, async function(req, res) {
+   
+   const batch = db.Batch.findAll({})
+   const config = db.Config.findAll({where:{config_type:'Education'}});
+   
+  const trainees = await  db.TraineeTrainer.findOne({where:{uniqueid:req.params.traineeid}})
+
+  if(!trainees){
+    res.render('deptprintgraduatedtottraineelist',{config:config,trainee:'',error_msg:'TOT Trainee Not Found!',user:req.user});
+
+  }else{
+
+     
+
+       try {
+         const theoreticalresult = await db.TOTTraineeMark.findOne({where:{trainee_id:req.params.traineeid}});
+         const [practicalresult, metadata1] = await db.sequelize.query(
+       `
+       SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
+       COALESCE(intrance.theory_result, 0) AS theory_result,
+       COALESCE(intrance.practical_result, 0) AS practical_result,
+       COALESCE(pmt1.score, 0) AS score1,
+       COALESCE(pmt2.score, 0) AS score2,
+       COALESCE(pmt3.score, 0) AS score3,
+       COALESCE(pmt4.score, 0) AS score4,
+       COALESCE(pmt5.score, 0) AS score5,
+       COALESCE(pmt7.score, 0) AS score7,
+       COALESCE(pmt6.score, 0) AS score6
+       FROM TraineeTrainers 
+       inner join Batches on TraineeTrainers.batch_id = Batches.batch_id
+       LEFT JOIN IntranceExamResults AS intrance ON TraineeTrainers.uniqueid = intrance.trainee_id
+       LEFT JOIN (
+       SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Training' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+       FROM PracticalMarkTrainers
+       GROUP BY trainee_id
+       ) AS pmt1 ON TraineeTrainers.uniqueid = pmt1.trainee_id
+       LEFT JOIN (
+       SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Examining' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+       FROM PracticalMarkTrainers
+       GROUP BY trainee_id
+       ) AS pmt2 ON TraineeTrainers.uniqueid = pmt2.trainee_id
+       LEFT JOIN (
+          SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Presentation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+          FROM PracticalMarkTrainers
+          GROUP BY trainee_id
+          ) AS pmt4 ON TraineeTrainers.uniqueid = pmt4.trainee_id
+          LEFT JOIN (
+             SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Obstacle_Course_Preparation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+             FROM PracticalMarkTrainers
+             GROUP BY trainee_id
+             ) AS pmt5 ON TraineeTrainers.uniqueid = pmt5.trainee_id
+             LEFT JOIN (
+                SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Vehicle_Examination' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+                FROM PracticalMarkTrainers
+                GROUP BY trainee_id
+                ) AS pmt6 ON TraineeTrainers.uniqueid = pmt6.trainee_id
+                LEFT JOIN (
+                 SELECT trainee_id, SUM(CASE WHEN assessment_part = 'ExitExam' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+                 FROM PracticalMarkTrainers
+                 GROUP BY trainee_id
+                 ) AS pmt7 ON TraineeTrainers.uniqueid = pmt7.trainee_id
+       LEFT JOIN (
+       SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Project' THEN PracticalMarkTrainers.score ELSE 0 END)
+       AS score
+       FROM PracticalMarkTrainers
+       GROUP BY trainee_id
+       ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes' and TraineeTrainers.uniqueid='${req.params.traineeid}';
+       
+       
+       
+       `
+          );
+         console.log(practicalresult[0])
+         const templatePath = path.join(__dirname,'../public/template/Auto.docx');
+         //download the template
+         const content = await readFile(templatePath);
+         //const content = fs.readFileSync(templatePath, 'binary');
+         const zip = new PizZip(content);
+         const doc = new Docxtemplater(zip);
+      
+         
+          const today = new Date();
+          const ethiopiany = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[0];
+          const ethiopianm = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[1];
+          const ethiopiand = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[2];
+     
+          doc.setData({users:'',
+          course1:theoreticalresult.final_one,
+          course2:theoreticalresult.final_two,
+          course3:theoreticalresult.continues_two,
+          course4:theoreticalresult.continues_one,
+          course5:theoreticalresult.continues_three,
+          course6:theoreticalresult.final_three,
+         //  course7:practicalresult[0].score5,
+         //  course8:theoreticalresult.final_four,
+         //  theorysum :'',
+         //  coursep1:practicalresult[0].score7,
+         //  coursep2:practicalresult[0].score6,
+         //  coursep3:practicalresult[0].score1 +practicalresult[0].score2/2,
+          practicesum:'',
+          project:'',
+          senddate:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
+          name:'',
+          gender:'',
+          latterno:"/"+ethiopianm+"/"+ethiopiany
+          });
+          
+          doc.render();
+          
+          const buffer = doc.getZip().generate({ type: 'nodebuffer' });
+          
+          //download
+          res.set({
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'Content-Disposition': 'inline; filename="GradeReport.docx"',
+          'Content-Length': buffer.length
+          });
+          
+          res.send(buffer);
+        
+            
+       } catch (error) {
+         console.error(error);
+         res.status(500).send('Error generating document');
+       }
+    }
+}); 
 router.get('/getcertificate',ensureAuthenticated,async function(req,res){
    const templateContent = fs.readFileSync(path.join(__dirname,'../public/template/simple.docx'));
 const template = new Docxtemplater(templateContent);
@@ -666,6 +792,29 @@ const [totcourse,totcoursemeta] = await db.sequelize.query("select * from TOTCou
 const [course,coursemeta] = await db.sequelize.query("select config_id,config_name from Configs where config_type='Education'" );
 res.render('deptalltotcourselist',{user:req.user,totcourse:totcourse,course:course})
 });
+router.post('/deletetotcourse/(:cid)',ensureAuthenticated,async function(req,res){
+   const [totcourse,totcoursemeta] = await db.sequelize.query("select * from TOTCourses"+
+   " inner join Configs on TOTCourses.licence_type = Configs.config_id");
+   const [course,coursemeta] = await db.sequelize.query("select config_id,config_name from Configs where config_type='Education'" );
+   db.TOTCourses.findOne({where:{c_id:req.params.cid}}).then(course =>{
+      if(course){
+         db.TOTCourses.destroy({where:{c_id:req.params.cid}}).then(dtc =>{
+            res.render('deptalltotcourselist',{success_msg:'Successfully Delete Now TOT Course',user:req.user,totcourse:totcourse,course:course})
+
+         }).catch(err => {
+            res.render('deptalltotcourselist',{error_msg:'Cant Delete Now Try Again',user:req.user,totcourse:totcourse,course:course})
+
+         });
+      }else{
+         res.render('deptalltotcourselist',{error_msg:'TOT Course With This ID Not Found',user:req.user,totcourse:totcourse,course:course})
+
+      }
+
+   }).catch(err => {
+      res.render('deptalltotcourselist',{error_msg:'Cant Delete Now Try Again',user:req.user,totcourse:totcourse,course:course})
+
+   });
+})
 router.post('/addnewtotcourse',ensureAuthenticated,async function(req,res){
 const {coursename,coursetype,coursecode,courseweight,courseeducation,coursepart} =req.body;
 const config = await db.Config.findAll({where:{config_type:'Education'}})
@@ -753,16 +902,18 @@ res.render('depttraineetrainerregisteredstudents',{user:req.user,trainee:trainee
 router.post('/showtotdetailmarklistresult/(:traineeid)', ensureAuthenticated, async function(req, res) {
    
     const batch = db.Batch.findAll({})
+    const config = db.Config.findAll({where:{config_type:'Education'}});
+    
    const trainees = await  db.TraineeTrainer.findOne({where:{uniqueid:req.params.traineeid}})
-   
+ 
    if(!trainees){
-     res.render('depttotsinglestudentmarklist',{course:'',tottrainees:'',batch:batch,trainee:'',error_msg:'TOT Trainee Not Found!',user:req.user});
+     res.render('depttotsinglestudentmarklist',{theoreticalresult:'',config:config,course:'',practicalresult:'',batch:batch,trainees:'',error_msg:'TOT Trainee Not Found!',user:req.user});
 
    }else{
 
      const course = await db.TOTCourses.findAll({where:{licence_type:trainees.licence_type}})
-  
-  const [trainee, metadata] = await db.sequelize.query(
+      const theoreticalresult = await db.TOTTraineeMark.findOne({where:{trainee_id:req.params.traineeid}});
+  const [practicalresult, metadata] = await db.sequelize.query(
      `
      SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
      COALESCE(intrance.theory_result, 0) AS theory_result,
@@ -819,7 +970,7 @@ router.post('/showtotdetailmarklistresult/(:traineeid)', ensureAuthenticated, as
      `
         );
 const config= await  db.Config.findAll();
-res.render('depttotsinglestudentmarklist',{course:course,trainees:trainees,batch:batch,user:req.user,trainee:trainee,config:config});
+res.render('depttotsinglestudentmarklist',{theoreticalresult:theoreticalresult,config:config,course:course,practicalresult:practicalresult,batch:batch,user:req.user,trainees:trainees,config:config});
 
      }
 }); 
@@ -1208,7 +1359,60 @@ res.render('deptaddnewquestion',{user:req.user,config:config,error_msg:'Cant Upl
 
 });} 
 })
+router.get('/deptdeletequestion/(:qid)',ensureAuthenticated,async function(req,res){
 
+   db.QuestionBankOne.findOne({where:{q_id:req.params.qid}}).then(qstn =>{
+      if(qstn){
+         db.QuestionBankOne.destroy({where:{q_id:req.params.qid}}).then(() => {
+           db.QuestionBankOne.findAll({}).then(question =>{
+            res.render('deptallquestionlist',{user:req.user,question:question,success_msg:'Question Deleted From Question Bank Successfully'});
+           }).catch(err => {
+            res.render('deptallquestionlist',{user:req.user,question:question});
+           }); 
+         }).catch(err => {
+            res.render('deptallquestionlist',{user:req.user,question:question});
+         }); 
+      }else{
+         db.QuestionBankOne.findAll({}).then(question =>{
+            res.render('deptallquestionlist',{user:req.user,question:question});
+         }).catch(err => {
+            res.render('deptallquestionlist',{user:req.user,question:question});
+         }); 
+      }
+   }).catch(err => {
+      res.render('deptallquestionlist',{user:req.user,question:question});
+   }); 
+
+
+});
+router.get('/deptdeletequestiontot/(:qid)',ensureAuthenticated,async function(req,res){
+  
+   const config = await db.Config.findAll({where:{config_type:'Education'}})
+  
+   db.TrainerQuestionBank.findOne({where:{q_id:req.params.qid}}).then(qstn =>{
+      if(qstn){
+         db.TrainerQuestionBank.destroy({where:{q_id:req.params.qid}}).then(() => {
+           db.TrainerQuestionBank.findAll({}).then(question =>{
+            res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question,success_msg:'Question Deleted From Question Bank Successfully'});
+         }).catch(err => {
+            res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question});
+         }); 
+         }).catch(err => {
+            res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question});
+         }); 
+      }else{
+         db.TrainerQuestionBank.findAll({}).then(question =>{
+            res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question});
+         }).catch(err => {
+            res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question});
+         }); 
+      }
+   }).catch(err => {
+      res.render('deptalltrainerquestionlist',{config:config,user:req.user,question:question});
+   }); 
+
+   
+});
 router.post('/uploadtrainerquestions',ensureAuthenticated,upload.single('questionsFile'),async function(req,res){
 
 const {asstype,courseupload} = req.body;
@@ -1501,14 +1705,14 @@ FROM PracticalMarks
 GROUP BY trainee_id, testcode
 ) AS practical
 ON Trainees.uniqueid = practical.trainee_id AND practical.practical_rank = 1
-where Trainees.pass_fail='FAIL'
+where Trainees.pass_fail='FAIL' and is_active='Yes'
 ORDER BY Trainees.uniqueid;
 
 `
    );
-
+const udttr = await db.Trainee.findAll({where:{is_active:'Yes',pass_fail:'FAIL'}})
 const config= await  db.Config.findAll();
-res.render('deptalltehadsotraineelist',{user:req.user,trainee:trainee,config:config});
+res.render('deptalltehadsotraineelist',{udttr:udttr,user:req.user,trainee:trainee,config:config});
 
 });
 router.get('/deptalltehadsotraineelistpass', ensureAuthenticated, async function(req, res) {
@@ -1544,7 +1748,7 @@ res.render('deptalltehadsotraineelistpass',{user:req.user,trainee:trainee,config
 router.get('/deptalltehadsotraineelistsenttoash', ensureAuthenticated, async function(req, res) {
 const [trainee, metadata] = await db.sequelize.query(
 `
-SELECT Trainees.uniqueid AS trainee_id, Trainees.fullname,Trainees.round, Trainees.age, Trainees.gender, Trainees.trainee_code,Trainees.licence_type, 
+SELECT Trainees.uniqueid AS trainee_id, Trainees.fullname,Trainees.ref_no, Trainees.round, Trainees.age, Trainees.gender, Trainees.trainee_code,Trainees.licence_type, 
    theoretical.attempt_no_theory, theoretical.theoretical_score as tscore,
    practical.attempt_no, practical.score as pscore
 FROM Trainees
@@ -1604,7 +1808,9 @@ endDate: endDate
 }
 
 })
-res.render('deptalltehadsotraineelist',{user:req.user,trainee:results,config:config});
+const udttr = await db.Trainee.findAll({where:{is_active:'Yes',pass_fail:'FAIL'}})
+
+res.render('deptalltehadsotraineelist',{udttr:udttr,user:req.user,trainee:results,config:config});
 
 });
 
@@ -1663,7 +1869,7 @@ router.post('/updateassementpassfail/(:traineecode)',ensureAuthenticated,async f
       GROUP BY trainee_id, testcode
       ) AS practical
       ON Trainees.uniqueid = practical.trainee_id AND practical.practical_rank = 1
-      where Trainees.pass_fail='FAIL'
+      where Trainees.pass_fail='FAIL' and Trainees.is_active='Yes' 
       ORDER BY Trainees.uniqueid;
       
       `
@@ -1674,19 +1880,122 @@ router.post('/updateassementpassfail/(:traineecode)',ensureAuthenticated,async f
       if(traineenew){
          db.Trainee.update({attempt_count:theoryattempt,attempt_count_prac:practicalattempt,pass_fail:ispassfail},
             {where:{trainee_code:req.params.traineecode}}).then(udttr =>{
-               res.render('deptalltehadsotraineelist',{success_msg:'Update Trainee Status Successfully',user:req.user,trainee:trainee,config:config});
+               db.Trainee.findAll({where:{pass_fail:'FAIL',is_active:'Yes' }}).then(udttr =>{
+                  res.render('deptalltehadsotraineelist',{udttr:udttr,success_msg:'Update Trainee Status Successfully',user:req.user,trainee:trainee,config:config});
    
+               }).catch(err =>{
+                  res.render('deptalltehadsotraineelist',{udttr:'',user:req.user,trainee:trainee,config:config});
+   
+               })
+            
             }).catch(err =>{
                console.log(err)
-               res.render('deptalltehadsotraineelist',{user:req.user,trainee:trainee,config:config});
+               res.render('deptalltehadsotraineelist',{udttr:udttr,user:req.user,trainee:trainee,config:config});
    
             })
       }
     }).catch(err =>{
       console.log(err)
-      res.render('deptalltehadsotraineelist',{user:req.user,trainee:trainee,config:config});
+      res.render('deptalltehadsotraineelist',{udttr:udttr,user:req.user,trainee:trainee,config:config});
    
     })
 
-})
+});
+
+router.post('/updatetotstatusgraduated/(:traineeid)',ensureAuthenticated,async function(req,res){
+   const trainees = await  db.TraineeTrainer.findOne({where:{uniqueid:req.params.traineeid}})
+   const batch = db.Batch.findAll({})
+   const course = await db.TOTCourses.findAll({where:{licence_type:trainees.licence_type}})
+   const theoreticalresult = await db.TOTTraineeMark.findOne({where:{trainee_id:req.params.traineeid}});
+const [practicalresult, metadata] = await db.sequelize.query(
+  `
+  SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
+  COALESCE(intrance.theory_result, 0) AS theory_result,
+  COALESCE(intrance.practical_result, 0) AS practical_result,
+  COALESCE(pmt1.score, 0) AS score1,
+  COALESCE(pmt2.score, 0) AS score2,
+  COALESCE(pmt3.score, 0) AS score3,
+  COALESCE(pmt4.score, 0) AS score4,
+  COALESCE(pmt5.score, 0) AS score5,
+  COALESCE(pmt7.score, 0) AS score7,
+  COALESCE(pmt6.score, 0) AS score6
+  FROM TraineeTrainers 
+  inner join Batches on TraineeTrainers.batch_id = Batches.batch_id
+  LEFT JOIN IntranceExamResults AS intrance ON TraineeTrainers.uniqueid = intrance.trainee_id
+  LEFT JOIN (
+  SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Training' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+  FROM PracticalMarkTrainers
+  GROUP BY trainee_id
+  ) AS pmt1 ON TraineeTrainers.uniqueid = pmt1.trainee_id
+  LEFT JOIN (
+  SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Examining' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+  FROM PracticalMarkTrainers
+  GROUP BY trainee_id
+  ) AS pmt2 ON TraineeTrainers.uniqueid = pmt2.trainee_id
+  LEFT JOIN (
+     SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Presentation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+     FROM PracticalMarkTrainers
+     GROUP BY trainee_id
+     ) AS pmt4 ON TraineeTrainers.uniqueid = pmt4.trainee_id
+     LEFT JOIN (
+        SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Obstacle_Course_Preparation' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+        FROM PracticalMarkTrainers
+        GROUP BY trainee_id
+        ) AS pmt5 ON TraineeTrainers.uniqueid = pmt5.trainee_id
+        LEFT JOIN (
+           SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Vehicle_Examination' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+           FROM PracticalMarkTrainers
+           GROUP BY trainee_id
+           ) AS pmt6 ON TraineeTrainers.uniqueid = pmt6.trainee_id
+           LEFT JOIN (
+            SELECT trainee_id, SUM(CASE WHEN assessment_part = 'ExitExam' THEN PracticalMarkTrainers.score ELSE 0 END) AS score
+            FROM PracticalMarkTrainers
+            GROUP BY trainee_id
+            ) AS pmt7 ON TraineeTrainers.uniqueid = pmt7.trainee_id
+  LEFT JOIN (
+  SELECT trainee_id, SUM(CASE WHEN assessment_part = 'Project' THEN PracticalMarkTrainers.score ELSE 0 END)
+  AS score
+  FROM PracticalMarkTrainers
+  GROUP BY trainee_id
+  ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes' and TraineeTrainers.uniqueid='${req.params.traineeid}';
+  
+  
+  
+  `
+     );
+const config= await  db.Config.findAll();
+
+ db.TraineeTrainer.findOne({where:{uniqueid:req.params.traineeid}}).then((tottrainee)=>{
+  if(tottrainee){
+   db.TraineeTrainer.update({is_graduated:'Yes'},{where:{uniqueid:req.params.traineeid}}).then(()=>{
+      res.render('depttotsinglestudentmarklist',{success_msg:'Update TOT Trainee Status Graduated Successfully!',theoreticalresult:theoreticalresult,config:config,course:course,practicalresult:practicalresult,batch:batch,user:req.user,trainees:trainees,config:config});
+
+   }).catch(err =>{
+      res.render('depttotsinglestudentmarklist',{theoreticalresult:theoreticalresult,config:config,course:course,practicalresult:practicalresult,batch:batch,user:req.user,trainees:trainees,config:config});
+
+   })
+
+  }else{
+   res.render('depttotsinglestudentmarklist',{theoreticalresult:theoreticalresult,config:config,course:course,practicalresult:practicalresult,batch:batch,user:req.user,trainees:trainees,config:config});
+
+  }
+
+ }).catch(err =>{
+   res.render('depttotsinglestudentmarklist',{theoreticalresult:theoreticalresult,config:config,course:course,practicalresult:practicalresult,batch:batch,user:req.user,trainees:trainees,config:config});
+
+ })
+
+});
+
+router.get('/deptprintgraduatedtottraineelist', ensureAuthenticated, async function(req, res) {
+   
+   
+   const batch= await  db.Batch.findAll({});
+
+  const trainee= await db.TraineeTrainer.findAll({where:{is_graduated:'Yes'}});
+const config= await  db.Config.findAll();
+res.render('deptprintgraduatedtottraineelist',{batch:batch,user:req.user,trainee:trainee,config:config});
+
+     
+}); 
 module.exports = router;

@@ -30,9 +30,9 @@ app.use(bodyParser.json());
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Express body parser
-app.use(express.urlencoded({ extended: true }));
 
 // Express session
 app.use(

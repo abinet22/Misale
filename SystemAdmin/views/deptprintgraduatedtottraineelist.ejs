@@ -35,19 +35,18 @@
 <body>
 
   <!-- ======= Header ======= -->
-  <%- include ('./partials/headeradmin') %>
+  <%- include ('./partials/headerdept') %>
   <!-- ======= Sidebar ======= -->
  <%- include ('./partials/sidedept') %>
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Schedule List</h1>
+      <h1>TOT Trainee Data</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/misaleacadamy/dashboard">Home</a></li>
-          <li class="breadcrumb-item"> CANDIDATE(TEHADSO) SETTING</li>
-          <li class="breadcrumb-item">Manage Assessor Schedule For Candidate(Tehadso)</li>
-          <li class="breadcrumb-item active">Current Schedule List</li>
+          <li class="breadcrumb-item">Manage Data</li>
+          <li class="breadcrumb-item active">All Tehadso Trainee Data</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -58,50 +57,67 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Schedule List</h5>
-           
+              <h5 class="card-title">Trainee List</h5>
+            
               <!-- Table with stripped rows -->
-              <table class="table datatable">
+              <table class="table datatable " id="myTable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Assossor Name</th>
-                    <th scope="col">Schedule Date</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Code</th>
+                   
+                    <th scope="col">Gender/Age</th>
+
+                    <th scope="col">Education Category</th>
                     
-                    <th scope="col">Technician Part</th>
-                    <th scope="col">Action</th>
+                   
+                    <th scope="col">Detail Mark List</th>
+                    <th scope="col">Action To Do</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <% if(schedule.length > 0) { %>
-                        <% var i =0 %>
-                        <% schedule.forEach(function(row){ %>
-                            <% i++ %>
-                            <tr>
-                                <th scope="row"><%= i %></th>
-                                <td><%= row.full_name %></td>
-                                <td><i class="bi bi-alarm-fill fa-2x" style="color:rgb(94, 94, 218)"></i> &nbsp; <%= new Date(row.from_date).toLocaleDateString() %></td>
-                              
-                              
-                                <td><%if( row.technical_part === "Technician1"){ %>
-                                  <span>ቴክኒሻን 1</span>
-                             <%  }else if(row.technical_part === "Technician2"){ %>
-                               <span>ቴክኒሻን 2</span>
-                             <%   }else if(row.technical_part =="Technician3"){ %>
-                               <span>ቴክኒሻን 3</span>
-
-                             <%   }else if(row.technical_part =="Technician4"){ %>
-                               <span>ቴክኒሻን 4</span>
-                               
-
-                         <%  } else { %>
-                           <span>ቴክኒሻን 5</span>
-                           <% }%></td>   
-                                <td><a class="btn btn-sm btn-block btn-outline-info" href="/misaleacadamy/dept/deptaddassossorschedule">Edit</a></td>
-                              </tr>
-                       <% } )%>
-               
-                  <%} %>
+                  <% if(trainee.length > 0) { %>
+                    <% var i =0 %>
+                    <% trainee.forEach(function(row){ %>
+                        <% i++ %>
+                        <tr>
+                          <th scope="row"><%= i %></th>
+                          <td><%= row.fullname %></td>
+                          <td><span style="font-weight: 600; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><%= row.trainee_code %></span></td>
+                         
+                          <td><%= row.gender %>/<%= row.age %></td>
+                        
+                          <% var edu = row.licence_type %>
+                          <td> <% if(config.length > 0) { %>
+                          
+                            <% config.forEach(function(row){ %>
+                              <%if(row.config_id==edu){ %>
+                                <%= row.config_name %>
+                              <% }} )%>
+           
+                              <%} %></td>
+                        
+                        
+                         
+                         
+                        
+                        <td>
+                          <form action="/misaleacadamy/dept/showtotdetailmarklistresult/<%= row.uniqueid %>" method="post"> 
+                            <button class=" btn btn-sm btn-block btn-outline-info" type="submit"> Detail</button>
+                          </form>
+                        </td>
+                        <td>
+                            <form action="/misaleacadamy/dept/printgradereport/<%= row.uniqueid %>" method="post"> 
+                              <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Print Grade Report</button>
+                            </form>
+                          </td>
+                                
+                       
+                          </tr>
+                   <% } )%>
+           
+              <%} %>
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

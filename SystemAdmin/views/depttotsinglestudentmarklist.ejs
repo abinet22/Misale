@@ -71,7 +71,12 @@
                       <% } %>
                       
                       <img src="<%= totphoto %>" alt="Profile" class="rounded-circle">
-                      <h2><%= trainees.fullname %></5></h2>
+                      <h4><%= trainees.fullname %></h4>
+                      <% config.forEach(function(row){ %>
+                             <%if(row.config_id === trainees.licence_type){%>
+                              <h5><%= row.config_name %></h5>
+                             <%} })%>
+                     
                      
                       <div class="social-links mt-2">
                       
@@ -81,9 +86,9 @@
         
                 </div>
                   <% }%>
-                  <% trainee.forEach(function(row){ %>
+                 
                 <div class="col-xl-8">
-        
+         <%- include ('./partials/messages') %>
                   <div class="card">
                     <div class="card-body pt-3">
                       <!-- Bordered Tabs -->
@@ -108,70 +113,41 @@
                              
                                 <!-- List group with custom content -->
                                 <ol class="list-group list-group-numbered">
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የስራ ላይ ደህንነትና ድንገተኛ ምላሽ ትግበራ</div>
-                                      ቴክ 004
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">10</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የተሽከርካሪ ፍተሻ</div>
-                                      ቴክ 003
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">5</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የጉዞ መረጃዎች አሰባሰብ</div>
-                                      ቴክ 005
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">4</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">ከተሳፋሪና ከስራ ባልደረባ ጋር መልካም ግንኙነት መፍጠር</div>
-                                      ቴክ 009
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">3.5</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">ተሳፋሪን በትህትና መያዝና የሻንጣዎችን ደህንነት መጠበቅ</div>
-                                      ቴክ 0010
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">3.5</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የማሸከርከር ስነ ባህርይ</div>
-                                      ቴክ 001
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">7</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የትራንስፖርት ደንቦችና ህጎች</div>
-                                      ቴክ 002
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">15</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የተሽከርካሪ ምርመራ</div>
-                                      ቴክ 006
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">14</span>
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የማስተማር ስልቶችና የፈተና አሰጣጥ
-                                    </div>
-                                      ቴክ 008
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">6</span>
-                                  </li>
+                                  <% course.forEach(function(row){ %>
+                                    <% if(row.course_type === "Theoretical" && trainees.licence_type === row.licence_type ){%>
+                                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                          <div class="fw-bold"><%= row.course_name %></div>  
+                  
+                                        
+                                         <%= row.course_code %>:&nbsp;
+                                         <% var score; %>
+                                         <% if(row.course_part ==="Final_1"){
+                                            score =theoreticalresult.final_one
+                                         }else if(row.course_part ==="Continuous_2"){
+                                          score =theoreticalresult.continues_two
+                                         }else if(row.course_part ==="Continuous_3"){
+                                          score =theoreticalresult.continues_three
+                                         }else if(row.course_part ==="Continuous_4"){
+                                          score =theoreticalresult.continues_four
+                                         }else if(row.course_part ==="Continuous_1"){
+                                          score =theoreticalresult.continues_one
+                                         }else if(row.course_part ==="Final_2"){
+                                          score =theoreticalresult.final_two
+                                         }else if(row.course_part ==="Final_3"){
+                                          score =theoreticalresult.final_three
+                                         }else if(row.course_part ==="Final_4"){
+                                          score =theoreticalresult.final_four
+                                         }%>
+                                        Score &nbsp; <%= score %>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill"><%= row.course_weight %> %</span>
+                                      </li>
+                                  
+                                  
+                                    
+                                    <%  }}) %>
+                                  
                                 </ol><!-- End with custom content -->
                   
                               </div>
@@ -182,61 +158,51 @@
                           
                             <!-- List group with custom content -->
                             <ol class="list-group list-group-numbered">
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">አሰለጣጠን (Training Other)</div>
-                                 Total Score:&nbsp; <%= row.score1 %>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">አፈታተን (Examining Other)</div>
-                                  Total Score:&nbsp; <%= row.score2 %>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">አቀራረብ (Prsesentation)</div>
-                                  Total Score:&nbsp; <%= row.score4 %>
-                               
-                                 
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 60%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">ፕሮጀክት (Project)</div>
-                                  Total Score:&nbsp;  <%= row.score3 %>
-                                
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 40%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">የመሰናክል ሜዳ አዘገጃጀት (Obstacle Course Preparation)	</div>
-                                  Total Score:&nbsp;   <%= row.score6 %>
-                                 
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 4%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">የተሽከርካሪ ምርመራ (Vehicle Examination )</div>
-                                  Total Score:&nbsp;  <%= row.score5 %>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 8%</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">የመውጫ ፈተና (Exit Exam)</div>
-                                  Total Score:&nbsp; <%= row.score7 %>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">ክብደት 10%</span>
-                              </li>
+                              <% course.forEach(function(row){ %>
+                                <% if(row.course_type === "Practical" && trainees.licence_type === row.licence_type ){%>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold"><%= row.course_name %>
+                                      </div><%= row.course_code %>
+                                     
+                                      <% var practype = row.course_part %>
+                                        <% var score ; %>
+                                      <% practicalresult.forEach(function(row){ %> 
+                                           <%    if(practype === "Practical1"){
+                                                    score = row.score5;
+                                               }else if(practype === "Practical2"){
+                                                score = row.score7;
+                                               }else if(practype === "Practical3"){
+                                                score = row.score6;
+                                               }else if(practype === "Practical4"){
+                                                score = (parseInt(row.score1) + parseInt(row.score2)) /2;
+                                               } %>
+                                        Score:&nbsp; <%= score %>
+                                        <% } )%>
+                                    
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">ክብደት <%= row.course_weight %>%</span>
+                                  </li>
+                           
+                              <%  }}) %>
+                              
+                           
                             </ol><!-- End with custom content -->
-              
+                            <li class="list-group-item d-flex bg-success justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                </div>
+                               
+                                ክፍል ዉስጥ የማስተማር ብቃት፡
+                                  <% var score ; %>
+                                <% practicalresult.forEach(function(row){ %> 
+                                    
+                                  Score:&nbsp; <%= parseInt(row.score3) +parseInt(row.score4) %>
+                                  <% } )%>
+                              
+                              </div>
+                              <span class="badge bg-primary rounded-pill"></span>
+                            </li>
                           </div>
                           
         
@@ -245,88 +211,96 @@
                             <h5 class="card-title">የትራንስፖርት ቴክኒሽያን አሰልጣኞች (Approval) ትራንስክሪፕት
                             </h5>
                             <div class="card-body">
-                            <% var con1= "Continuous_1"; %>
-                            <label class="fw-bold">የንድፈ ሀሳብ ፈተና ዉጤት</label>
-                              <!-- List group with custom content -->
-                              <ol class="list-group list-group-numbered">
-                             
-                                    <% course.forEach(function(row){ %>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="ms-2 me-auto">
-                                          <div class="fw-bold"><%= row.course_name %></div>  
-                  
-                                        
-                                         <%= row.course_code %>:&nbsp; <%= parseInt(row.score1)*5/100+parseInt( row.score2)*5/100 %>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill"><%= row.course_weight %> %</span>
-                                      </li>
-                                    
-                                    <%}) %>
-                                    
-                              </ol>
-                              <label class="fw-bold">የተግባር ፈተና ዉጤት</label>
-                              <ol class="list-group list-group-numbered">
-                                 
-                               
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                  <div class="ms-2 me-auto">
-                                    <div class="fw-bold">የአነዳድ ችሎታ የህዝብ ተሽከርካሪ</div>
-                                    ቴክ 001/ተግ:&nbsp; <%= parseInt(row.score7)*10/100 %>
-                                  </div>
-                                  <span class="badge bg-primary rounded-pill">ክብደት 10%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">የተሽከርካሪ ምርመራ</div>
-                                      ቴክ 002/ተግ:&nbsp;  <%= parseInt(row.score5)*8/100 %>
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">ክብደት 8%</span>
-                                  </li>
-                                     
-                                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                      <div class="fw-bold">አሰለጣጠንና አፈታተን
-                                    </div>
-                                    ቴክ 003/ተግ:&nbsp; <%= parseInt(row.score1)*5/100+parseInt(row.score2)*5/100 %>
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill">ክብደት 5%</span>
-                                  </li>
-                                
                           
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                              <div class="ms-2 me-auto">
-                                <div class="fw-bold">የመሰናክል ሜዳ አዘገጃጀት 	</div>
-                                ቴክ 007:&nbsp;   <%= parseInt(row.score6)*4/100 %>
-                               
-                              </div>
-                              <span class="badge bg-primary rounded-pill">ክብደት 4%</span>
-                            </li>
-                              </ol><!-- End with custom content -->
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                  <div class="fw-bold">ጠቅላላ ድምር  <%= parseInt(row.score4) + parseInt(row.score3)%></div>
-                             
-                                </div>
-                               
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">የህዘብ  አንድ ትራንስፖርት አጠቃላይ ዉጤት:   <%= parseInt(row.score4) + parseInt(row.score3)%></div>
-                                 
-                                   
-                                  <div class="fw-bold">ክፍል ዉስጥ የማስተማር ብቃት፡  <%= parseInt(row.score4) + parseInt(row.score3)%></div>
-                                 
-                                 
-                                </div>
-                               
-                              </li>
                             
+                            <table class="table-responsive"> 
+                              <thead>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Course Weight</th>
+                                <th>Score</th>
+                              </thead>
+                               <tbody>
+                               
+                                  <% course.forEach(function(row){ %>
+                                    <% if(trainees.licence_type === row.licence_type ){%>
+                                      <% var practype = row.course_part %>
+                                      <% var score ; %>
+                                      <% if(row.course_part ==="Final_1"){
+                                        score =theoreticalresult.final_one
+                                     }else if(row.course_part ==="Continuous_2"){
+                                      score =theoreticalresult.continues_two
+                                     }else if(row.course_part ==="Continuous_3"){
+                                      score =theoreticalresult.continues_three
+                                     }else if(row.course_part ==="Continuous_4"){
+                                      score =theoreticalresult.continues_four
+                                     }else if(row.course_part ==="Continuous_1"){
+                                      score =theoreticalresult.continues_one
+                                     }else if(row.course_part ==="Final_2"){
+                                      score =theoreticalresult.final_two
+                                     }else if(row.course_part ==="Final_3"){
+                                      score =theoreticalresult.final_three
+                                     }else if(row.course_part ==="Final_4"){
+                                      score =theoreticalresult.final_four
+                                     }%>
+                                     <% practicalresult.forEach(function(row){ %> 
+                                      <%    if(practype === "Practical1"){
+                                               score = row.score5;
+                                          }else if(practype === "Practical2"){
+                                           score = row.score7;
+                                          }else if(practype === "Practical3"){
+                                           score = row.score6;
+                                          }else if(practype === "Practical4"){
+                                           score = (parseInt(row.score1) + parseInt(row.score2))/2;
+                                          } %>
+                                                                    <% } )%>
+                                     <tr>
+                                      <td>
+                                  <div class="fw-bold"><%= row.course_code %>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="fw-bold"><%= row.course_name %>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="fw-bold"><%= row.course_weight %>
+                                  </div>
+                                </td>
+
+                                <td>
+                                  <div class="fw-bold"><%=  parseInt(score) * parseInt(row.course_weight)/100  %>
+                                  </div>
+                                </td>  </tr>
+                                      <%  }}) %>
+                              
+                               </tbody>
+                            </table>
+                            <li class="list-group-item d-flex bg-success justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                </div>
+                               
+                                ክፍል ዉስጥ የማስተማር ብቃት፡
+                                  <% var score ; %>
+                                <% practicalresult.forEach(function(row){ %> 
+                                    
+                                  Score:&nbsp; <%= parseInt(row.score3) +parseInt(row.score4) %>
+                                  <% } )%>
+                              
+                              </div>
+                              <span class="badge bg-primary rounded-pill"></span>
+                            </li>
                             </div>
                             
           
                           </div>
                        
-        
+                        <div class="col-md-6 offset-md-3">
+                          <form action="/misaleacadamy/dept/updatetotstatusgraduated/<%= trainees.uniqueid %>" method="post">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Update Status Graduated</button>
+                          </form>
+                        </div>
                       
                      
         
@@ -336,7 +310,7 @@
                   </div>
         
                 </div>
-                <% } )%>
+            
            
                
               </div>

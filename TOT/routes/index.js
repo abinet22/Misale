@@ -133,7 +133,7 @@ router.get('/exam/(:language)', ensureAuthenticated, async function (req, res) {
      
   } else {
       const [idArrayString,meta1] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-      "as id_array FROM TrainerQuestionBanks WHERE assessment_type = '"+asstype.appointment_for +"' and language ='"+req.params.language+"' and education='"+req.user.licence_type +"'");
+      "as id_array FROM TrainerQuestionBanks WHERE assessment_type = '"+asstype.appointment_for +"' and language ='"+req.params.language+"'");
       console.log(idArrayString)
       console.log(asstype)
       // Assuming the id_array string is stored in a variable called idArrayString
