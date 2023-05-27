@@ -216,6 +216,7 @@ res.send(buffer);
         course.forEach(function(row){ 
          var practype = row.course_part ;
          var weight = row.course_weight;
+         classper= parseInt(row.score3) +parseInt(row.score4)
         practicalresult.forEach(function(row){ 
                                     
          if(practype === "Practical1"){
@@ -245,24 +246,24 @@ res.send(buffer);
           const ethiopiand = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[2];
      
           doc.setData({users:'',
-          course1:f1,
-          course2:f2,
-          course3:c2,
-          course4:c1,
-          course5:c3,
-          course6:f3,
-          coursep1:p1,
-          course8:f4,
-          ttotal :'',
-          coursep2:p2,
-          coursep3:p3,
-          coursep4:p4,
-          ptotal:'',
-          total:'',
+          course1:f1.toFixed(2),
+          course2:f2.toFixed(2),
+          course3:c2.toFixed(2),
+          course4:c1.toFixed(2),
+          course5:c3.toFixed(2),
+          course6:f3.toFixed(2),
+          coursep1:p1.toFixed(2),
+          course7:f4.toFixed(2),
+          ttotal :(f1+f2+f3+f4+c1+c2+c3).toFixed(2),
+          coursep2:p2.toFixed(2),
+          coursep3:p3.toFixed(2),
+          coursep4:p4.toFixed(2),
+          ptotal:(p1+p2+p3+p4).toFixed(2),
+          total:(f1+f2+f3+f4+c1+c2+c3+p1+p2+p3+p4).toFixed(2),
           project:classper,
           senddate:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
-          name:'',
-          gender:'',
+          name:trainees.fullname,
+          gender:trainees.gender,
           latterno:"/"+ethiopianm+"/"+ethiopiany
           });
           
