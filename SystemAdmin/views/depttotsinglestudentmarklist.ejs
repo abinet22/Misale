@@ -166,18 +166,18 @@
                                       </div><%= row.course_code %>
                                      
                                       <% var practype = row.course_part %>
-                                        <% var score ; %>
+                                        <% var scorep ; %>
                                       <% practicalresult.forEach(function(row){ %> 
                                            <%    if(practype === "Practical1"){
-                                                    score = row.score5;
+                                                    scorep = row.score5;
                                                }else if(practype === "Practical2"){
-                                                score = row.score7;
+                                                scorep = row.score7;
                                                }else if(practype === "Practical3"){
-                                                score = row.score6;
+                                                scorep = row.score6;
                                                }else if(practype === "Practical4"){
-                                                score = (parseInt(row.score1) + parseInt(row.score2)) /2;
+                                                scorep = (parseInt(row.score1) + parseInt(row.score2)) /2;
                                                } %>
-                                        Score:&nbsp; <%= score %>
+                                        Score:&nbsp; <%= scorep %>
                                         <% } )%>
                                     
                                     </div>
@@ -194,7 +194,7 @@
                                 </div>
                                
                                 ክፍል ዉስጥ የማስተማር ብቃት፡
-                                  <% var score ; %>
+                               
                                 <% practicalresult.forEach(function(row){ %> 
                                     
                                   Score:&nbsp; <%= parseInt(row.score3) +parseInt(row.score4) %>
@@ -227,21 +227,21 @@
                                       <% var practype = row.course_part %>
                                       <% var score ; %>
                                       <% if(row.course_part ==="Final_1"){
-                                        score =theoreticalresult.final_one
+                                        score =(theoreticalresult.final_one)*100/14
                                      }else if(row.course_part ==="Continuous_2"){
-                                      score =theoreticalresult.continues_two
+                                      score =(theoreticalresult.continues_two)*100/10
                                      }else if(row.course_part ==="Continuous_3"){
-                                      score =theoreticalresult.continues_three
+                                      score =(theoreticalresult.continues_three)*100/14
                                      }else if(row.course_part ==="Continuous_4"){
-                                      score =theoreticalresult.continues_four
+                                      score =(theoreticalresult.continues_four)*100/14
                                      }else if(row.course_part ==="Continuous_1"){
-                                      score =theoreticalresult.continues_one
+                                      score =(theoreticalresult.continues_one)*100/10
                                      }else if(row.course_part ==="Final_2"){
-                                      score =theoreticalresult.final_two
+                                      score =(theoreticalresult.final_two)*100/15
                                      }else if(row.course_part ==="Final_3"){
-                                      score =theoreticalresult.final_three
+                                      score =(theoreticalresult.final_three)*100/21
                                      }else if(row.course_part ==="Final_4"){
-                                      score =theoreticalresult.final_four
+                                      score =(theoreticalresult.final_four)*100/12
                                      }%>
                                      <% practicalresult.forEach(function(row){ %> 
                                       <%    if(practype === "Practical1"){
@@ -282,7 +282,7 @@
                                 </div>
                                
                                 ክፍል ዉስጥ የማስተማር ብቃት፡
-                                  <% var score ; %>
+                               
                                 <% practicalresult.forEach(function(row){ %> 
                                     
                                   Score:&nbsp; <%= parseInt(row.score3) +parseInt(row.score4) %>
@@ -297,9 +297,15 @@
                           </div>
                        
                         <div class="col-md-6 offset-md-3">
-                          <form action="/misaleacadamy/dept/updatetotstatusgraduated/<%= trainees.uniqueid %>" method="post">
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Update Status Graduated</button>
-                          </form>
+                          <% if(trainees.is_graduated ==="Yes"){%>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Already Update Student Status</button>
+                       
+                          <%}else{%>
+                            <form action="/misaleacadamy/dept/updatetotstatusgraduated/<%= trainees.uniqueid %>" method="post">
+                              <button type="submit" class="btn btn-sm btn-outline-primary">Update Status Graduated</button>
+                            </form>
+                          <%}%>
+
                         </div>
                       
                      

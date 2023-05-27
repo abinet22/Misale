@@ -130,7 +130,31 @@ res.send(buffer);
      
 
        try {
+         const course = await db.TOTCourses.findAll({where:{licence_type:trainees.licence_type}})
+           var c1,c2,c3,c4,f1,f2,f3,f4;
+       
          const theoreticalresult = await db.TOTTraineeMark.findOne({where:{trainee_id:req.params.traineeid}});
+        
+         course.forEach(function(row){ 
+            if(row.course_part ==="Final_1"){
+              f1 =((theoreticalresult.final_one)*100/14)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Continuous_2"){
+            c2 =((theoreticalresult.continues_two)*100/10)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Continuous_3"){
+            c3 =((theoreticalresult.continues_three)*100/14)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Continuous_4"){
+            c4 =((theoreticalresult.continues_four)*100/14)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Continuous_1"){
+            c1 =((theoreticalresult.continues_one)*100/10)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Final_2"){
+            f2 =((theoreticalresult.final_two)*100/15)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Final_3"){
+            f3 =((theoreticalresult.final_three)*100/21)* parseInt(row.course_weight)/100
+           }else if(row.course_part ==="Final_4"){
+            f4 =((theoreticalresult.final_four)*100/12)* parseInt(row.course_weight)/100
+           }
+         })
+        
          const [practicalresult, metadata1] = await db.sequelize.query(
        `
        SELECT TraineeTrainers.uniqueid,Batches.batch_name, TraineeTrainers.fullname, trainee_code,gender,age, TraineeTrainers.licence_type, 
@@ -181,12 +205,31 @@ res.send(buffer);
        AS score
        FROM PracticalMarkTrainers
        GROUP BY trainee_id
-       ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes' and TraineeTrainers.uniqueid='${req.params.traineeid}';
+       ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated='Yes'  and TraineeTrainers.uniqueid='${req.params.traineeid}';
        
        
        
        `
           );
+             var classper,p1,p2,p3,p4;
+          
+        course.forEach(function(row){ 
+         var practype = row.course_part ;
+         var weight = row.course_weight;
+        practicalresult.forEach(function(row){ 
+                                    
+         if(practype === "Practical1"){
+            p1 = (row.score5)*weight/100;
+       }else if(practype === "Practical2"){
+        p2 = (row.score7)*weight/100;
+       }else if(practype === "Practical3"){
+        p3 = (row.score6)*weight/100;
+       }else if(practype === "Practical4"){
+        p4 = ((parseInt(row.score1) + parseInt(row.score2))/2)*weight/100;
+       }
+          
+        } )
+         })
          console.log(practicalresult[0])
          const templatePath = path.join(__dirname,'../public/template/Auto.docx');
          //download the template
@@ -202,20 +245,21 @@ res.send(buffer);
           const ethiopiand = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[2];
      
           doc.setData({users:'',
-          course1:theoreticalresult.final_one,
-          course2:theoreticalresult.final_two,
-          course3:theoreticalresult.continues_two,
-          course4:theoreticalresult.continues_one,
-          course5:theoreticalresult.continues_three,
-          course6:theoreticalresult.final_three,
-         //  course7:practicalresult[0].score5,
-         //  course8:theoreticalresult.final_four,
-         //  theorysum :'',
-         //  coursep1:practicalresult[0].score7,
-         //  coursep2:practicalresult[0].score6,
-         //  coursep3:practicalresult[0].score1 +practicalresult[0].score2/2,
-          practicesum:'',
-          project:'',
+          course1:f1,
+          course2:f2,
+          course3:c2,
+          course4:c1,
+          course5:c3,
+          course6:f3,
+          coursep1:p1,
+          course8:f4,
+          ttotal :'',
+          coursep2:p2,
+          coursep3:p3,
+          coursep4:p4,
+          ptotal:'',
+          total:'',
+          project:classper,
           senddate:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
           name:'',
           gender:'',
@@ -963,7 +1007,7 @@ router.post('/showtotdetailmarklistresult/(:traineeid)', ensureAuthenticated, as
      AS score
      FROM PracticalMarkTrainers
      GROUP BY trainee_id
-     ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes' and is_graduated IS NULL and Batches.is_current='Yes' and TraineeTrainers.uniqueid='${req.params.traineeid}';
+     ) AS pmt3 ON TraineeTrainers.uniqueid = pmt3.trainee_id where is_registered='Yes'  and TraineeTrainers.uniqueid='${req.params.traineeid}';
      
      
      
