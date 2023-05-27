@@ -131,29 +131,32 @@ res.send(buffer);
 
        try {
          const course = await db.TOTCourses.findAll({where:{licence_type:trainees.licence_type}})
-           var c1,c2,c3,c4,f1,f2,f3,f4;
+           var [c1,c2,c3,c4,f1,f2,f3,f4] = [0,0,0,0,0,0,0,0];
        
          const theoreticalresult = await db.TOTTraineeMark.findOne({where:{trainee_id:req.params.traineeid}});
+         
+         if(theoreticalresult && course.length >0){
+            course.forEach(function(row){ 
+               if(row.course_part ==="Final_1"){
+                 f1 =((theoreticalresult.final_one)*100/14)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Continuous_2"){
+               c2 =((theoreticalresult.continues_two)*100/10)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Continuous_3"){
+               c3 =((theoreticalresult.continues_three)*100/14)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Continuous_4"){
+               c4 =((theoreticalresult.continues_four)*100/14)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Continuous_1"){
+               c1 =((theoreticalresult.continues_one)*100/10)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Final_2"){
+               f2 =((theoreticalresult.final_two)*100/15)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Final_3"){
+               f3 =((theoreticalresult.final_three)*100/21)* parseInt(row.course_weight)/100
+              }else if(row.course_part ==="Final_4"){
+               f4 =((theoreticalresult.final_four)*100/12)* parseInt(row.course_weight)/100
+              }
+            })
+         }
         
-         course.forEach(function(row){ 
-            if(row.course_part ==="Final_1"){
-              f1 =((theoreticalresult.final_one)*100/14)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Continuous_2"){
-            c2 =((theoreticalresult.continues_two)*100/10)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Continuous_3"){
-            c3 =((theoreticalresult.continues_three)*100/14)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Continuous_4"){
-            c4 =((theoreticalresult.continues_four)*100/14)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Continuous_1"){
-            c1 =((theoreticalresult.continues_one)*100/10)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Final_2"){
-            f2 =((theoreticalresult.final_two)*100/15)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Final_3"){
-            f3 =((theoreticalresult.final_three)*100/21)* parseInt(row.course_weight)/100
-           }else if(row.course_part ==="Final_4"){
-            f4 =((theoreticalresult.final_four)*100/12)* parseInt(row.course_weight)/100
-           }
-         })
         
          const [practicalresult, metadata1] = await db.sequelize.query(
        `
@@ -211,28 +214,37 @@ res.send(buffer);
        
        `
           );
-             var classper,p1,p2,p3,p4;
+             var [classper,p1,p2,p3,p4] =[0,0,0,0,0];
+          if(practicalresult.length >0){
+            course.forEach(function(row){ 
+               var practype = row.course_part ;
+               var weight = row.course_weight;
+               
+              practicalresult.forEach(function(row){ 
+               classper= parseInt(row.score3) +parseInt(row.score4);                
+               if(practype === "Practical1"){
+                  p1 = (row.score5)*weight/100;
+             }else if(practype === "Practical2"){
+              p2 = (row.score7)*weight/100;
+             }else if(practype === "Practical3"){
+              p3 = (row.score6)*weight/100;
+             }else if(practype === "Practical4"){
+              p4 = ((parseInt(row.score1) + parseInt(row.score2))/2)*weight/100;
+             }
+                
+              } )
+               })
+          }
+      
+          var templatePath;
+          if(course.length ===11){
+            templatePath = path.join(__dirname,'../public/template/Auto.docx');
+          }else if(course.length ===13){
+            templatePath = path.join(__dirname,'../public/template/Hizb.docx');
+          }else if(course.length ===12){
+            templatePath = path.join(__dirname,'../public/template/Derek.docx');
+          }
           
-        course.forEach(function(row){ 
-         var practype = row.course_part ;
-         var weight = row.course_weight;
-         classper= parseInt(row.score3) +parseInt(row.score4)
-        practicalresult.forEach(function(row){ 
-                                    
-         if(practype === "Practical1"){
-            p1 = (row.score5)*weight/100;
-       }else if(practype === "Practical2"){
-        p2 = (row.score7)*weight/100;
-       }else if(practype === "Practical3"){
-        p3 = (row.score6)*weight/100;
-       }else if(practype === "Practical4"){
-        p4 = ((parseInt(row.score1) + parseInt(row.score2))/2)*weight/100;
-       }
-          
-        } )
-         })
-         console.log(practicalresult[0])
-         const templatePath = path.join(__dirname,'../public/template/Auto.docx');
          //download the template
          const content = await readFile(templatePath);
          //const content = fs.readFileSync(templatePath, 'binary');
@@ -254,12 +266,12 @@ res.send(buffer);
           course6:f3.toFixed(2),
           coursep1:p1.toFixed(2),
           course7:f4.toFixed(2),
-          ttotal :(f1+f2+f3+f4+c1+c2+c3).toFixed(2),
+          ttotal :(f1+f2+f3+f4+c1+c2+c3+c4).toFixed(2),
           coursep2:p2.toFixed(2),
           coursep3:p3.toFixed(2),
           coursep4:p4.toFixed(2),
           ptotal:(p1+p2+p3+p4).toFixed(2),
-          total:(f1+f2+f3+f4+c1+c2+c3+p1+p2+p3+p4).toFixed(2),
+          total:(f1+f2+f3+f4+c1+c2+c3+c4+p1+p2+p3+p4).toFixed(2),
           project:classper,
           senddate:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
           name:trainees.fullname,
