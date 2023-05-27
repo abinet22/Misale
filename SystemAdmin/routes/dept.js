@@ -266,6 +266,7 @@ res.send(buffer);
           course6:f3.toFixed(2),
           coursep1:p1.toFixed(2),
           course7:f4.toFixed(2),
+          course8:c4.toFixed(2),
           ttotal :(f1+f2+f3+f4+c1+c2+c3+c4+p1).toFixed(2),
           coursep2:p2.toFixed(2),
           coursep3:p3.toFixed(2),
