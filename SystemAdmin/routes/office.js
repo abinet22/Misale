@@ -16,6 +16,7 @@ router.get('/addnewstaff', ensureAuthenticated, async function(req, res) {
  });
 
 router.get('/allstafflist', ensureAuthenticated, async function(req, res) {
+  
 db.Staff.findAll().then(staff =>{
     res.render('allstafflist',{user:req.user,staff:staff});
 }).catch(err =>{
@@ -269,6 +270,54 @@ const [credential, metadata] = await db.sequelize.query(
 res.render('allcredentiallist',{user:req.user,credential:credential});
 
 });
+router.post('/diactivatecredentials/(:id)', ensureAuthenticated, async function(req, res) {
+  const [credential, metadata] = await db.sequelize.query(
+  "SELECT * FROM Users JOIN Staffs ON Staffs.staff_id = Users.staffid"
+  );
+  db.User.findOne({where:{id:req.params.id}})
+.then(users =>{
+  if(users){
+db.User.update({is_active:'No'},{where:{id:req.params.id}}).then(usrudt =>{
+  db.User.findAll({}).then(credentialn =>{
+    res.render('allcredentiallist',{user:req.user,credential:credentialn,success_msg:"Diactivate Account Successfully"});
+  })
+  
+}).catch(err =>{
+  res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Diactivate Account Not Successfully"});
+})
+  }else{
+    res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Cant Find Account Try Again"});
+  }
+}).catch(err =>{
+  res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Network Error Try Again"});
+}) 
+
+  
+  });
+  router.post('/activatecredentials/(:id)', ensureAuthenticated, async function(req, res) {
+    const [credential, metadata] = await db.sequelize.query(
+    "SELECT * FROM Users JOIN Staffs ON Staffs.staff_id = Users.staffid"
+    );
+    db.User.findOne({where:{id:req.params.id}})
+  .then(users =>{
+    if(users){
+  db.User.update({is_active:'Yes'},{where:{id:req.params.id}}).then(usrudt =>{
+    db.User.findAll({}).then(credentialn =>{
+      res.render('allcredentiallist',{user:req.user,credential:credentialn,success_msg:"Activate Account Successfully"});
+    })
+    
+  }).catch(err =>{
+    res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Activate Account Not Successfully"});
+  })
+    }else{
+      res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Cant Find Account Try Again"});
+    }
+  }).catch(err =>{
+    res.render('allcredentiallist',{user:req.user,credential:credential,error_msg:"Network Error Try Again"});
+  }) 
+  
+    
+    });
 router.get('/addnewappointment', ensureAuthenticated, async function(req, res) {
 const config = await db.Config.findAll({})
 db.Trainee.findAll({where:{
@@ -913,22 +962,31 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
        if(errors.length >0){
          res.render('addstaff',{user:req.user,errors});
        }else{
-         db.Staff.create(staffData).then(staff =>{
-       if(staff){
-         res.render('addstaff',{user:req.user,success_msg:'Create Staff Info Successfully'});
-       }else{
-         res.render('addstaff',{user:req.user,error_msg:'Cant Create Staff Info Now Try Again'});
-       }
-         }).catch(err =>{
-            res.render('addstaff',{user:req.user,error_msg:'Cant Create Staff Info Now'});
-         })
+        db.Staff.findOne({where:{full_name:fullname}}).then(staff =>{
+          if(staff){
+            res.render('addstaff',{user:req.user,error_msg:'Staff With This name Already Exist And Registered'});
+          }else{
+            db.Staff.create(staffData).then(staff =>{
+              if(staff){
+                res.render('addstaff',{user:req.user,success_msg:'Create Staff Info Successfully'});
+              }else{
+                res.render('addstaff',{user:req.user,error_msg:'Cant Create Staff Info Now Try Again'});
+              }
+                }).catch(err =>{
+                   res.render('addstaff',{user:req.user,error_msg:'Cant Create Staff Info Now'});
+                })
+          }
+        }).catch(err =>{
+          res.render('addstaff',{user:req.user,error_msg:'Cant Create Staff Info Now'});
+        })
+        
          
        }
   
      });
    
      router.post('/addnewtrainee', ensureAuthenticated, async function(req, res) {
-      const {fullname,age,gender,educategory,school,refno} =req.body;
+      const {fullname,gender,educategory,school,refno} =req.body;
       const v1options = {
          node: [0x01, 0x23],
          clockseq: 0x1234,
@@ -944,7 +1002,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
          uniqueid: tid,
       fullname: fullname,
       phone_number:'',
-      age:age,
+      age:18,
       gender:gender,
       trainee_code: shortcode,
       password:'$2a$10$DjRhWPkdAy6Q8M1DXr3/SepmkYDvw9lTgYu9WTDLd4P.KAU/n58Xy',
@@ -960,7 +1018,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
       is_sentto_ash:'No'
        }
        let errors =[];
-       if(!age || !gender || !school || !refno ||!fullname || !educategory){
+       if( !school || !refno ||!fullname || !educategory){
          errors.push({msg:'Please Enter All Required Fields'})
        }
       
@@ -1111,7 +1169,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
   
      });
      router.post('/activatetraineeaccount',ensureAuthenticated,async function(req,res){
-        const {receipt_no,traineeId} =req.body;
+        const {receipt_no,traineeId,age,gender} =req.body;
         const [trainee, metadata] = await db.sequelize.query(
           "SELECT * FROM Trainees where is_active='No'"
         );
@@ -1122,8 +1180,8 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
           reciept_no: receipt_no,
           activate_by:req.user.staffid
         }
-        if(!receipt_no || !trainee){
-      errors.push({msg:'Please Enter Correct Reciept Number'});
+        if(!receipt_no || !trainee || !age || !gender){
+      errors.push({msg:'Please Enter All Reqired Feilds'});
         }
         if(errors.length>0){
           res.render('updatetraineeaccount',{errors,user:req.user,trainee:trainee,config:config});
@@ -1136,7 +1194,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
                   res.render('updatetraineeaccount',{user:req.user,error_msg:'Cant Activate Reciept No Already Exist!!!',user:req.user,trainee:trainee,config:config});
      
                 }else{
-                  db.Trainee.update({is_active:'Yes',is_payed:'Yes',recept_no:receipt_no},{where:{uniqueid:traineeId}}).then(usr =>{
+                  db.Trainee.update({is_active:'Yes',is_payed:'Yes',recept_no:receipt_no,age:age,gender:gender},{where:{uniqueid:traineeId}}).then(usr =>{
                     db.ActivationLog.create(aLog).then(log =>{
                      db.Trainee.findAll({where:{is_active:'No'}}).then(trainees =>{
                        res.render('updatetraineeaccount',{user:req.user,success_msg:'Successfully Activate Trainee Account Code:'+user.trainee_code,user:req.user,trainee:trainees,config:config});

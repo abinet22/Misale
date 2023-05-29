@@ -70,8 +70,7 @@
                     <th scope="col">Address</th>
                   
                     <th scope="col">Is Active</th>
-                    <th scope="col">Action</th>
-                    <th scope="col">Log</th>
+                 
                   </tr>
                 </thead>
                 <tbody>
@@ -84,10 +83,17 @@
                           <td><%= row.full_name %></td>
                           <td><%= row.phone_no %></td>
                           <td><%= row.address %></td>
-                          <td><button class="btn btn-sm btn-block btn-outline-success">Active</button></td>
-                          <td><button class="btn btn-sm btn-block btn-outline-info">Edit</button></td>
-                    
-                          <td><button class="btn btn-sm btn-block btn-outline-primary">Log</button></td>
+                          <td>
+                            <% if(row.is_active ==="Yes"){%>
+                              <button class="btn btn-sm btn-block btn-outline-success">Active</button>
+                          
+                            <%}else{%>
+                              <button class="btn btn-sm btn-block btn-outline-warning">Diactivated</button>
+                          
+                            <%}%>
+                          
+                          </td>
+             
                         </tr>
                    <% } )%>
            

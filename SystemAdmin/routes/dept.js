@@ -22,7 +22,7 @@ const mime = require('mime-types');
 
 const path = require('path');
 const { error } = require('console');
-router.post('/generate-documents-ash', async  function (req, res)  {
+router.post('/generate-documents-ash',ensureAuthenticated, async  function (req, res)  {
    const { round } = req.body;
  
    try {
@@ -99,6 +99,69 @@ const buffer = doc.getZip().generate({ type: 'nodebuffer' });
 res.set({
 'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 'Content-Disposition': 'inline; filename="ASH.docx"',
+'Content-Length': buffer.length
+});
+
+res.send(buffer);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+     
+         
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error generating document');
+    }
+
+ });
+ router.get('/todaytehadsopracticalresults',ensureAuthenticated, async  function (req, res)  {
+   
+ 
+   try {
+      const templatePath = path.join(__dirname,'../public/template/PracticalResultToday.docx');
+      //download the template
+     const content = await readFile(templatePath);
+      //const content = fs.readFileSync(templatePath, 'binary');
+      const zip = new PizZip(content);
+      const doc = new Docxtemplater(zip);
+
+            const today = new Date();
+       const ethiopiany = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[0];
+       const ethiopianm = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[1];
+       const ethiopiand = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[2];
+
+       db.sequelize.query(`
+       SELECT Trainees.fullname,Configs.config_name, trainee_id, SUM(score)
+       FROM PracticalMarks
+       INNER JOIN Trainees ON trainee_id = uniqueid
+       INNER JOIN Configs ON config_id = licence_type
+       WHERE DATE(PracticalMarks.createdAt) = CURDATE()
+       GROUP BY trainee_id, Trainees.fullname,Configs.config_name,
+       `)
+  .then(trainee => {
+   const users = trainee.map((row,index) => ({
+              
+      id: index+1,
+      name: row.fullname,
+      score: row.score,
+  
+    }));
+doc.setData({users:users,
+
+date:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
+round:12,
+latterno:"/"+ethiopianm+"/"+ethiopiany
+});
+
+doc.render();
+
+const buffer = doc.getZip().generate({ type: 'nodebuffer' });
+
+//download
+res.set({
+'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+'Content-Disposition': 'inline; filename="TodayTehadsoPracticalExam.docx"',
 'Content-Length': buffer.length
 });
 

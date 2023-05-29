@@ -78,7 +78,7 @@
               <h5 class="card-title">Update Candidate(Tehadso) Payment</h5>
            
               <!-- Table with stripped rows -->
-              <table class="table datatable table-responsive">
+              <table class="table datatable ">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -174,9 +174,15 @@
         </div>
    <form action="/misaleacadamy/office/activatetraineeaccount" method="post">
     <div class="modal-body">
-      <label>Please Add Here</label>
+      <label>Please Add Reciept No Here</label>
       <input type="hidden" class="js-toggler__input" value="" name="traineeId" id="traineeId" >
-      <input class="form-control" name="receipt_no">
+      <input class="form-control mb-2" name="receipt_no" placeholder="Reciept No">
+      <input class="form-control mb-2" name="age" type="number" placeholder="Age">
+      <select class="form-control mb-2" name="gender">
+        <option value="0">Please Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
         </div>
          <div class="modal-footer">
              <button type="submit" class="btn btn-sm btn-outline-primary">Save</button>
