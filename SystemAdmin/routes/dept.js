@@ -131,22 +131,23 @@ res.send(buffer);
        const ethiopianm = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[1];
        const ethiopiand = EthiopianDate.toEthiopian(today.getFullYear(), today.getMonth() + 1, today.getDate())[2];
 
-       db.sequelize.query(`
-       SELECT Trainees.fullname,Configs.config_name, trainee_id, SUM(score)
+  const [trainee,trmeta]  = await    db.sequelize.query(`
+       SELECT Trainees.fullname,Configs.config_name, trainee_id, SUM(score) as score
        FROM PracticalMarks
        INNER JOIN Trainees ON trainee_id = uniqueid
        INNER JOIN Configs ON config_id = licence_type
        WHERE DATE(PracticalMarks.createdAt) = CURDATE()
-       GROUP BY trainee_id, Trainees.fullname,Configs.config_name,
-       `)
-  .then(trainee => {
-   const users = trainee.map((row,index) => ({
+       GROUP BY trainee_id, Trainees.fullname,Configs.config_name
+       `);
+  const users = trainee.map((row,index) => ({
               
-      id: index+1,
-      name: row.fullname,
-      score: row.score,
-  
-    }));
+   id: index+1,
+   name: row.fullname,
+   category:row.config_name,
+   score: row.score,
+   result:parseInt(row.score)>=74?'አልፈዋል':'አላለፍም'
+
+ }));
 doc.setData({users:users,
 
 date:ethiopiand +"/"+ethiopianm+"/"+ethiopiany,
@@ -166,11 +167,6 @@ res.set({
 });
 
 res.send(buffer);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-     
          
     } catch (error) {
       console.error(error);
@@ -1219,7 +1215,7 @@ technical_part: technicianpart,
 schedule_type:'TOT'
 }  
 db.Schedule.findOne({  where: {
-staff_id:staffid, schedule_type:'TOT',batch_id:batchname,technical_part: technicianpart
+ schedule_type:'TOT',batch_id:batchname,technical_part: technicianpart
 }}).then(con=>{
 if(con){
 db.Schedule.update(scheduleData,{where:{ staff_id:staffid}}).then(scheduleudt =>{

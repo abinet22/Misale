@@ -407,7 +407,7 @@ function updateValue(e) {
        
 <script>
   // Defines identifiers for accessing HTML elements
-const minutesInput = 1;
+const minutesInput = 10;
    startButton = document.getElementById("startButton"),
    pauseButton = document.getElementById("pauseButton"),
    unpauseButton = document.getElementById("unpauseButton"),
@@ -454,7 +454,7 @@ disable(unpauseButton); enable(pauseButton); // Toggles buttons
 function tick(){
 if(totalSeconds > 0){
  totalSeconds--; // Decreases total seconds by one
- document.getElementById('finishtime').value = 1 - (totalSeconds / 60);
+ document.getElementById('finishtime').value = 10 - (totalSeconds / 60);
  counterDiv.innerHTML = getMinutes(totalSeconds) + ":" + getSeconds(totalSeconds)+" "+"Min"; // Updates display
 }
 else{

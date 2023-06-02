@@ -722,7 +722,9 @@ document.addEventListener('keydown', function(event) {
             var time = setInterval(function(){
                 secondSum--;
                 if(secondSum == 0){
-                    location.reload();
+                  const form = document.querySelector('#regForm');
+                    form.submit();
+                 //   location.reload();
                 }
                
                 var second = secondSum;

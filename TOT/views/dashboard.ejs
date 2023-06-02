@@ -40,6 +40,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+       <div class="card">
+        <%- include ('./partials/messages') %>
+       </div>
             <!--Grid row-->
             <div class="row gx-xl-5">
               
@@ -339,8 +342,8 @@
             <div class="modal-body">
               <form action="/misaleacadamyapproval/changepassword/<%= user.uniqueid %>" method="post">
 
-                <input type="text" class="form-control" name="newpassword" placeholder="Enter New Password">
-                <input type="text" class="form-control" name="renewpassword" placeholder="Enter Retype Password">
+                <input type="text" class="form-control" name="password" placeholder="Enter New Password">
+                <input type="text" class="form-control" name="repassword" placeholder="Enter Retype Password">
              </div>
             <div class="modal-footer">
               <button type="button" class="close btn btn-outline-primary btn-sm" data-dismiss="modal" aria-label="Close">

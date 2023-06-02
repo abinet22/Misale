@@ -6,7 +6,7 @@ const passport = require('passport');
 const db = require("../models")
 const Op = db.Sequelize.Op;
 const { v4: uuidv4 } = require('uuid');
-
+const bcrypt = require('bcryptjs');
 
 router.get('/', forwardAuthenticated, async (req, res) =>{
    
@@ -23,12 +23,52 @@ router.get('/', forwardAuthenticated, async (req, res) =>{
     group by trainee_id, theory_count`)
     res.render('dashboard',{language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
    });
+   router.post('/changepassword/(:totid)', ensureAuthenticated, async (req, res) =>{
+    const {password ,repassword} = req.body;
+    const config = await db.Config.findAll({});
+    const language = req.session.language;
+     
+    const [pm,pmmeta] =await db.sequelize.query(`select trainee_id,practical_count ,sum(practical_result) as pscore from IntranceExamResults  where trainee_id ='${req.user.uniqueid}'
+    group by trainee_id,practical_count`);
+    const [tm,tmmeta] = await db.sequelize.query(`select trainee_id,theory_count ,sum(theory_result) as tscore from IntranceExamResults  where trainee_id ='${req.user.uniqueid}'
+    group by trainee_id, theory_count`);
+    if(!password || !repassword){
+      res.render('dashboard',{error_msg:'Please Enter All Required Fields',language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
+  
+    }
+    if(password != repassword){
+      res.render('dashboard',{error_msg:'Password Not Match Retype Password',language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
+  
+    }else{
+      db.TraineeTrainer.findOne({where:{uniqueid:req.params.totid}}).then(totuser =>{
+        if(totuser){
+          bcrypt.hash(password, 10, (err, hash) => {
+            db.TraineeTrainer.update({password:hash},{where:{uniqueid:req.params.totid}}).then(user =>{
+              res.redirect('/misaleacadamyapproval/login')
+            }).catch(err =>{
+              res.render('dashboard',{error_msg:'Error While Changing Password',language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
+           
+            })
+          })
+          
+
+        }else{
+         res.render('dashboard',{error_msg:'Cant Find TOT Trainee With This ID',language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
+
+        }
+   }).catch(err=>{
+     res.render('dashboard',{error_msg:'Error While Changing Password',language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
+   })
+    }
+   
+    
+   });
 
 
 router.get('/examintrance/(:language)', ensureAuthenticated, async function(req, res) {
 console.log(req.user.licence_type)
   const [idArrayString,meta1] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-  "as id_array FROM TrainerQuestionBanks WHERE assessment_type = 'Intrance' and language ='"+req.params.language+"'");
+  "as id_array FROM TrainerQuestionBanks WHERE assessment_type = 'Intrance'");
   // Assuming the id_array string is stored in a variable called idArrayString
   const idArrayStrings = meta1[0].id_array;
   var idArray1;
@@ -94,7 +134,15 @@ console.log(req.user.licence_type)
       
       
       
-  db.Appointment.findAll({where:{trainee_id:req.user.trainee_code,appointment_for:'ITheoretical'}}).then(trainee =>{
+  db.Appointment.findAll({where:{trainee_id:req.user.trainee_code,   [Op.or]: [
+    {
+      appointment_for:'ITheoretical'
+    }, 
+
+    {
+      appointment_for:'All'
+    }
+]}}).then(trainee =>{
   if(trainee){
     db.TrainerQuestionBank.findAll({where:{id: {
       [Op.in]: generatedArray
@@ -131,13 +179,43 @@ router.get('/exam/(:language)', ensureAuthenticated, async function (req, res) {
     res.render('exam',{asstype:'',user:req.user,question:'',successmsg:'No Appointment Found Contact Adminstrator'});
   
      
-  } else {
-      const [idArrayString,meta1] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-      "as id_array FROM TrainerQuestionBanks WHERE assessment_type = '"+asstype.appointment_for +"' and language ='"+req.params.language+"'");
+  } else { 
+     
+    if (asstype.appointment_for === "Continuous_4") {
+      const query = `SELECT GROUP_CONCAT(id SEPARATOR ',') AS id_array 
+                     FROM TrainerQuestionBanks 
+                     WHERE assessment_type = :appointmentFor 
+                     AND education = :licenceType`;
+    
+      const [result, meta] = await db.sequelize.query(query, {
+        replacements: {
+          appointmentFor: asstype.appointment_for,
+          licenceType: req.user.licence_type
+        }
+      });
+      
+      var idArrayString = result[0].id_array;
+    } else {
+      const query = `SELECT GROUP_CONCAT(id SEPARATOR ',') AS id_array 
+                     FROM TrainerQuestionBanks 
+                     WHERE assessment_type = :appointmentFor`;
+    
+      const [result, meta] = await db.sequelize.query(query, {
+        replacements: {
+          appointmentFor: asstype.appointment_for
+        }
+      });
+      
+      var idArrayString = result[0].id_array;
+    }
+    
       console.log(idArrayString)
+      // const [idArrayString,meta1] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
+      // "as id_array FROM TrainerQuestionBanks WHERE assessment_type = '"+asstype.appointment_for +"'");
+   
       console.log(asstype)
       // Assuming the id_array string is stored in a variable called idArrayString
-      const idArrayStrings = meta1[0].id_array;
+      const idArrayStrings = idArrayString;
       var idArray1;
       if(idArrayStrings !=null){
         idArray1  = idArrayStrings.split(',').map(id => parseInt(id));
@@ -259,7 +337,7 @@ router.post('/submitintranceexam',ensureAuthenticated,async function(req,res){
    const theorymark = {
     
      trainee_id: req.user.uniqueid,
-     theory_result: parseInt(score)*2 ,
+     theory_result: parseInt(score)*3.34 ,
      theory_count:1,
      practical_count:0,
      
@@ -276,10 +354,10 @@ router.post('/submitintranceexam',ensureAuthenticated,async function(req,res){
       }).then((theoretical_mark) => {
          if(theoretical_mark ){
          var theorymarkcount = parseInt(theoretical_mark.theory_count) +1;
-          db.IntranceExamResult.update({theory_result: parseInt(score)*2 ,theory_count:theorymarkcount},{where:{ trainee_id: req.user.uniqueid}}).then(thmarkudt=>{
+          db.IntranceExamResult.update({theory_result: parseInt(score)*3.34 ,theory_count:theorymarkcount},{where:{ trainee_id: req.user.uniqueid}}).then(thmarkudt=>{
             if(thmarkudt){
               db.TraineeTrainer.update({last_exam_post_date:new Date()},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
-                res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Update Intrance Examination. Your Score Is' +parseInt(score)*2})
+                res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Update Intrance Examination. Your Score Is' +parseInt(score)*3.34})
             
               }).catch(err =>{
                 console.log(err);
@@ -301,7 +379,7 @@ router.post('/submitintranceexam',ensureAuthenticated,async function(req,res){
           db.IntranceExamResult.create(theorymark).then(thmark =>{
             if(thmark){
               db.TraineeTrainer.update({last_exam_post_date:new Date()},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
-                res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Intrance Examination. Your Score Is' +score*2})
+                res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Intrance Examination. Your Score Is' +score*3.34})
            
               }).catch(err =>{
                 console.log(err);

@@ -554,7 +554,7 @@ if(errors.length>0){
     }
     db.Appointment.findOne({where:{trainee_id:traineeid,appointment_for:appointmentfor}}).then(appoint =>{
         if(appoint){
-          db.Appointment.update({  appointment_date:new Date(appointmentdate)
+          db.Appointment.update({  appointment_date:new Date(appointmentdate),appointment_for:appointmentfor
           },{where:{trainee_id:traineeid}}).then(schedule =>{
             if(schedule){
               if(apptag ==="TraineeTrainer"){
@@ -1068,7 +1068,7 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
   
      });
 
-     router.post('/addnewtraineetrainertrainee', ensureAuthenticated,totphoto.single('totphoto'), async function(req, res) {
+     router.post('/addnewtraineetrainertrainee', ensureAuthenticated, async function(req, res) {
       const {fullname,age,gender,educategory,phone} =req.body;
       const v1options = {
          node: [0x01, 0x23],
@@ -1088,9 +1088,9 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
        if(!age || !gender || !phone  ||!fullname || !educategory){
          errors.push({msg:'Please Enter All Required Fields'})
        }
-       if(!req.file){
-        errors.push({msg:'Please Add Trainee Photo'})
-       }
+      //  if(!req.file){
+      //   errors.push({msg:'Please Add Trainee Photo'})
+      //  }
        if( educategory =="0"){
          errors.push({msg:'Please Select Education Category'})
        }
@@ -1118,11 +1118,9 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
        is_active: 'No',
        is_registered: 'No',
        batch_id:'',
-       typemimetype:req.file.mimetype,
-       namefile: req.file.filename,
-       totphoto: fs.readFileSync(
-         path.join(__dirname,'../public/uploads/') + req.file.filename
-       ),
+       typemimetype:'req.file.mimetype',
+       namefile: 'req.file.filename',
+       totphoto: ''
         }
          db.TraineeTrainer.findAll({
             where: {
@@ -1135,10 +1133,10 @@ res.render('updatetraineeaccount',{user:req.user,trainee:trainee,config:config})
                 if (user.length ==0 ) {
                   db.TraineeTrainer.create(userData).then(usernew =>{
                      if(usernew){
-                      fs.writeFileSync(path.join(__dirname,'../public/uploads/')+ usernew.namefile,
+                      // fs.writeFileSync(path.join(__dirname,'../public/uploads/')+ usernew.namefile,
            
-                      usernew.totphoto
-                      );
+                      // usernew.totphoto
+                      // );
                       res.render('addnewtraineetrainertrainee',{batch:batch,user:req.user,config:config,success_msg:'Create Trainee Info Now Succussfully'});
                   
                       // res.render('studentid', {

@@ -176,13 +176,13 @@ function generateArray() {
     
   const selectedItems = [
     ...shuffledArr1.slice(0, 3),
-    ...shuffledArr2.slice(0, 3),
+    ...shuffledArr2.slice(0, 2),
     ...shuffledArr3.slice(0, 3),
-    ...shuffledArr4.slice(0, 5),
-    ...shuffledArr5.slice(0, 5),
-    ...shuffledArr6.slice(0, 10),
-    ...shuffledArr7.slice(0, 15),
-    ...shuffledArr8.slice(0, 6)
+    ...shuffledArr4.slice(0, 13),
+    ...shuffledArr5.slice(0, 9),
+    ...shuffledArr6.slice(0, 3),
+    ...shuffledArr7.slice(0, 10),
+    ...shuffledArr8.slice(0, 7)
   ];
   
     const uniqueArray = [...new Set(selectedItems)];
