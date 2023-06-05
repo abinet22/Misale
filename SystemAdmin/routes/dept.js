@@ -1215,7 +1215,7 @@ technical_part: technicianpart,
 schedule_type:'TOT'
 }  
 db.Schedule.findOne({  where: {
- schedule_type:'TOT',batch_id:batchname,technical_part: technicianpart
+ schedule_type:'TOT',batch_id:batchname,technical_part: technicianpart,staff_id:staffid
 }}).then(con=>{
 if(con){
 db.Schedule.update(scheduleData,{where:{ staff_id:staffid}}).then(scheduleudt =>{
