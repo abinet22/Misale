@@ -20,7 +20,8 @@ router.get('/', forwardAuthenticated, async (req, res) =>{
     const [pm,pmmeta] =await db.sequelize.query(`select trainee_id,practical_count ,sum(practical_result) as pscore from IntranceExamResults  where trainee_id ='${req.user.uniqueid}'
     group by trainee_id,practical_count`);
     const [tm,tmmeta] = await db.sequelize.query(`select trainee_id,theory_count ,sum(theory_result) as tscore from IntranceExamResults  where trainee_id ='${req.user.uniqueid}'
-    group by trainee_id, theory_count`)
+    group by trainee_id, theory_count`);
+    
     res.render('dashboard',{language,pm:pm,tm:tm,successmsg:'',user:req.user,config:config,licence_type:req.user.licence_type});
    });
    router.post('/changepassword/(:totid)', ensureAuthenticated, async (req, res) =>{
@@ -167,7 +168,7 @@ console.log(req.user.licence_type)
 router.get('/exam/(:language)', ensureAuthenticated, async function (req, res) {
   console.log(req.user.batch_id)
   var currentDate = new Date();
-   const asstype = await  db.Appointment.findOne({where:{batch_id:req.user.batch_id,
+   const asstype = await  db.Appointment.findOne({where:{batch_id:req.user.batch_id,trainee_id:req.user.trainee_code,
     appointment_date:{
       [Op.gte]: new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()),
       [Op.lt]: new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1)
@@ -239,7 +240,7 @@ router.get('/exam/(:language)', ensureAuthenticated, async function (req, res) {
             ];
             
            
-              const randomSample = resultArray.slice(0, 50);
+              const randomSample = shuffledArray;
               console.log(`Number of Array randomSample: ${resultArray}`);
               console.log(`Number of Array randomSample: ${resultArray.length}`);
             return randomSample;    
@@ -508,14 +509,14 @@ if (today >= lastExamPostDatePlusOneDay) {
      
       db.sequelize.query(query).then(thmarkudt=>{
         if(thmarkudt){
-          db.TraineeTrainer.update({last_exam_post_date:new Date()},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
-            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Examination. Your Score Is' +parseInt(score)*2})
-       
-          }).catch(err =>{
-            console.log(err);
-            
-            
-          })
+          if(fieldToUpdate ==="final_one" || fieldToUpdate ==="final_two"|| fieldToUpdate==="final_three" ||fieldToUpdate ==="final_four"){
+            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Examination. Your Score Is' +parseInt(score)})
+        
+          }else{
+            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Examination. Your Score Is' +parseInt(score)})
+         
+          }
+        
       
         }else{
           res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. Network Error Please Take Exam Again.'})
@@ -532,14 +533,14 @@ if (today >= lastExamPostDatePlusOneDay) {
       db.TOTTraineeMark.create(theorymark).then(thmark =>{
         if(thmark){
           db.sequelize.query(query).then(uped =>{
-            db.TraineeTrainer.update({last_exam_post_date:new Date()},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
-              res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Intrance Examination. Your Score Is' +score*2})
+            if(fieldToUpdate ==="final_one" || fieldToUpdate ==="final_two"|| fieldToUpdate==="final_three" ||fieldToUpdate ==="final_four"){
+              res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Intrance Examination. Your Score Is' +score})
           
-            }).catch(err =>{
-              console.log(err);
-              
-              
-            })
+            }else{
+              res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Intrance Examination. Your Score Is' +score})
+            
+            }
+         
         
           }).catch(err =>{
             console.log(err);

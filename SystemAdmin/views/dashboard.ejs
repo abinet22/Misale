@@ -40,6 +40,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="/misaleacadamy/dashboard" class="scroll_effect">Home</a></li>
                 <li><a href="/misaleacadamy/dashboard#instructions" class="scroll_effect">Instructions</a></li>
+                <li><a data-toggle="modal" data-target="#exampleModal5" class="scroll_effect">Change Password</a></li>
                 <li><a data-toggle="modal" data-target="#exampleModal4" class="scroll_effect">Manage TOT(Trainee) Mark</a></li>
               
                 <li><a href="/misaleacadamy/logout" class="scroll_effect">Logout</a></li>
@@ -489,7 +490,36 @@ Examiner should evaluate candidate's ability to safely and efficiently complete 
           </div>
         </div>
       </div> 
-    
+      <div class="modal fade" id="exampleModal5"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/misaleacadamy/updatepassword" method="post">
+
+                <label>Please Add Old Password</label>
+                <input class="form-control" type="password" name="oldpassword">
+                <label>Please Add New Password</label>
+                <input class="form-control"  type="password" name="newpassword">
+                <label>Please Retype New Password</label>
+                <input class="form-control"  type="password" name="renewpassword">
+                
+                  
+          </div>
+            <div class="modal-footer">
+           
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-play"></i>Change Password</button>
+         
+              </form>
+               </div>
+          </div>
+        </div>
+      </div> 
        <%- include ('./partials/footer') %>
         <!-- require plugins -->
         <script src="../../../js/jquery.min.js"></script>

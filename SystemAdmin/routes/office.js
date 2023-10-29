@@ -14,7 +14,164 @@ const totphoto = require('../middleware/totphoto.js');
 router.get('/addnewstaff', ensureAuthenticated, async function(req, res) {
   res.render('addstaff',{user:req.user});
  });
+router.post('/updatepassword', ensureAuthenticated, async function(req, res) {
 
+const {oldpassword,newpassword,renewpassword} =req.body;
+
+const alltrainee = await db.Trainee.count({  createdAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   }});
+   const alltraineepayed = await db.Trainee.count({where:{is_payed:'Yes',  updatedAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   }}});
+   const alltraineetakeexam = await db.Trainee.count({where:{  updatedAt: {
+   [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+   [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+   },
+   attempt_count: {
+   [Op.gt]: 0    }}});
+const fail = await db.Trainee.count({where:{pass_fail:'Failed'}});
+const pass = await db.Trainee.count({where:{pass_fail:'Passed'}});
+let errors =[];
+
+const passcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   pass_fail: 'PASS',
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const passarray = Array(12).fill(0);
+
+passcounts.forEach(count => {
+   passarray[count.month - 1] = count.count;
+});
+const failcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   pass_fail: 'FAIL',
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const failarray = Array(12).fill(0);
+
+failcounts.forEach(count => {
+   failarray[count.month - 1] = count.count;
+});
+const regcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const regarray = Array(12).fill(0);
+
+regcounts.forEach(count => {
+   regarray[count.month - 1] = count.count;
+});
+const examcounts = await db.Trainee.findAll({
+   attributes: [
+   [db.sequelize.literal('MONTH(createdAt)'), 'month'],
+   [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+   ],
+   where: {
+   attempt_count: {
+      [Op.gt]: 0    },
+   createdAt: {
+      [Op.gte]: db.Sequelize.fn('DATE_SUB', db.Sequelize.fn('CURDATE'), db.Sequelize.literal('INTERVAL 11 MONTH'))
+   }
+   },
+   group: [db.sequelize.literal('MONTH(createdAt)')],
+   raw: true
+});
+
+const examarray = Array(12).fill(0);
+
+examcounts.forEach(count => {
+   examarray[count.month - 1] = count.count;
+});
+
+const v1options = {
+   node: [0x01, 0x23],
+   clockseq: 0x1234,
+   msecs: new Date('2011-11-01').getTime(),
+   nsecs: 5678,
+   };
+   batchid = uuidv4(v1options);
+if( !oldpassword || !renewpassword || !newpassword){
+   errors.push({msg:'Please Enter  All Feild Value'})
+}
+if(errors.length>0){
+   
+   res.render('dashboardoffice',{errors,user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+      alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+      alltraineetakeexam:alltraineetakeexam});
+}else{
+   bcrypt.compare(oldpassword, req.user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+         if(newpassword  == renewpassword){
+         bcrypt.hash(newpassword, 10, (err, hash) => {
+            
+
+            db.User.update({password:hash},{where:{id:req.user.id}}).then(usernew =>{
+               res.redirect('/misaleacadamy/logout')
+               }).catch(err =>{
+                  console.log(err)
+                  res.render('dashboardoffice',{error_msg:'Cant Change Password Now Try Later',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+                  alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+                  alltraineetakeexam:alltraineetakeexam});   
+               
+               })
+            }); // 
+         
+         }else{
+         res.render('dashboardoffice',{error_msg:'Retype Password Not Match',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+         alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+         alltraineetakeexam:alltraineetakeexam});
+         }
+      } else {
+         res.render('dashboardoffice',{error_msg:'Old Passwod Not Correct',user:req.user, pass:pass,fail:fail,alltrainee:alltrainee,
+            alltraineepayed:alltraineepayed,regarray:regarray,examarray:examarray,passarray:passarray,failarray:failarray,
+            alltraineetakeexam:alltraineetakeexam});
+   
+      }
+      });
+   
+
+
+   
+   
+}
+
+});
 router.get('/allstafflist', ensureAuthenticated, async function(req, res) {
   
 db.Staff.findAll().then(staff =>{
@@ -674,10 +831,41 @@ router.post('/addnewappointmenttraineetrainerregistered', ensureAuthenticated, a
       appointment_tag:apptag,
       batch_id:batchid
       }
-      db.Appointment.findOne({where:{trainee_id:traineeid,appointment_for:appointmentfor}}).then(appoint =>{
+      if(appointmentfor ==="Final_1" || appointmentfor ==="Final_2" || appointmentfor==="Final_3" || appointmentfor==="Final_4"){
+        db.Appointment.findOne({where:{trainee_id:traineeid,[Op.or]: [
+          {
+            appointment_for: "Final_1"
+          }, 
+      
+          {
+            appointment_for: "Final_2"
+          },
+          {
+            appointment_for: "Final_3"
+          }, 
+      
+          {
+            appointment_for: "Final_4"
+          },
+
+      ]}}).then(appoint =>{
           if(appoint){
-            db.Appointment.update({  appointment_date:new Date(appointmentdate)
-            },{where:{trainee_id:traineeid}}).then(schedule =>{
+            db.Appointment.update({ appointment_for:appointmentfor,appointment_date:new Date(appointmentdate)
+            },{where:{trainee_id:traineeid,[Op.or]: [
+              {
+                appointment_for: "Final_1"
+              }, 
+          
+              {
+                appointment_for: "Final_2"
+              },
+              {
+                appointment_for: "Final_3"
+              }, 
+          
+              {
+                appointment_for: "Final_4"
+              }]}}).then(schedule =>{
               if(schedule){
                 if(apptag ==="TraineeTrainer"){
                   res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,success_msg:'Appointment Updated Successfully'});
@@ -742,7 +930,76 @@ router.post('/addnewappointmenttraineetrainerregistered', ensureAuthenticated, a
       }).catch(err =>{
         console.log(err)
       })
-    
+      }else{
+      db.Appointment.findOne({where:{trainee_id:traineeid}}).then(appoint =>{
+          if(appoint){
+            db.Appointment.update({  appointment_date:new Date(appointmentdate),appointment_for:appointmentfor
+            },{where:{trainee_id:traineeid, batch_id:batchid}}).then(schedule =>{
+              if(schedule){
+                if(apptag ==="TraineeTrainer"){
+                  res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,success_msg:'Appointment Updated Successfully'});
+            
+                }else{
+                  
+                  res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,success_msg:'Appointment Updated Successfully!!!'});
+            
+                }
+                }else{
+                if(apptag ==="TraineeTrainer"){
+                  
+                  res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Appointment '});
+            
+                }else{
+                  res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Appointment '});
+            
+                }
+          }
+            }).catch(err =>{
+              if(apptag ==="TraineeTrainer"){
+                
+                res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Schedule'});
+            
+              }else{
+                
+                res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Schedule'});
+              }
+              })
+          }else{
+            db.Appointment.create(appointData).then(schedule =>{
+              if(schedule){
+                if(apptag ==="TraineeTrainer"){
+                  res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,success_msg:'Appointment Created Successfully'});
+            
+                }else{
+                  
+                  res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,success_msg:'Appointment Created Successfully!!!'});
+            
+                }
+                }else{
+                if(apptag ==="TraineeTrainer"){
+                  
+                  res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Appointment '});
+            
+                }else{
+                  res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Appointment '});
+            
+                }
+          }
+            }).catch(err =>{
+              if(apptag ==="TraineeTrainer"){
+                
+                res.render('addnewappointmenttraineetrainerregistered',{batch:batch,trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Schedule'});
+            
+              }else{
+                
+                res.render('addnewappointment',{trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Schedule'});
+              }
+              })
+          }
+      }).catch(err =>{
+        console.log(err)
+      })
+      }
     
     
   }
@@ -756,10 +1013,10 @@ router.post('/addappointmentfortotwithbatchregistered',ensureAuthenticated,async
 
   let errors=[];
   const batch = await db.Batch.findAll();
-  if(!appointmentdate || !appointmentfor || batchid ==="0"){
+  if(!appointmentdate){
     errors.push({msg:'Please select all required fields'})
   }
-  if(appointmentfor ==="0"){
+  if(appointmentfor ==="0" || batchid ==="0"){
     errors.push({msg:'Please select appointment for'})
   }
 
@@ -768,27 +1025,101 @@ router.post('/addappointmentfortotwithbatchregistered',ensureAuthenticated,async
 
   }
   else{
-    db.Appointment.findOne({where:{batch_id:batchid,appointment_for:'All_Batch'}}).then(existapp =>{
+    db.Appointment.findAll({where:{batch_id:batchid,appointment_for:appointmentfor}}).then(existapp =>{
     if(existapp){
-      db.Appointment.update({appointment_date:appointmentdate},{where:{batch_id:batchid,appointment_for:appointmentfor}}).then(()=>{
-        res.render('addnewappointmenttraineetrainerregistered',{success_msg:'Appointment Updated Successfully.', batch:batch,errors,trainee:trainee,config:config,user:req.user});
-      
-      })
+      const promises = existapp.map(row => {
+        return db.Appointment.update({
+          trainee_id: row.trainee_code,
+          appointment_tag: 'TraineeTrainer',
+          appointment_date: new Date(appointmentdate),
+          batch_id: batchid,
+          appointment_for: appointmentfor
+        },{where:{batch_id:batchid, trainee_id: row.trainee_code}});
+      });
+    
+      Promise.all(promises)
+        .then(appointments => {
+          res.render('addnewappointmenttraineetrainerregistered', {
+            success_msg: 'Appointments Created Successfully.',
+            batch: batch,
+            errors,
+            trainee: trainee,
+            config: config,
+            user: req.user
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('addnewappointmenttraineetrainerregistered', {
+            error_msg: 'Can\'t Create Appointments. Try Again.',
+            batch: batch,
+            errors,
+            trainee: trainee,
+            config: config,
+            user: req.user
+          });
+        });
+    
     }else{
-      db.Appointment.create({appointment_tag:'TraineeTrainer',appointment_date:new Date(appointmentdate),batch_id:batchid,appointment_for:appointmentfor}).then(appoint =>{
-                if(appoint){
-                  res.render('addnewappointmenttraineetrainerregistered',{success_msg:'Appointment Created Successfully.', batch:batch,errors,trainee:trainee,config:config,user:req.user});
-              
-                }else{
-                  res.render('addnewappointmenttraineetrainerregistered',{batch:batch,errors,trainee:trainee,config:config,user:req.user,error_msg:'Cant Create Appointment Try Again.'});
-              
-                }
-          }).catch(err =>{
-            console.log(err);
-            res.render('addnewappointmenttraineetrainerregistered',{error_msg:'Cant Create Appointment Try Again.',batch:batch,errors,trainee:trainee,config:config,user:req.user});
-      
-          })
+      db.Trainee.findAll({ where: { batch_id: batch } })
+      .then(trainees => {
+        if (trainees) {
+          const promises = trainees.map(row => {
+            return db.Appointment.create({
+              trainee_id: row.trainee_code,
+              appointment_tag: 'TraineeTrainer',
+              appointment_date: new Date(appointmentdate),
+              batch_id: batchid,
+              appointment_for: appointmentfor
+            });
+          });
+    
+          Promise.all(promises)
+            .then(appointments => {
+              res.render('addnewappointmenttraineetrainerregistered', {
+                success_msg: 'Appointments Created Successfully.',
+                batch: batch,
+                errors,
+                trainee: trainee,
+                config: config,
+                user: req.user
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.render('addnewappointmenttraineetrainerregistered', {
+                error_msg: 'Can\'t Create Appointments. Try Again.',
+                batch: batch,
+                errors,
+                trainee: trainee,
+                config: config,
+                user: req.user
+              });
+            });
+        } else {
+          res.render('addnewappointmenttraineetrainerregistered', {
+            error_msg: 'No trainees found.',
+            batch: batch,
+            errors,
+            trainee: trainee,
+            config: config,
+            user: req.user
+          });
+        }
+      })
+      .catch(err => {
+        res.render('addnewappointmenttraineetrainerregistered', {
+          error_msg: 'Can\'t fetch trainees. Try Again.',
+          batch: batch,
+          errors,
+          trainee: trainee,
+          config: config,
+          user: req.user
+        });
+      });
+    
     }
+    
     }).catch(err =>{
 console.log(err);
     })
@@ -815,12 +1146,12 @@ router.post('/addappointmentfortotwithbatchapplicant',ensureAuthenticated,async 
   else{
    db.Appointment.findOne({where:{batch_id:batchid,appointment_for:'All_Batch'}}).then(existapp =>{
     if(existapp){
-      db.Appointment.update({appointment_date:appointmentdate},{where:{batch_id:batchid,appointment_for:'All_Batch'}}).then(()=>{
+      db.Appointment.update({appointment_date:new Date(appointmentdate)},{where:{batch_id:batchid,appointment_for:'All_Batch'}}).then(()=>{
         res.render('addnewappointmenttraineetrainerintrance',{success_msg:'Appointment Updated Successfully.', batch:batch,errors,trainee:trainee,config:config,user:req.user});
       
       })
     }else{
-      db.Appointment.create({appointment_tag:'TraineeTrainer',appointment_date:appointmentdate,batch_id:batchid,appointment_for:'All_Batch'}).then(appoint =>{
+      db.Appointment.create({appointment_tag:'TraineeTrainer',appointment_date:new Date(appointmentdate),batch_id:batchid,appointment_for:'All_Batch'}).then(appoint =>{
                 if(appoint){
                   res.render('addnewappointmenttraineetrainerintrance',{success_msg:'Appointment Created Successfully.', batch:batch,errors,trainee:trainee,config:config,user:req.user});
               

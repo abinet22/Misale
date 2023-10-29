@@ -141,7 +141,7 @@
                             <%} %>
                           </td>
                            <td>
-                            <% if(parseInt(row.theory_result ) > 60 && parseInt(row.practical_result) >75) { %>
+                            <% if(parseInt(row.theory_result ) >= 60 && parseInt(row.practical_result) >= 75) { %>
                                 <form action="/misaleacadamy/dept/sendapplicanttoregisternewtot/<%= row.uniqueid %>" method="post">
                                     <button class="btn btn-sm btn-outline-info" type="submit" >Select To Register </button>
                            

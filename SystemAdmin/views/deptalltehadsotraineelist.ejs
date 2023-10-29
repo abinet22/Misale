@@ -115,10 +115,11 @@
                          
                           <% udttr.forEach(function(row){ %>
                           
-                           <% if(row.trainee_code === trudt  && parseInt(row.attempt_count_prac) == parseInt(prno) ){ %>
+                           <% if(row.trainee_code === trudt  && parseInt(row.attempt_count_prac) == parseInt(prno)   ){ %>
                           
-                            <span class="text-success">Updated</span> <input type="checkbox" checked >
-                      
+                            <span class="text-success">Updated Practical </span> <input type="checkbox" checked >
+                            <% }if(row.trainee_code === trudt  &&  parseInt(row.attempt_count) == parseInt(thno)  ){ %>
+                              <span class="text-success">Updated Theoretical</span> <input type="checkbox" checked >
                            <%}})%>
                           </td>
                           <td><span style="font-weight: 600; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><%= row.trainee_code %></span></td>
@@ -138,23 +139,23 @@
                         
                          
                          
-                          <td><%= row.attempt_no_theory %></td>
-                          <td><%= row.attempt_no %></td>
-                          <td><% var tscore = parseInt(row.tscore) %>
+                          <td><%= row.attempt_no_theory ? parseInt(row.attempt_no_theory) : 0; %></td>
+                          <td><%= row.attempt_no ? parseInt(row.attempt_no) : 0; %></td>
+                          <td><% var tscore = row.tscore ? parseInt(row.tscore) : 0; %>
                             
                            <% if( tscore >= 74) { %>
-                            <span style="color: green;" ><%= row.tscore %></span>
+                            <span style="color: green;" ><%= tscore %></span>
                             <% }else { %>
-                              <span style="color: red;" ><%= row.tscore %></span>
+                              <span style="color: red;" ><%= tscore %></span>
                               <% }%>
                             
                             </td>
-                          <td><% var pscore = parseInt(row.pscore) %>
+                          <td><% var pscore =  row.pscore ? parseInt(row.pscore) : 0; %>
                           
                             <% if( pscore >= 74) { %>
-                              <span style="color: green;" ><%= row.pscore %></span>
+                              <span style="color: green;" ><%= pscore %></span>
                               <% }else { %>
-                                <span style="color: red;" ><%= row.pscore %></span>
+                                <span style="color: red;" ><%= pscore %></span>
                                 <% }%>
                           </td>
                           <td><% 
@@ -175,15 +176,15 @@
 
                           <% if(tscore >= 74 && pscore >= 74) { %>
                             <form action="/misaleacadamy/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
-                              <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? row.attempt_no_theory : 0%>">
-                              <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? row.attempt_no : 0 %>">
+                              <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? parseInt(row.attempt_no_theory) : 0%>">
+                              <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? parseInt(row.attempt_no) : 0 %>">
                               <input type="hidden" name="ispassfail" value="PASS">
                                <button class=" btn btn-sm btn-block btn-outline-success" type="submit"> Update Score Pass</button>
                             </form>
                             <% }else if(tscore < 74 || pscore < 74) { %>
                               <form action="/misaleacadamy/dept/updateassementpassfail/<%= row.trainee_code %>" method="post"> 
-                                <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? row.attempt_no_theory : 0%>">
-                                <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? row.attempt_no : 0 %>">
+                                <input type="hidden" name="theoryattempt" value="<%= row.attempt_no_theory ? parseInt(row.attempt_no_theory) : 0%>">
+                                <input type="hidden" name="practicalattempt" value="<%= row.attempt_no ? parseInt(row.attempt_no) : 0 %>">
                                 <input type="hidden" name="ispassfail" value="FAIL">
                                 <button class=" btn btn-sm btn-block btn-outline-danger" type="submit"> Update Score Fail</button>
                               </form>

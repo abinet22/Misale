@@ -1660,7 +1660,7 @@ console.log(err)
 
 router.post('/deptaddnewtrainerquestion', ensureAuthenticated, async function(req, res) {
 
-const {question,choicea,asstype,langpre,choiceb,choicec,choiced,answer,education,course,difficulty_level} =req.body;
+const {question,choicea,asstype,langpre,choiceb,choicec,choiced,answer,education,difficulty_level} =req.body;
 let errors =[];
 const v1options = {
 node: [0x01, 0x23],
@@ -1671,7 +1671,7 @@ nsecs: 5678,
 const config = await db.Config.findAll({});
 qid = uuidv4(v1options);
 console.log(req.body)
-if(!question || ! asstype||! langpre || !choicea || !choiceb || !choicec || !choiced || !answer || !education || !course ||!difficulty_level){
+if(!question || ! asstype||! langpre || !choicea || !choiceb || !choicec || !choiced || !answer || !education  ||!difficulty_level){
 errors.push({msg:'Please Enter  All Required Feild Value'})
 }
 if(langpre =="0"){
@@ -1703,7 +1703,7 @@ choice_d:choiced,
 answer: answer,
 language:langpre,
 difficulty_level:difficulty,
-course: course,
+course: '',
 education:education,
 added_by: req.user.staffid,
 is_active: 'Yes',
@@ -1805,25 +1805,52 @@ router.get('/deptalltraineetrainerlistcurrentstudentmarklist', ensureAuthenticat
 router.get('/deptalltehadsotraineelist', ensureAuthenticated, async function(req, res) {
 const [trainee, metadata] = await db.sequelize.query(
 `
-SELECT Trainees.uniqueid AS trainee_id, Trainees.fullname, Trainees.age, Trainees.gender, Trainees.trainee_code,Trainees.licence_type, 
-   theoretical.attempt_no_theory, theoretical.theoretical_score as tscore,
-   practical.attempt_no, practical.score as pscore
-FROM Trainees
+SELECT
+    Trainees.uniqueid AS trainee_id,
+    Trainees.fullname,
+    Trainees.age,
+    Trainees.gender,
+    Trainees.trainee_code,
+    Trainees.licence_type,
+    theoretical.attempt_no_theory,
+    theoretical.theoretical_score AS tscore,
+  
+    practical.attempt_no,
+    practical.score AS pscore
+FROM
+    Trainees
 LEFT JOIN (
-   SELECT trainee_id, attempt_no_theory, theoretical_score,
-      ROW_NUMBER() OVER (PARTITION BY trainee_id ORDER BY theoretical_score DESC) AS theory_rank
-   FROM TheoreticalMarks
-) AS theoretical
-ON Trainees.uniqueid = theoretical.trainee_id AND theoretical.theory_rank = 1
+    SELECT
+        trainee_id,
+        MAX(attempt_no_theory) AS attempt_no_theory,
+        MAX(theoretical_score) as theoretical_score,
+
+        ROW_NUMBER() OVER (PARTITION BY trainee_id ORDER BY MAX(theoretical_score) DESC) AS theory_rank
+    FROM
+        TheoreticalMarks
+    GROUP BY
+        trainee_id
+) AS theoretical ON Trainees.uniqueid = theoretical.trainee_id
+    AND theoretical.theory_rank = 1
 LEFT JOIN (
-SELECT trainee_id, testcode, MAX(attempt_no) AS attempt_no, SUM(score) AS score,
-      ROW_NUMBER() OVER (PARTITION BY trainee_id ORDER BY SUM(score) DESC) AS practical_rank
-FROM PracticalMarks
-GROUP BY trainee_id, testcode
-) AS practical
-ON Trainees.uniqueid = practical.trainee_id AND practical.practical_rank = 1
-where Trainees.pass_fail='FAIL' and is_active='Yes'
-ORDER BY Trainees.uniqueid;
+    SELECT
+        trainee_id,
+        testcode,
+        MAX(attempt_no) AS attempt_no,
+        SUM(score) AS score,
+        ROW_NUMBER() OVER (PARTITION BY trainee_id ORDER BY SUM(score) DESC) AS practical_rank
+    FROM
+        PracticalMarks
+    GROUP BY
+        trainee_id,
+        testcode
+) AS practical ON Trainees.uniqueid = practical.trainee_id
+    AND practical.practical_rank = 1
+WHERE
+    Trainees.pass_fail = 'FAIL'
+    AND is_active = 'Yes'
+ORDER BY
+    Trainees.uniqueid;
 
 `
    );
@@ -1903,7 +1930,8 @@ theoretical.attempt_no_theory, theoretical.theoretical_score as tscore,
 practical.attempt_no,practical.createdAt as pcreateat,theoretical.createdAt as pcreateat, practical.score as pscore
 FROM Trainees
 LEFT JOIN (
-SELECT trainee_id, attempt_no_theory, theoretical_score,createdAt,
+SELECT trainee_id,        MAX(attempt_no_theory) AS attempt_no_theory,
+MAX(theoretical_score) as theoretical_score,createdAt,
 ROW_NUMBER() OVER (PARTITION BY trainee_id ORDER BY theoretical_score DESC) AS theory_rank
 FROM TheoreticalMarks
 WHERE createdAt >= :startDate AND createdAt <= :endDate
@@ -1995,19 +2023,32 @@ router.post('/updateassementpassfail/(:traineecode)',ensureAuthenticated,async f
         const config= await  db.Config.findAll();
     db.Trainee.findOne({where:{trainee_code:req.params.traineecode}}).then(traineenew =>{
       if(traineenew){
-         db.Trainee.update({attempt_count:theoryattempt,attempt_count_prac:practicalattempt,pass_fail:ispassfail},
+         db.Trainee.update({attempt_count:parseInt(theoryattempt),attempt_count_prac:parseInt(practicalattempt),pass_fail:ispassfail},
             {where:{trainee_code:req.params.traineecode}}).then(udttr =>{
-               db.Trainee.findAll({where:{pass_fail:'FAIL',is_active:'Yes' }}).then(udttr =>{
-                  res.render('deptalltehadsotraineelist',{udttr:udttr,success_msg:'Update Trainee Status Successfully',user:req.user,trainee:trainee,config:config});
-   
-               }).catch(err =>{
-                  res.render('deptalltehadsotraineelist',{udttr:'',user:req.user,trainee:trainee,config:config});
-   
-               })
+               if(udttr){
+                  console.log(udttr)
+                  db.Trainee.findAll({where:{pass_fail:'FAIL',is_active:'Yes' }}).then(udttr =>{
+                     res.render('deptalltehadsotraineelist',{udttr:udttr,success_msg:'Update Trainee Status Successfully',user:req.user,trainee:trainee,config:config});
+      
+                  }).catch(err =>{
+                     res.render('deptalltehadsotraineelist',{udttr:'',user:req.user,trainee:trainee,config:config});
+      
+                  })
+               }else{
+                  db.Trainee.findAll({where:{pass_fail:'FAIL',is_active:'Yes' }}).then(udttr =>{
+                     res.render('deptalltehadsotraineelist',{udttr:udttr,error_msg:'Cant Update Trainee Status ',user:req.user,trainee:trainee,config:config});
+      
+                  }).catch(err =>{
+                     console.log(err)
+                     res.render('deptalltehadsotraineelist',{udttr:'',user:req.user,trainee:trainee,config:config});
+      
+                  })
+               }
+          
             
             }).catch(err =>{
-               console.log(err)
-               res.render('deptalltehadsotraineelist',{udttr:udttr,user:req.user,trainee:trainee,config:config});
+              res.send(err)
+              // res.render('deptalltehadsotraineelist',{error_msg:'Cant Update Trainee Status Successfully',udttr:udttr,user:req.user,trainee:trainee,config:config});
    
             })
       }

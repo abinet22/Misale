@@ -133,14 +133,14 @@
                           <td><%= row.practical_result %></td>
                           <td><%= row.theory_result %></td>
                                 <td>
-                            <% if(parseInt(row.theory_result ) >60 && parseInt(row.practical_result) >75) { %>
+                            <% if(parseInt(row.theory_result ) >59 && parseInt(row.practical_result) >74) { %>
                                 PASS
                             <% }else{%>
                                 FAIL
                             <%} %>
                           </td>
                            <td>
-                            <% if( parseInt(row.theory_result ) >60 && parseInt(row.practical_result) >75) { %>
+                            <% if( parseInt(row.theory_result ) > 59 && parseInt(row.practical_result) > 74) { %>
                                 <form action="/misaleacadamy/office/registertottrainee/<%= row.uniqueid %>" method="post">
                                   <select class="form-control mb-2" name="batchname">
                                     <option value="0">Add Batch</option>

@@ -4,6 +4,7 @@ const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const passport = require('passport');
 const db = require("../models");
+const bcrypt = require('bcryptjs');
 const path = require("path");
 const Op = db.Sequelize.Op;
 const { v4: uuidv4 } = require('uuid');
@@ -296,7 +297,7 @@ router.get('/', forwardAuthenticated, async (req, res) =>{
       
         var traineeid = traineecodes.trainee_id;
         console.log(traineeid)
-        db.Trainee.findOne({where:{uniqueid:traineeid,attempt_count: {
+        db.Trainee.findOne({where:{uniqueid:traineeid,attempt_count_prac: {
           [Op.lt]: 4
         }}}).then(trainee =>{
          if(trainee){
@@ -829,7 +830,64 @@ router.get('/logout', (req, res) => {
     res.redirect('/misaleacadamy/login')
 
 })
+router.post('/updatepassword', ensureAuthenticated, async function(req, res) {
 
+const {oldpassword,newpassword,renewpassword} =req.body;
+     let errors =[];
+      const batcha = await  db.Batch.findAll({where:{is_current:'Yes'}});
+    const [schedule,metadata] = await db.sequelize.query("Select * from Schedules "+
+      " where Schedules.staff_id = '"+req.user.staffid +"'")
+     console.log(schedule)
+const v1options = {
+   node: [0x01, 0x23],
+   clockseq: 0x1234,
+   msecs: new Date('2011-11-01').getTime(),
+   nsecs: 5678,
+   };
+   batchid = uuidv4(v1options);
+if( !oldpassword || !renewpassword || !newpassword){
+   errors.push({msg:'Please Enter  All Feild Value'})
+}
+if(errors.length>0){
+   
+   res.render('dashboard',{errors,schedule:schedule,user:req.user,batch:batcha});
+   
+}else{
+   bcrypt.compare(oldpassword, req.user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+         if(newpassword  == renewpassword){
+         bcrypt.hash(newpassword, 10, (err, hash) => {
+            
+
+            db.User.update({password:hash},{where:{id:req.user.id}}).then(usernew =>{
+               res.redirect('/misaleacadamy/logout')
+               }).catch(err =>{
+                  console.log(err)
+                res.render('dashboard',{schedule:schedule,user:req.user,batch:batcha});
+   
+               
+               })
+            }); // 
+         
+         }else{
+     res.render('dashboard',{schedule:schedule,user:req.user,batch:batcha});
+   
+         }
+      } else {
+     
+      res.render('dashboard',{schedule:schedule,user:req.user,batch:batcha});
+   
+      }
+      });
+   
+
+
+   
+   
+}
+
+});
 // Post Routers 
 router.post('/login', (req, res, next) => {
 

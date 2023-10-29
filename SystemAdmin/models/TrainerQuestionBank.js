@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
      
       },
       question: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
       },
       choice_a: {
         type: DataTypes.STRING

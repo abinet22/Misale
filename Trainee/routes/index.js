@@ -36,20 +36,20 @@ console.log(req.user.licence_type)
  if(req.params.language != "AMHARIC"){
 
   const [idArrayString,meta1] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-  "as id_array FROM QuestionBankOnes WHERE difficulty_level='Strong' and language_preference ='"+req.params.language+"'");
+  "as id_array FROM QuestionBankOnes WHERE  language_preference ='"+req.params.language+"'");
   // Assuming the id_array string is stored in a variable called idArrayString
   const idArrayStrings = meta1[0].id_array;
 const idArray1 = idArrayStrings.split(',').map(id => parseInt(id));
   console.log(idArray1);
   const [idArrayString2,meta2] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-  "as id_array FROM QuestionBankOnes WHERE difficulty_level='Medium' and language_preference ='"+req.params.language+"'");
+  "as id_array FROM QuestionBankOnes WHERE  language_preference ='"+req.params.language+"'");
   // Assuming the id_array string is stored in a variable called idArrayString
   const idArrayStrings2 = meta2[0].id_array;
 const idArray2 = idArrayStrings2.split(',').map(id => parseInt(id));
 
 
   const [idArrayString3,meta3] = await db.sequelize.query("SELECT GROUP_CONCAT(id SEPARATOR ',') "+
-  "as id_array FROM QuestionBankOnes WHERE difficulty_level='Easy' and language_preference ='"+req.params.language+"'");
+  "as id_array FROM QuestionBankOnes WHERE  language_preference ='"+req.params.language+"'");
   // Assuming the id_array string is stored in a variable called idArrayString
   const idArrayStrings3 = meta3[0].id_array;
 const idArray3 = idArrayStrings3.split(',').map(id => parseInt(id));
@@ -357,36 +357,38 @@ Promise.all(promises).then(() => {
   const today = new Date();
   const lastExamPostDatePlusOneDay = new Date(lastExamPostDate);
   lastExamPostDatePlusOneDay.setDate(lastExamPostDatePlusOneDay.getDate() + 1);
-
-  if (today >= lastExamPostDatePlusOneDay) {
+  console.log(today)
+  console.log(lastExamPostDatePlusOneDay)
+  console.log(lastExamPostDate)
+  if ( today >=lastExamPostDatePlusOneDay) {
   db.TheoreticalMark.findOne({  where:{ trainee_id: req.user.uniqueid,
    
-    attempt_no_theory: parseInt(req.user.attempt_count)}}).then((theoretical_mark) => {
+    attempt_no_theory: parseInt(req.user.attempt_count)+1}}).then((theoretical_mark) => {
       if(theoretical_mark ){
         db.Trainee.update({last_exam_post_date:new Date()},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
              
-        res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. This Attempt Already Saved.'})
-        }).catch(err => {});
-      
+          res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. This Attempt Already Saved.'})
+          }).catch(err => {});
       }else{
-            
-        db.TheoreticalMark.create(theorymark).then(thmark =>{
-          if(thmark){
-            db.Trainee.update({last_exam_post_date:new Date(),attempt_count:parseInt(req.user.attempt_count )+1},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
-       
-          res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'You Are Successfully Finish Examination. Your Score Is' +parseInt(score)*2})
-        }).catch(err => {});
-        }else{
-            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. Network Error Please Take Exam Again.'})
-          
-          }
-      
-        }).catch(err =>{
-          console.log(err);
-          
-          res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. Network Error Please Take Exam Again.'})
+ 
+          db.TheoreticalMark.create(theorymark).then(thmark =>{
+            if(thmark){
+              db.Trainee.update({last_exam_post_date:new Date(),attempt_count:parseInt(req.user.attempt_count )+1},{where:{uniqueid:req.user.uniqueid}}).then(()=>{
+           const successMsg = 'You Are Successfully Finish Examination. Your Score Is ' + (parseInt(score) * 2);
          
-        })
+            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:successMsg})
+          }).catch(err => {});
+          }else{
+              res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. Network Error Please Take Exam Again.'})
+            
+            }
+        
+          }).catch(err =>{
+            console.log(err);
+            
+            res.render('dashboard',{language,pm:pm,tm:tm,user:req.user,config:config,licence_type:req.user.licence_type,successmsg:'Error While Saving Your Score. Network Error Please Take Exam Again.'})
+           
+          })
       }
     });
   }else{

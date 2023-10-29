@@ -123,21 +123,21 @@
                                          <%= row.course_code %>:&nbsp;
                                          <% var score; %>
                                          <% if(row.course_part ==="Final_1"){
-                                            score =theoreticalresult.final_one
+                                            score =theoreticalresult.final_one?parseInt(theoreticalresult.final_one):0
                                          }else if(row.course_part ==="Continuous_2"){
-                                          score =theoreticalresult.continues_two
+                                          score =theoreticalresult.continues_two?parseInt(theoreticalresult.continues_two):0
                                          }else if(row.course_part ==="Continuous_3"){
-                                          score =theoreticalresult.continues_three
+                                          score =theoreticalresult.continues_three? parseInt(theoreticalresult.continues_three):0
                                          }else if(row.course_part ==="Continuous_4"){
-                                          score =theoreticalresult.continues_four
+                                          score =theoreticalresult.continues_four? parseInt(theoreticalresult.continues_four):0
                                          }else if(row.course_part ==="Continuous_1"){
-                                          score =theoreticalresult.continues_one
+                                          score =theoreticalresult.continues_one? parseInt(theoreticalresult.continues_one):0
                                          }else if(row.course_part ==="Final_2"){
-                                          score =theoreticalresult.final_two
+                                          score =theoreticalresult.final_two? parseInt(theoreticalresult.final_two):0
                                          }else if(row.course_part ==="Final_3"){
-                                          score =theoreticalresult.final_three
+                                          score =theoreticalresult.final_three? parseInt(theoreticalresult.final_three):0
                                          }else if(row.course_part ==="Final_4"){
-                                          score =theoreticalresult.final_four
+                                          score =theoreticalresult.final_four? parseInt(theoreticalresult.final_four):0
                                          }%>
                                         Score &nbsp; <%= score %>
                                         </div>
